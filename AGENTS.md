@@ -10,7 +10,7 @@
 
 ### Before coding
 1. Create `docs/tasks/YYYY-MM-DD-description.md`
-2. Define acceptance criteria (Given/When/Then) with the user
+2. Define acceptance criteria (Given/When/Then) with the user and record them in the task file
 
 ### During coding
 3. Capture decisions in `docs/decisions/` as they come up

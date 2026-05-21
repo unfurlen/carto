@@ -1,11 +1,5 @@
-import { Tile } from "./tile";
+import { Game } from "./game";
+import { render } from "./renderer";
 
-// biome-ignore lint/correctness/noUnusedFunctionParameters: correct interface for now
-export function render(tile: Tile): HTMLDivElement {
-	const el = document.createElement("div");
-	el.className = "tile";
-	return el;
-}
-
-const tile = new Tile();
-document.getElementById("app")?.appendChild(render(tile));
+const game = new Game();
+document.getElementById("app")?.appendChild(render(game));
