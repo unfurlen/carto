@@ -8,4 +8,18 @@
 
 ## Task workflow
 
-At the start of each task, create the task log file in `docs/tasks/`. Update it as we make progress or encounter friction. On completion, verify the work, discuss observations, capture any decisions in `docs/decisions/`, work on improvements, then commit.
+### Before coding
+1. Create `docs/tasks/YYYY-MM-DD-description.md`
+2. Define acceptance criteria (Given/When/Then) with the user
+
+### During coding
+3. Capture decisions in `docs/decisions/` as they come up
+4. Update the task log when you hit friction or make progress
+
+### After coding
+5. Run `npm run lint`
+6. Prompt the user to verify the work (real confirmation — open in browser, manual check)
+7. Discuss observations with the user
+8. Work on improvements
+9. Update `docs/tasks.md` checklist
+10. Commit
