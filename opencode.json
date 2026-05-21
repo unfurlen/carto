@@ -4,5 +4,6 @@
     "edit": "ask",
     "write": "ask",
     "bash": "ask"
-  }
+  },
+  "instructions": ["AGENTS.md"]
 }
