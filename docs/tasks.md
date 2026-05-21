@@ -1,1 +1,1 @@
-- [ ] Choose a license
+- [x] Choose a license (MIT)
