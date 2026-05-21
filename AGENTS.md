@@ -8,4 +8,4 @@
 
 ## Task workflow
 
-At the start of each task, create the task log file in `docs/tasks/`. Update it as we make progress or encounter friction. On completion, verify the work, discuss observations, work on improvements, then commit.
+At the start of each task, create the task log file in `docs/tasks/`. Update it as we make progress or encounter friction. On completion, verify the work, discuss observations, capture any decisions in `docs/decisions/`, work on improvements, then commit.
