@@ -1,3 +1,3 @@
 - [x] Choose a license (MIT)
-- [ ] Hello World (GitHub Pages, bare)
+- [x] Hello World (GitHub Pages, bare)
 
