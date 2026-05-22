@@ -5,5 +5,16 @@
     "write": "ask",
     "bash": "ask"
   },
-  "instructions": ["AGENTS.md"]
+  "instructions": ["AGENTS.md"],
+  "agent": {
+    "ba-task": {
+      "description": "Prepares task cards with acceptance criteria"
+    }
+  },
+  "command": {
+    "task": {
+      "description": "Prepare a task card",
+      "agent": "ba-task"
+    }
+  }
 }
