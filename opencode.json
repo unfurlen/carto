@@ -13,6 +13,7 @@
   },
   "command": {
     "task": {
+      "template": "Prepare a task card: $ARGUMENTS",
       "description": "Prepare a task card",
       "agent": "ba-task"
     }
