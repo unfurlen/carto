@@ -3,7 +3,8 @@
   "permission": {
     "edit": "ask",
     "write": "ask",
-    "bash": "ask"
+    "bash": "ask",
+    "todowrite": "deny"
   },
   "instructions": ["AGENTS.md"]
 }
