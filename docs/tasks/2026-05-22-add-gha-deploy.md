@@ -11,4 +11,10 @@ And only deploys to GitHub Pages if all checks pass
 
 ## Notes
 
-- Requires switching GH Pages source from "main root" to "GitHub Actions" in repo settings
+- Requires switching GH Pages source from 'main root' to 'GitHub Actions' in repo settings
+- Updated deploy-pages and upload-pages-artifact to v5 for Node 24 compat
+- Set Vite base path to `/carto/` for correct asset URLs under project Pages
+
+## Workflow notes
+
+- First deploy failed because Vite base path wasn't set for `/carto/` subpath
