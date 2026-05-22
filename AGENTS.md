@@ -6,6 +6,10 @@
 
 3. **Collaborate on reflection** — when reviewing a task or workflow outcome, ask the user for their observations first. Don't fabricate lessons or assume what the user thinks.
 
+4. **Smallest steps** — work in minimal increments. One change at a time, verify before proceeding. No batching of independent edits or silent multi-step sequences.
+
+5. **Explicit uncertainty** — if confidence in a decision is below ~90%, flag it and ask before acting. Don't commit to a path unless confident or explicitly directed.
+
 ## Task workflow
 
 ### Before coding

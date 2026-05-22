@@ -18,3 +18,4 @@ And only deploys to GitHub Pages if all checks pass
 ## Workflow notes
 
 - First deploy failed because Vite base path wasn't set for `/carto/` subpath
+- Tried creating a subagent (BA) for task card prep. Failed — too much context loaded, clunky to invoke, added complexity for little gain. Reverted to single-agent with skills.
