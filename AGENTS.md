@@ -10,6 +10,10 @@
 
 5. **Explicit uncertainty** — if confidence in a decision is below ~90%, flag it and ask before acting. Don't commit to a path unless confident or explicitly directed.
 
+6. **Flag failures immediately** — if a skill doesn't load, tool fails unexpectedly, or anything behaves other than expected, flag it to the user and stop. Don't silently work around it.
+
+7. **Focus only on the current task** — do not think ahead, plan future steps, or anticipate what comes next. Execute the exact step you're on and nothing more. Thinking ahead leads to over-engineering and wasted context.
+
 ## Task workflow
 
 ### Before coding
@@ -27,3 +31,7 @@
 8. Work on improvements
 9. Update `docs/tasks.md` checklist
 10. Commit
+
+## Notes
+
+- New or renamed skills in `.opencode/skills/` require a session restart before the `skill` tool can load them. If a skill doesn't load, ask the user to restart the session.
