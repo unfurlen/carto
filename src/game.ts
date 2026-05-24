@@ -2,8 +2,17 @@ import { Tile } from "./tile";
 
 export const DEFAULT_GRID_SIZE = 3;
 
-export class EmptyMapError extends Error {}
-export class UnevenRowsError extends Error {}
+export class EmptyMapError extends Error {
+	constructor() {
+		super("Failed to construct game: map data is empty");
+	}
+}
+
+export class UnevenRowsError extends Error {
+	constructor() {
+		super("Failed to construct game: map rows have uneven lengths");
+	}
+}
 
 export class Game {
 	readonly tiles: Tile[][];
