@@ -23,7 +23,10 @@ Then a human-readable error message is displayed describing the issue
 ## Notes
 
 - Map embedded in URL hash: `carto/#map=ggg,ggg,ggg`
-- `,` separates tiles within a row, `;` separates rows
+- Commas separate rows, each character is a tile code
+- 3x3 grid = `ggg,ggg,ggg` (3 rows of 3 tiles)
+- 1x10 grid = `gggggggggg` (1 row of 10 tiles)
+- 10x1 grid = `g,g,g,g,g,g,g,g,g,g` (10 rows of 1 tile each)
 - `pos` and other future params are ignored when present
 - Biome codes defined per-biome task (grass = `g`)
 - Error cases to handle: unknown biome code, jagged/uneven rows, empty map data
