@@ -6,6 +6,7 @@ description: Review task outcomes and suggest process improvements
 ## What I do
 
 - Summarise what happened during the task — key decisions, friction points, outcomes
+- Review any open experiments in `docs/experiments/` — for successful ones, convert them to decisions in `docs/decisions/`
 - Suggest process improvements outside of the code — workflow, tooling, communication, skill gaps
 
 ## When to use me
