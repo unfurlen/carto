@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { BiomeKind } from "./biome";
-import { Game, UnevenRowsError } from "./game";
+import { Game, UnevenRowsError, EmptyMapError } from "./game";
 import { Tile } from "./tile";
 
 describe("Game", () => {
@@ -46,5 +46,9 @@ describe("Game", () => {
 	it("throws UnevenRowsError for jagged rows", () => {
 		const tiles = [[new Tile()], [new Tile(), new Tile()]];
 		expect(() => new Game(tiles)).toThrow(UnevenRowsError);
+	});
+
+	it("throws EmptyMapError for empty tile array", () => {
+		expect(() => new Game([])).toThrow(EmptyMapError);
 	});
 });

@@ -14,6 +14,14 @@ Then the default 3x3 grass grid is shown
 Given a URL with invalid map data
 When the game loads
 Then a human-readable error message is displayed describing the issue
+
+Given a URL with an empty map value
+When the game loads
+Then a descriptive error is shown
+
+Given a URL with map data that ends with ";"
+When the game loads
+Then the grid matches the map data as if the ";" were not present
 ```
 
 ## Workflow notes
