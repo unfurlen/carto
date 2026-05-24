@@ -1,6 +1,7 @@
+import type { BiomeKind } from "./biome";
 import type { Game } from "./game";
 
-const BIOME_EMOJI: Record<string, string> = {
+const BIOME_EMOJI: Record<BiomeKind, string> = {
 	grass: "🌾",
 };
 
