@@ -1,5 +1,10 @@
 import { Tile } from "./tile";
 
+export const DEFAULT_GRID_SIZE = 3;
+
+export class EmptyMapError extends Error {}
+export class UnevenRowsError extends Error {}
+
 export class Game {
 	readonly tiles: Tile[][];
 
@@ -15,15 +20,24 @@ export class Game {
 		return this.tiles.reduce((sum, row) => sum + row.length, 0);
 	}
 
-	constructor() {
-		this.tiles = this.defaultGrid();
+	constructor(tiles?: Tile[][]) {
+		if (tiles) {
+			if (tiles.length === 0) {
+				throw new EmptyMapError();
+			}
+			const firstLen = tiles[0].length;
+			if (tiles.some((row) => row.length !== firstLen)) {
+				throw new UnevenRowsError();
+			}
+			this.tiles = tiles;
+		} else {
+			this.tiles = this.defaultGrid();
+		}
 	}
 
 	private defaultGrid(): Tile[][] {
-		return [
-			[new Tile(), new Tile(), new Tile()],
-			[new Tile(), new Tile(), new Tile()],
-			[new Tile(), new Tile(), new Tile()],
-		];
+		return Array.from({ length: DEFAULT_GRID_SIZE }, () =>
+			Array.from({ length: DEFAULT_GRID_SIZE }, () => new Tile()),
+		);
 	}
 }

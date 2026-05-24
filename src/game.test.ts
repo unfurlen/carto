@@ -1,19 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { BiomeKind } from "./biome";
-import { Game, UnevenRowsError, EmptyMapError } from "./game";
+import { DEFAULT_GRID_SIZE, EmptyMapError, Game, UnevenRowsError } from "./game";
 import { Tile } from "./tile";
 
 describe("Game", () => {
 	it("defaults to a 3x3 grid", () => {
 		const game = new Game();
-		expect(game.rows).toBe(3);
-		expect(game.columns).toBe(3);
-		expect(game.tiles.flat()).toHaveLength(9);
+		expect(game.rows).toBe(DEFAULT_GRID_SIZE);
+		expect(game.columns).toBe(DEFAULT_GRID_SIZE);
+		expect(game.tiles.flat()).toHaveLength(DEFAULT_GRID_SIZE * DEFAULT_GRID_SIZE);
 	});
 
 	it("returns total tile count for the default 3x3 grid", () => {
 		const game = new Game();
-		expect(game.totalTiles).toBe(9);
+		expect(game.totalTiles).toBe(DEFAULT_GRID_SIZE * DEFAULT_GRID_SIZE);
 	});
 
 	it("defaults each tile to grass biome", () => {
