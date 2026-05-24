@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Game } from "./game";
 import { BiomeKind } from "./biome";
-import type { Tile } from "./tile";
+import { Game } from "./game";
 
 describe("Game", () => {
 	it("defaults to a 3x3 grid", () => {

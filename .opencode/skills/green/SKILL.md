@@ -14,6 +14,6 @@ Use this after the red phase is complete. The AI writes only enough code to sati
 
 ## Constraints
 
-- Do not write code beyond what the tests require
+- Do not write code beyond what the tests require — no optional parameters, fallback values, or defensive logic unless a test covers that case
 - Do not refactor — just make tests pass
 - If a test cannot be satisfied without broader changes, flag it to the user
