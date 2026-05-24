@@ -9,9 +9,12 @@ function renderFromHash(hash: string): void {
 		const game = load(hash);
 		app.replaceChildren(render(game));
 	} catch (e) {
-		app.textContent = e instanceof Error ? e.message : "Failed to load map from URL";
+		app.textContent =
+			e instanceof Error ? e.message : "Failed to load map from URL";
 	}
 }
 
 renderFromHash(window.location.hash);
-window.addEventListener("hashchange", () => renderFromHash(window.location.hash));
+window.addEventListener("hashchange", () =>
+	renderFromHash(window.location.hash),
+);

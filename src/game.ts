@@ -35,6 +35,9 @@ export class Game {
 				throw new EmptyMapError();
 			}
 			const firstLen = tiles[0].length;
+			if (firstLen === 0) {
+				throw new EmptyMapError();
+			}
 			if (tiles.some((row) => row.length !== firstLen)) {
 				throw new UnevenRowsError();
 			}
