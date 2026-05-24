@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Game } from "./game";
+import { BiomeKind } from "./biome";
+import type { Tile } from "./tile";
 
 describe("Game", () => {
 	it("defaults to a 3x3 grid", () => {
@@ -12,5 +14,14 @@ describe("Game", () => {
 	it("returns total tile count for the default 3x3 grid", () => {
 		const game = new Game();
 		expect(game.totalTiles).toBe(9);
+	});
+
+	it("defaults each tile to grass biome", () => {
+		const game = new Game();
+		for (const row of game.tiles) {
+			for (const tile of row) {
+				expect(tile.biome.kind).toBe(BiomeKind.Grass);
+			}
+		}
 	});
 });
