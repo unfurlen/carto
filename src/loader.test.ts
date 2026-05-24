@@ -1,27 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { Loader, InvalidMapCharacterError } from "./loader";
+import { InvalidMapCharacterError, load } from "./loader";
 
 describe("Loader", () => {
 	it("loads default game when hash is empty", () => {
-		const game = Loader.load("");
+		const game = load("");
 		expect(game.rows).toBe(3);
 		expect(game.columns).toBe(3);
 	});
 
 	it("loads default game when map param is missing", () => {
-		const game = Loader.load("#unknown=something");
+		const game = load("#unknown=something");
 		expect(game.rows).toBe(3);
 		expect(game.columns).toBe(3);
 	});
 
 	it("allows trailing semicolon in hash", () => {
-		const game = Loader.load("#map=g;");
+		const game = load("#map=g;");
 		expect(game.rows).toBe(1);
 		expect(game.columns).toBe(1);
 	});
 
 	it("ignores unknown params", () => {
-		const game = Loader.load("#map=g,g;unknown=something");
+		const game = load("#map=g,g;unknown=something");
 		expect(game.rows).toBe(2);
 		expect(game.columns).toBe(1);
 	});
@@ -32,13 +32,13 @@ describe("Loader", () => {
 		{ url: "#map=g,g,g,g,g,g,g,g,g,g", rows: 10, cols: 1 },
 		{ url: "#map=ggggg,ggggg,ggggg,ggggg,ggggg", rows: 5, cols: 5 },
 	])("loads a $rows x $cols grass grid", ({ url, rows, cols }) => {
-		const game = Loader.load(url);
+		const game = load(url);
 		expect(game.rows).toBe(rows);
 		expect(game.columns).toBe(cols);
 	});
 
 	it("throws InvalidMapCharacterError for unknown characters", () => {
-		expect(() => Loader.load("#map=gx")).toThrow(InvalidMapCharacterError);
+		expect(() => load("#map=gx")).toThrow(InvalidMapCharacterError);
 	});
 
 

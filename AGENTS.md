@@ -16,23 +16,25 @@
 
 8. **Commit often, push on task completion** — commit after each meaningful step (proof of concept, green tests, refactor). Push at the end of a task when work is complete, unless the user says otherwise.
 
+9. **You are not the expert** — do not assume your analysis is correct. Flag issues and options to the user and verify before acting. The user is the domain and design expert.
+
+10. **One file at a time** — edit only one file per step. Batch reviewing multiple file changes introduces mistakes. Sequential edits with verification after each keeps quality high.
+
 ## Task workflow
 
 ### Before coding
-1. Create `docs/tasks/YYYY-MM-DD-description.md`
-2. Define acceptance criteria (Given/When/Then) with the user and record them in the task file
+1. Load the **plan** skill to define the task
+2. Create `docs/tasks/YYYY-MM-DD-description.md`
+3. Define all acceptance criteria (Given/When/Then) with the user and record them in the task file
 
-### During coding
-3. Capture decisions in `docs/decisions/` as they come up
-4. Update the task log when you hit friction or make progress
+### During coding — per-AC micro-cycle
+For each AC in the task file, in order:
+4. Load the **red** skill — write the test for this AC, confirm it fails
+5. Load the **green** skill — implement to pass this AC's test, run tests, lint
+6. Load the **refactor** skill — propose and apply improvements to this AC's code, commit
 
-### After coding
-5. Run `npm run lint`
-6. Prompt the user to verify the work (real confirmation — open in browser, manual check)
-7. Discuss observations with the user
-8. Work on improvements
-9. Update `docs/tasks.md` checklist
-10. Commit
+### After all ACs
+7. Load the **reflect** skill — task-level retrospective
 
 ## Notes
 

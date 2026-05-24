@@ -11,7 +11,7 @@ description: TDD refactor phase — improve design without changing behavior
 
 ## When to use me
 
-Use this after the green phase is complete and all tests pass. The AI identifies improvements but does not make changes — that happens after user discussion.
+Use this after the green phase for an AC is complete. The AI identifies improvements but does not make changes — that happens after user discussion.
 
 ## Constraints
 

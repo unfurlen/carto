@@ -5,8 +5,8 @@ description: Write tests before implementation (TDD red phase)
 
 ## What I do
 
-- Read the ACs from the task file
-- Write test code that satisfies the ACs
+- Read one AC from the task file
+- Write test code that satisfies that AC
 - Confirm the new test(s) fail as expected
 - Follow best unit test patterns:
   - One assertion concern per test
@@ -18,7 +18,7 @@ description: Write tests before implementation (TDD red phase)
 
 ## When to use me
 
-Use this to write tests from ACs. The AI produces test code only — running, verifying, and implementing are separate steps.
+Use this to write tests for one AC. The AI produces test code only — running, verifying, and implementing are separate steps.
 
 ## Constraints
 

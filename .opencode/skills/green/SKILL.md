@@ -7,10 +7,11 @@ description: Implement to pass the red-phase tests (TDD green phase)
 
 - Read the failing tests from the red phase
 - Write the minimum implementation to make them pass — no more, no less
+- Review the written code for any branches not covered by tests, and any code not required by tests (YAGNI). Remove both before stopping.
 
 ## When to use me
 
-Use this after the red phase is complete. The AI writes only enough code to satisfy the failing tests, then stops.
+Use this after the red phase for an AC is complete. The AI writes only enough code to satisfy the failing tests, then stops.
 
 ## Constraints
 
