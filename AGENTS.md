@@ -14,6 +14,8 @@
 
 7. **Focus only on the current task** — do not think ahead, plan future steps, or anticipate what comes next. Execute the exact step you're on and nothing more. Thinking ahead leads to over-engineering and wasted context.
 
+8. **Commit often, push on task completion** — commit after each meaningful step (proof of concept, green tests, refactor). Push at the end of a task when work is complete, unless the user says otherwise.
+
 ## Task workflow
 
 ### Before coding
