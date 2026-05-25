@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { InvalidMapCharacterError, load } from "./loader";
+import {
+	InvalidMapCharacterError,
+	InvalidStartCharacterError,
+	load,
+} from "./loader";
 
 describe("Loader", () => {
 	it("loads default game when hash is empty", () => {
@@ -53,5 +57,13 @@ describe("Loader", () => {
 		expect(game.columns).toBe(3);
 		expect(game.player.row).toBe(1);
 		expect(game.player.col).toBe(1);
+	});
+
+	it.each([
+		{ url: "#map=g;start=abc" },
+		{ url: "#map=g;start=1" },
+		{ url: "#map=g;start=1,2fds" },
+	])("throws for malformed start value", ({ url }) => {
+		expect(() => load(url)).toThrow(InvalidStartCharacterError);
 	});
 });

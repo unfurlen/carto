@@ -12,6 +12,12 @@ export class InvalidMapCharacterError extends Error {
 	}
 }
 
+export class InvalidStartCharacterError extends Error {
+	constructor(value: string) {
+		super(`Failed to load map from URL: invalid start value '${value}'`);
+	}
+}
+
 const BIOME_MAP: Record<string, BiomeKind> = {
 	g: BiomeKind.Grass,
 };
@@ -26,13 +32,14 @@ export function load(hash: string): Game {
 	}
 
 	const startValue = params.get("start");
-	const player =
-		startValue !== undefined
-			? new Player(
-					Number(startValue.split(",")[0]),
-					Number(startValue.split(",")[1]),
-				)
-			: undefined;
+	let player: Player | undefined;
+	if (startValue !== undefined) {
+		if (!/^\d+,\d+$/.test(startValue)) {
+			throw new InvalidStartCharacterError(startValue);
+		}
+		const parts = startValue.split(",");
+		player = new Player(Number(parts[0]), Number(parts[1]));
+	}
 
 	const mapValue = params.get("map");
 	const tiles =
