@@ -10,18 +10,15 @@ export function render(game: Game): HTMLDivElement {
 	el.style.display = "grid";
 	el.style.gridTemplateColumns = `repeat(${game.columns}, 1fr)`;
 	el.style.width = "fit-content";
-	const playerIndex = game.player.row * game.columns + game.player.col;
-	let index = 0;
-	for (const row of game.tiles) {
-		for (const tile of row) {
+	for (const [r, row] of game.tiles.entries()) {
+		for (const [c, tile] of row.entries()) {
 			const tileEl = document.createElement("div");
 			tileEl.dataset.tile = "true";
-			if (index === playerIndex) {
+			if (r === game.player.row && c === game.player.col) {
 				tileEl.dataset.player = "true";
 			}
 			tileEl.textContent = BIOME_EMOJI[tile.biome.kind];
 			el.appendChild(tileEl);
-			index++;
 		}
 	}
 	return el;
