@@ -40,6 +40,4 @@ describe("Loader", () => {
 	it("throws InvalidMapCharacterError for unknown characters", () => {
 		expect(() => load("#map=gx")).toThrow(InvalidMapCharacterError);
 	});
-
-
 });

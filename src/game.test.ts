@@ -73,4 +73,10 @@ describe("Game", () => {
 	])("throws EmptyMapError for empty tile array", ({ tiles }) => {
 		expect(() => new Game(tiles)).toThrow(EmptyMapError);
 	});
+
+	it("starts the player at the top-left tile", () => {
+		const game = new Game();
+		expect(game.player.row).toBe(0);
+		expect(game.player.col).toBe(0);
+	});
 });

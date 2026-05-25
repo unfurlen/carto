@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carto</title>
   <style>
-    .tile {
+    [data-tile] {
       width: 64px;
       height: 64px;
       background: #888;
@@ -15,6 +15,9 @@
       justify-content: center;
       font-size: 28px;
       filter: grayscale(100%);
+    }
+    [data-player] {
+      outline: 3px solid gold;
     }
     #app {
       display: flex;

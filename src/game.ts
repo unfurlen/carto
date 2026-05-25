@@ -1,3 +1,4 @@
+import { Player } from "./player";
 import { Tile } from "./tile";
 
 export const DEFAULT_GRID_SIZE = 3;
@@ -16,6 +17,7 @@ export class UnevenRowsError extends Error {
 
 export class Game {
 	readonly tiles: Tile[][];
+	readonly player: Player;
 
 	get rows(): number {
 		return this.tiles.length;
@@ -30,6 +32,7 @@ export class Game {
 	}
 
 	constructor(tiles?: Tile[][]) {
+		this.player = new Player(0, 0);
 		if (tiles) {
 			if (tiles.length === 0) {
 				throw new EmptyMapError();
