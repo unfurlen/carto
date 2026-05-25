@@ -25,26 +25,24 @@ export function load(hash: string): Game {
 		params.set(key, rest.join("="));
 	}
 
-	const mapValue = params.get("map");
-	if (mapValue === undefined) {
-		return new Game();
-	}
-
-	const rows = mapValue.split(",");
-	const tiles: Tile[][] = rows.map((row) =>
-		Array.from(row).map((char) => {
-			const kind = BIOME_MAP[char];
-			if (!kind) throw new InvalidMapCharacterError(char);
-			return new Tile(new Biome(kind));
-		}),
-	);
-
 	const startValue = params.get("start");
 	const player =
 		startValue !== undefined
 			? new Player(
 					Number(startValue.split(",")[0]),
 					Number(startValue.split(",")[1]),
+				)
+			: undefined;
+
+	const mapValue = params.get("map");
+	const tiles =
+		mapValue !== undefined
+			? mapValue.split(",").map((row) =>
+					Array.from(row).map((char) => {
+						const kind = BIOME_MAP[char];
+						if (!kind) throw new InvalidMapCharacterError(char);
+						return new Tile(new Biome(kind));
+					}),
 				)
 			: undefined;
 

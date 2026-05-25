@@ -40,4 +40,18 @@ describe("Loader", () => {
 	it("throws InvalidMapCharacterError for unknown characters", () => {
 		expect(() => load("#map=gx")).toThrow(InvalidMapCharacterError);
 	});
+
+	it("loads the player starting position from the URL", () => {
+		const game = load("#map=ggg,ggg,ggg;start=1,1");
+		expect(game.player.row).toBe(1);
+		expect(game.player.col).toBe(1);
+	});
+
+	it("loads game when only start is provided", () => {
+		const game = load("#start=1,1");
+		expect(game.rows).toBe(3);
+		expect(game.columns).toBe(3);
+		expect(game.player.row).toBe(1);
+		expect(game.player.col).toBe(1);
+	});
 });
