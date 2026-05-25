@@ -15,6 +15,19 @@ export class UnevenRowsError extends Error {
 	}
 }
 
+export class PlayerOutOfBoundsError extends Error {
+	readonly row: number;
+	readonly col: number;
+
+	constructor(row: number, col: number) {
+		super(
+			`Failed to construct game: player starting position (${row}, ${col}) is out of bounds`,
+		);
+		this.row = row;
+		this.col = col;
+	}
+}
+
 export class Game {
 	readonly tiles: Tile[][];
 	readonly player: Player;
@@ -47,6 +60,14 @@ export class Game {
 			this.tiles = tiles;
 		} else {
 			this.tiles = this.defaultGrid();
+		}
+		if (
+			this.player.row < 0 ||
+			this.player.row >= this.tiles.length ||
+			this.player.col < 0 ||
+			this.player.col >= this.tiles[0].length
+		) {
+			throw new PlayerOutOfBoundsError(this.player.row, this.player.col);
 		}
 	}
 

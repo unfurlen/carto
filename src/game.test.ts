@@ -4,6 +4,7 @@ import {
 	DEFAULT_GRID_SIZE,
 	EmptyMapError,
 	Game,
+	PlayerOutOfBoundsError,
 	UnevenRowsError,
 } from "./game";
 import { Player } from "./player";
@@ -89,5 +90,16 @@ describe("Game", () => {
 		const game = new Game(tiles, new Player(1, 1));
 		expect(game.player.row).toBe(1);
 		expect(game.player.col).toBe(1);
+	});
+
+	it.each([
+		{ row: 5, col: 0 },
+		{ row: 0, col: 5 },
+		{ row: -1, col: 0 },
+		{ row: 0, col: -1 },
+	])("throws for out-of-bounds player at ($row, $col)", ({ row, col }) => {
+		expect(() => new Game([[new Tile()]], new Player(row, col))).toThrow(
+			PlayerOutOfBoundsError,
+		);
 	});
 });
