@@ -31,8 +31,8 @@ export class Game {
 		return this.tiles.reduce((sum, row) => sum + row.length, 0);
 	}
 
-	constructor(tiles?: Tile[][]) {
-		this.player = new Player(0, 0);
+	constructor(tiles?: Tile[][], player?: Player) {
+		this.player = player ?? new Player(0, 0);
 		if (tiles) {
 			if (tiles.length === 0) {
 				throw new EmptyMapError();

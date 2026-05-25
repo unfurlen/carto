@@ -6,6 +6,7 @@ import {
 	Game,
 	UnevenRowsError,
 } from "./game";
+import { Player } from "./player";
 import { Tile } from "./tile";
 
 describe("Game", () => {
@@ -78,5 +79,15 @@ describe("Game", () => {
 		const game = new Game();
 		expect(game.player.row).toBe(0);
 		expect(game.player.col).toBe(0);
+	});
+
+	it("places the player at a given starting position", () => {
+		const tiles = [
+			[new Tile(), new Tile()],
+			[new Tile(), new Tile()],
+		];
+		const game = new Game(tiles, new Player(1, 1));
+		expect(game.player.row).toBe(1);
+		expect(game.player.col).toBe(1);
 	});
 });

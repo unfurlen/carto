@@ -1,5 +1,6 @@
 import { Biome, BiomeKind } from "./biome";
 import { Game } from "./game";
+import { Player } from "./player";
 import { Tile } from "./tile";
 
 export class InvalidMapCharacterError extends Error {
@@ -38,5 +39,14 @@ export function load(hash: string): Game {
 		}),
 	);
 
-	return new Game(tiles);
+	const startValue = params.get("start");
+	const player =
+		startValue !== undefined
+			? new Player(
+					Number(startValue.split(",")[0]),
+					Number(startValue.split(",")[1]),
+				)
+			: undefined;
+
+	return new Game(tiles, player);
 }
