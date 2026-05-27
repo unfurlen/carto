@@ -1,5 +1,6 @@
-import { Biome, BiomeKind } from "./biome";
+import { Biome } from "./biome";
 import { Game } from "./game";
+import { Move } from "./move";
 import { Player } from "./player";
 import { Tile } from "./tile";
 
@@ -18,8 +19,15 @@ export class InvalidStartCharacterError extends Error {
 	}
 }
 
-const BIOME_MAP: Record<string, BiomeKind> = {
-	g: BiomeKind.Grass,
+const BIOME_MAP: Record<string, Biome> = {
+	g: Biome.Grass,
+};
+
+const MOVE_MAP: Record<string, Move> = {
+	n: Move.North,
+	e: Move.East,
+	s: Move.South,
+	w: Move.West,
 };
 
 export function load(hash: string): Game {
@@ -46,12 +54,22 @@ export function load(hash: string): Game {
 		mapValue !== undefined
 			? mapValue.split(",").map((row) =>
 					Array.from(row).map((char) => {
-						const kind = BIOME_MAP[char];
-						if (!kind) throw new InvalidMapCharacterError(char);
-						return new Tile(new Biome(kind));
+						const biome = BIOME_MAP[char];
+						if (!biome) throw new InvalidMapCharacterError(char);
+						return new Tile(biome);
 					}),
 				)
 			: undefined;
 
-	return new Game(tiles, player);
+	const movesValue = params.get("moves");
+	const moves: Move[] = movesValue
+		? Array.from(movesValue).map((char) => MOVE_MAP[char])
+		: [];
+
+	const game = moves.reduce(
+		(g, m) => g.applyMove(m),
+		new Game(tiles, player),
+	);
+
+	return game;
 }

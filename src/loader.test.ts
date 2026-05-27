@@ -66,4 +66,15 @@ describe("Loader", () => {
 	])("throws for malformed start value", ({ url }) => {
 		expect(() => load(url)).toThrow(InvalidStartCharacterError);
 	});
+
+	it.each([
+		{ moves: "e", row: 1, col: 2 },
+		{ moves: "s", row: 2, col: 1 },
+		{ moves: "w", row: 1, col: 0 },
+		{ moves: "n", row: 0, col: 1 },
+	])("moves $moves from (1,1) to ($row,$col)", ({ moves, row, col }) => {
+		const game = load(`#start=1,1;moves=${moves}`);
+		expect(game.player.row).toBe(row);
+		expect(game.player.col).toBe(col);
+	});
 });

@@ -1,7 +1,7 @@
-import type { BiomeKind } from "./biome";
+import type { Biome } from "./biome";
 import type { Game } from "./game";
 
-const BIOME_EMOJI: Record<BiomeKind, string> = {
+const BIOME_EMOJI: Record<Biome, string> = {
 	grass: "🌾",
 };
 
@@ -17,7 +17,7 @@ export function render(game: Game): HTMLDivElement {
 			if (r === game.player.row && c === game.player.col) {
 				tileEl.dataset.player = "true";
 			}
-			tileEl.textContent = BIOME_EMOJI[tile.biome.kind];
+			tileEl.textContent = BIOME_EMOJI[tile.biome];
 			el.appendChild(tileEl);
 		}
 	}

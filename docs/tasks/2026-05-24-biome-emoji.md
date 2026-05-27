@@ -1,5 +1,12 @@
 # Add field biome with emoji rendering
 
+## Status
+
+- Red phase: tests written and confirmed failing ✅
+- Green phase: implementation complete, all tests pass ✅
+- Refactor: BIOME_EMOJI type tightened to Record<BiomeKind, string> ✅
+- Reflect: completed ✅
+
 ## Acceptance criteria
 
 ```

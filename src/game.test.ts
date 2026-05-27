@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BiomeKind } from "./biome";
+import { Biome } from "./biome";
 import {
 	DEFAULT_GRID_SIZE,
 	EmptyMapError,
@@ -29,7 +29,7 @@ describe("Game", () => {
 		const game = new Game();
 		for (const row of game.tiles) {
 			for (const tile of row) {
-				expect(tile.biome.kind).toBe(BiomeKind.Grass);
+				expect(tile.biome).toBe(Biome.Grass);
 			}
 		}
 	});
