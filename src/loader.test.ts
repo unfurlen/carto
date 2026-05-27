@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
 	InvalidMapCharacterError,
+	InvalidMoveCharacterError,
 	InvalidStartCharacterError,
 	load,
 } from "./loader";
@@ -84,4 +85,7 @@ describe("Loader", () => {
 		expect(game.player.col).toBe(0);
 	});
 
+	it("throws InvalidMoveCharacterError for invalid move characters", () => {
+		expect(() => load("#moves=esx")).toThrow(InvalidMoveCharacterError);
+	});
 });

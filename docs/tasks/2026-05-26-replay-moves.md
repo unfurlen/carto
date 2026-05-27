@@ -13,7 +13,7 @@
 AC #1: From (1,1): each direction — e→(1,2), s→(2,1), w→(1,0), n→(0,1)
 AC #2: moves=ss from default → (2,0)
 AC #3: OOB from default → error (moves=n)
-AC #4: Invalid char from default → error (moves=nxsw)
+AC #4: Invalid char from default → error (moves=esx)
 ```
 
 ## Worklog
@@ -22,4 +22,5 @@ AC #4: Invalid char from default → error (moves=nxsw)
 |---|---|
 | #1 direction moves | `Move` const+type replacing class. `Biome` aligned to same pattern. Loader restructured: `parseParams` → `loadMap`/`loadPlayer`/`loadMoves` helpers. `Game.applyMove` with exhaustive switch. New decisions: domain-primitives-const-plus-type, loader-domain-helpers. Old biome-value-object marked superseded. STOP reminders added to all 5 skills. |
 | #2 movement accumulation | Anticipatory: the `loadMoves` reduce loop in AC #1 wasn't required by its single-move tests — it predicted multi-move hence AC #2 passes without new code. Violates TDD green principle (write only what the current AC requires). |
-| #3 OOB move | Already covered by Game constructor's existing `PlayerOutOfBoundsError`. `applyMove` delegates validation to the constructor, no new code needed. Test deleted as duplicate of existing OOB tests. |
+| #3 OOB move | Covered by Game constructor — no new code. |
+| #4 invalid char | `InvalidMoveCharacterError`. Validation in `loadMoves` prevents `undefined` leaking into reduce chain. Test changed from `nxsw` → `esx` (no OOB conflation). |

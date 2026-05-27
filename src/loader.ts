@@ -19,6 +19,15 @@ export class InvalidStartCharacterError extends Error {
 	}
 }
 
+export class InvalidMoveCharacterError extends Error {
+	readonly char: string;
+
+	constructor(char: string) {
+		super(`Failed to load moves: unknown move character '${char}'`);
+		this.char = char;
+	}
+}
+
 const BIOME_MAP: Record<string, Biome> = {
 	g: Biome.Grass,
 };
@@ -63,7 +72,11 @@ function loadPlayer(value?: string): Player | undefined {
 
 function loadMoves(value?: string): Move[] {
 	if (value === undefined) return [];
-	return Array.from(value).map((char) => MOVE_MAP[char]);
+	return Array.from(value).map((char) => {
+		const move = MOVE_MAP[char];
+		if (!move) throw new InvalidMoveCharacterError(char);
+		return move;
+	});
 }
 
 export function load(hash: string): Game {
