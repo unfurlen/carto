@@ -83,4 +83,5 @@ describe("Loader", () => {
 		expect(game.player.row).toBe(2);
 		expect(game.player.col).toBe(0);
 	});
+
 });
