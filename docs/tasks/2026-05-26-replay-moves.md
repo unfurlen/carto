@@ -20,3 +20,4 @@ AC #4: Invalid char from default → error (moves=nxsw)
 
 | AC | Highlights / Exceptions |
 |---|---|
+| #1 direction moves | `Move` const+type replacing class. `Biome` aligned to same pattern. Loader restructured: `parseParams` → `loadMap`/`loadPlayer`/`loadMoves` helpers. `Game.applyMove` with exhaustive switch. New decisions: domain-primitives-const-plus-type, loader-domain-helpers. Old biome-value-object marked superseded. STOP reminders added to all 5 skills. |
