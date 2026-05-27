@@ -77,4 +77,10 @@ describe("Loader", () => {
 		expect(game.player.row).toBe(row);
 		expect(game.player.col).toBe(col);
 	});
+
+	it("moves ss from default to (2,0)", () => {
+		const game = load("#moves=ss");
+		expect(game.player.row).toBe(2);
+		expect(game.player.col).toBe(0);
+	});
 });
