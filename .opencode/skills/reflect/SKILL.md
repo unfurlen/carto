@@ -3,6 +3,9 @@ name: reflect
 description: Review task outcomes and suggest process improvements
 ---
 
+> **STOP after each point.** After summarizing decisions, after noting friction,
+> after each process suggestion — stop and let the user respond before continuing.
+
 ## What I do
 
 - Summarise what happened during the task — key decisions, friction points, outcomes

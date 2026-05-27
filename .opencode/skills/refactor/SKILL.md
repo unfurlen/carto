@@ -3,6 +3,10 @@ name: refactor
 description: TDD refactor phase — improve design without changing behavior
 ---
 
+> **STOP after each proposal.** After identifying an improvement, present it
+> to the user and wait for discussion. Do not propose a second change until
+> the first is resolved.
+
 ## What I do
 
 - Read the current code and tests

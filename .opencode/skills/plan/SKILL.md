@@ -3,6 +3,9 @@ name: plan
 description: Define acceptance criteria and create task cards
 ---
 
+> **STOP after each step.** After defining ACs, after any design decision,
+> after creating the task file — stop and let the user confirm before proceeding.
+
 ## What I do
 
 - Ask the user what the next task is

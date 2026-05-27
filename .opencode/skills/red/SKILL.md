@@ -3,6 +3,9 @@ name: red
 description: Write tests before implementation (TDD red phase)
 ---
 
+> **STOP after each step.** After reading the AC, after writing tests, after
+> confirming they fail — stop and let the user confirm before proceeding.
+
 ## What I do
 
 - Read one AC from the task file

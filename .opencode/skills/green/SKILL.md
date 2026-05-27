@@ -3,6 +3,10 @@ name: green
 description: Implement to pass the red-phase tests (TDD green phase)
 ---
 
+> **STOP after each small step.** After reading the failing tests, after writing
+> implementation, after reviewing for YAGNI — stop and let the user confirm
+> before proceeding.
+
 ## What I do
 
 - Read the failing tests from the red phase
