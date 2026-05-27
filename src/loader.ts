@@ -19,6 +19,14 @@ export class InvalidStartCharacterError extends Error {
 	}
 }
 
+function parseStart(value: string): Player {
+	if (!/^\d+,\d+$/.test(value)) {
+		throw new InvalidStartCharacterError(value);
+	}
+	const parts = value.split(",");
+	return new Player(Number(parts[0]), Number(parts[1]));
+}
+
 const BIOME_MAP: Record<string, Biome> = {
 	g: Biome.Grass,
 };
@@ -40,14 +48,8 @@ export function load(hash: string): Game {
 	}
 
 	const startValue = params.get("start");
-	let player: Player | undefined;
-	if (startValue !== undefined) {
-		if (!/^\d+,\d+$/.test(startValue)) {
-			throw new InvalidStartCharacterError(startValue);
-		}
-		const parts = startValue.split(",");
-		player = new Player(Number(parts[0]), Number(parts[1]));
-	}
+	const player =
+		startValue !== undefined ? parseStart(startValue) : undefined;
 
 	const mapValue = params.get("map");
 	const tiles =
