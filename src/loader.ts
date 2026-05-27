@@ -19,14 +19,6 @@ export class InvalidStartCharacterError extends Error {
 	}
 }
 
-function parseStart(value: string): Player {
-	if (!/^\d+,\d+$/.test(value)) {
-		throw new InvalidStartCharacterError(value);
-	}
-	const parts = value.split(",");
-	return new Player(Number(parts[0]), Number(parts[1]));
-}
-
 const BIOME_MAP: Record<string, Biome> = {
 	g: Biome.Grass,
 };
@@ -38,7 +30,7 @@ const MOVE_MAP: Record<string, Move> = {
 	w: Move.West,
 };
 
-export function load(hash: string): Game {
+function parseParams(hash: string): Map<string, string> {
 	const params = new Map<string, string>();
 	const withoutHash = hash.startsWith("#") ? hash.slice(1) : hash;
 	for (const segment of withoutHash.split(";")) {
@@ -46,27 +38,40 @@ export function load(hash: string): Game {
 		const [key, ...rest] = segment.split("=");
 		params.set(key, rest.join("="));
 	}
+	return params;
+}
 
-	const startValue = params.get("start");
-	const player =
-		startValue !== undefined ? parseStart(startValue) : undefined;
+function loadMap(value?: string): Tile[][] | undefined {
+	if (value === undefined) return undefined;
+	return value.split(",").map((row) =>
+		Array.from(row).map((char) => {
+			const biome = BIOME_MAP[char];
+			if (!biome) throw new InvalidMapCharacterError(char);
+			return new Tile(biome);
+		}),
+	);
+}
 
-	const mapValue = params.get("map");
-	const tiles =
-		mapValue !== undefined
-			? mapValue.split(",").map((row) =>
-					Array.from(row).map((char) => {
-						const biome = BIOME_MAP[char];
-						if (!biome) throw new InvalidMapCharacterError(char);
-						return new Tile(biome);
-					}),
-				)
-			: undefined;
+function loadPlayer(value?: string): Player | undefined {
+	if (value === undefined) return undefined;
+	if (!/^\d+,\d+$/.test(value)) {
+		throw new InvalidStartCharacterError(value);
+	}
+	const parts = value.split(",");
+	return new Player(Number(parts[0]), Number(parts[1]));
+}
 
-	const movesValue = params.get("moves");
-	const moves: Move[] = movesValue
-		? Array.from(movesValue).map((char) => MOVE_MAP[char])
-		: [];
+function loadMoves(value?: string): Move[] {
+	if (value === undefined) return [];
+	return Array.from(value).map((char) => MOVE_MAP[char]);
+}
+
+export function load(hash: string): Game {
+	const params = parseParams(hash);
+
+	const tiles = loadMap(params.get("map"));
+	const player = loadPlayer(params.get("start"));
+	const moves = loadMoves(params.get("moves"));
 
 	const game = moves.reduce(
 		(g, m) => g.applyMove(m),
