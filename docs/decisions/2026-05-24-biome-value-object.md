@@ -1,6 +1,9 @@
 # Biome as data-only value object
 2026-05-24
 
+Superseded by `2026-05-27-domain-primitives-const-plus-type.md` —
+Biome is now a const + type (no class), matching the Move pattern.
+
 Biome is a data-only value object. Behavior belongs in external effect systems (fire propagation, flood simulation, weather), not on the biome itself.
 
 ```ts
