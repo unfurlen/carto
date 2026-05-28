@@ -43,4 +43,24 @@ describe("render", () => {
 			}
 		}
 	});
+
+	const center = [
+		[new Tile(), new Tile(), new Tile()],
+		[new Tile(), new Tile(), new Tile()],
+		[new Tile(), new Tile(), new Tile()],
+	];
+
+	it.each([
+		{ row: 0, col: 1, move: "n" },
+		{ row: 1, col: 2, move: "e" },
+		{ row: 2, col: 1, move: "s" },
+		{ row: 1, col: 0, move: "w" },
+	])("clicking tile $move of player at (1,1) appends $move", ({ row, col, move }) => {
+		window.location.hash = "#start=1,1";
+		const game = new Game(center, new Player(1, 1));
+		const el = render(game);
+		const index = row * 3 + col;
+		(el.children[index] as HTMLElement).click();
+		expect(window.location.hash).toBe(`#start=1,1;moves=${move}`);
+	});
 });
