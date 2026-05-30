@@ -2,10 +2,15 @@ import { Biome } from "./biome";
 import type { Game } from "./game";
 import { appendMove } from "./navigate";
 
-const BIOME_EMOJI: Record<Biome, string> = {
-  grass: "🌾",
-  water: "🌊",
-};
+const BIOME_EMOJI = new Map<Biome, string>([
+  [Biome.Grass, "🌾"],
+  [Biome.Water, "🌊"],
+]);
+
+const BIOME_ATTR = new Map<Biome, string>([
+  [Biome.Grass, "grass"],
+  [Biome.Water, "water"],
+]);
 
 export function render(game: Game): HTMLDivElement {
   const el = document.createElement("div");
@@ -23,10 +28,10 @@ export function render(game: Game): HTMLDivElement {
       if (r === game.player.row && c === game.player.col) {
         tileEl.dataset.player = "true";
       }
-      tileEl.dataset.biome = tile.biome;
-      tileEl.textContent = BIOME_EMOJI[tile.biome];
+      tileEl.dataset.biome = BIOME_ATTR.get(tile.biome)!;
+      tileEl.textContent = BIOME_EMOJI.get(tile.biome)!;
       tileEl.addEventListener("click", () => {
-        if (tile.biome === Biome.Water) return;
+        if (!tile.biome.visitable) return;
         const dr = r - game.player.row;
         const dc = c - game.player.col;
         if (dr === -1 && dc === 0) {

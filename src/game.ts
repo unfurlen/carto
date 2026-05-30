@@ -85,7 +85,7 @@ export class Game {
       throw new PlayerOutOfBoundsError(this.player.row, this.player.col);
     }
     const playerTile = this.tiles[this.player.row][this.player.col];
-    if (playerTile.biome === Biome.Water) {
+    if (!playerTile.biome.visitable) {
       throw new PlayerOnUnvisitableTileError(this.player.row, this.player.col);
     }
     playerTile.visited = true;
