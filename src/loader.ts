@@ -1,6 +1,7 @@
 import { Biome } from "./biome";
 import { Game } from "./game";
 import { Move } from "./move";
+import { parseParams } from "./params";
 import { Player } from "./player";
 import { Tile } from "./tile";
 
@@ -38,17 +39,6 @@ const MOVE_MAP: Record<string, Move> = {
 	s: Move.South,
 	w: Move.West,
 };
-
-function parseParams(hash: string): Map<string, string> {
-	const params = new Map<string, string>();
-	const withoutHash = hash.startsWith("#") ? hash.slice(1) : hash;
-	for (const segment of withoutHash.split(";")) {
-		if (!segment) continue;
-		const [key, ...rest] = segment.split("=");
-		params.set(key, rest.join("="));
-	}
-	return params;
-}
 
 function loadMap(value?: string): Tile[][] | undefined {
 	if (value === undefined) return undefined;

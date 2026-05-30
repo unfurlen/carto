@@ -14,11 +14,9 @@ describe("appendMove", () => {
 	it.each([
 		{ hash: "#moves=n", dir: "e", expected: "#moves=ne" },
 		{ hash: "#start=0,0", dir: "s", expected: "#start=0,0;moves=s" },
-		{
-			hash: "#map=ggg,ggg,ggg;moves=ne",
-			dir: "s",
-			expected: "#map=ggg,ggg,ggg;moves=nes",
-		},
+		{ hash: "#moves=n;start=0,0", dir: "e", expected: "#moves=ne;start=0,0" },
+		{ hash: "moves=n", dir: "e", expected: "#moves=ne" },
+		{ hash: "#map=ggg,ggg,ggg;moves=ne", dir: "s", expected: "#map=ggg,ggg,ggg;moves=nes" },
 	])("appends $dir to existing hash $hash", ({ hash, dir, expected }) => {
 		expect(appendMove(hash, dir)).toBe(expected);
 	});
