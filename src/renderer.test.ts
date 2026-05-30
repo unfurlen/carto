@@ -63,4 +63,19 @@ describe("render", () => {
 		(el.children[index] as HTMLElement).click();
 		expect(window.location.hash).toBe(`#start=1,1;moves=${move}`);
 	});
+
+	it.each([
+		{ row: 0, col: 0 },
+		{ row: 0, col: 2 },
+		{ row: 1, col: 1 },
+		{ row: 2, col: 0 },
+		{ row: 2, col: 2 },
+	])("clicking tile ($row,$col) of player at (1,1) does not change the URL", ({ row, col }) => {
+		window.location.hash = "#start=1,1";
+		const game = new Game(center, new Player(1, 1));
+		const el = render(game);
+		const index = row * 3 + col;
+		(el.children[index] as HTMLElement).click();
+		expect(window.location.hash).toBe("#start=1,1");
+	});
 });

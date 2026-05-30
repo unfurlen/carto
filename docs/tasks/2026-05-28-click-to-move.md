@@ -11,3 +11,4 @@ AC #2: Given a tile that is not cardinally-adjacent (including the player's own 
 
 | AC | Highlights / Exceptions |
 |---|---|
+| #1 | `navigate.ts` — `appendMove` using shared `parseParams`. `renderer.ts` — click handler with `data-row`/`data-col`, direction computation. Coverage tooling added. Refactor: `parseParams` extracted to `src/params.ts`, shared between `loader.ts` and `navigate.ts`. |
