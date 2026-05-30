@@ -1,3 +1,4 @@
+import "./style.css";
 import { load } from "./loader";
 import { render } from "./renderer";
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Game } from "./game";
+import { Move } from "./move";
 import { Player } from "./player";
 import { render } from "./renderer";
 import { Tile } from "./tile";
@@ -84,5 +85,25 @@ describe("render", () => {
 		const index = row * 3 + col;
 		(el.children[index] as HTMLElement).click();
 		expect(window.location.hash).toBe("#start=1,1");
+	});
+
+	it("gives the start tile a visited background when no moves are applied", () => {
+		const game = new Game();
+		const el = render(game);
+		expect((el.children[0] as HTMLElement).dataset.visited).toBe("true");
+	});
+
+	it("gives visited tiles a visited background after moves", () => {
+		const game = new Game();
+		const moved = game.applyMove(Move.East);
+		const el = render(moved);
+		expect((el.children[1] as HTMLElement).dataset.visited).toBe("true");
+	});
+
+	it("does not give unvisited tiles a visited background", () => {
+		const game = new Game();
+		const moved = game.applyMove(Move.East);
+		const el = render(moved);
+		expect((el.children[4] as HTMLElement).dataset.visited).toBeUndefined();
 	});
 });

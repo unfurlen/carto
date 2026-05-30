@@ -70,20 +70,29 @@ export class Game {
 		) {
 			throw new PlayerOutOfBoundsError(this.player.row, this.player.col);
 		}
+		this.tiles[this.player.row][this.player.col].visited = true;
 	}
 
 	applyMove(move: Move): Game {
 		const { row, col } = this.player;
+		let nextRow = row;
+		let nextCol = col;
 		switch (move) {
 			case Move.North:
-				return new Game(this.tiles, new Player(row - 1, col));
+				nextRow--;
+				break;
 			case Move.East:
-				return new Game(this.tiles, new Player(row, col + 1));
+				nextCol++;
+				break;
 			case Move.South:
-				return new Game(this.tiles, new Player(row + 1, col));
+				nextRow++;
+				break;
 			case Move.West:
-				return new Game(this.tiles, new Player(row, col - 1));
+				nextCol--;
+				break;
 		}
+		this.tiles[nextRow][nextCol].visited = true;
+		return new Game(this.tiles, new Player(nextRow, nextCol));
 	}
 
 	private defaultGrid(): Tile[][] {

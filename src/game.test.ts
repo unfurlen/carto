@@ -7,6 +7,7 @@ import {
 	PlayerOutOfBoundsError,
 	UnevenRowsError,
 } from "./game";
+import { Move } from "./move";
 import { Player } from "./player";
 import { Tile } from "./tile";
 
@@ -101,5 +102,23 @@ describe("Game", () => {
 		expect(() => new Game([[new Tile()]], new Player(row, col))).toThrow(
 			PlayerOutOfBoundsError,
 		);
+	});
+
+	describe("visited", () => {
+		it("marks the starting tile as visited", () => {
+			const game = new Game();
+			expect(game.tiles[0][0].visited).toBe(true);
+		});
+
+		it("marks each move destination as visited", () => {
+			const game = new Game();
+			const moved = game.applyMove(Move.East);
+			expect(moved.tiles[0][1].visited).toBe(true);
+		});
+
+		it("does not mark tiles outside the path", () => {
+			const game = new Game();
+			expect(game.tiles[1][0].visited).toBe(false);
+		});
 	});
 });

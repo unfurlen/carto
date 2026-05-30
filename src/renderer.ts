@@ -8,15 +8,17 @@ const BIOME_EMOJI: Record<Biome, string> = {
 
 export function render(game: Game): HTMLDivElement {
 	const el = document.createElement("div");
-	el.style.display = "grid";
+	el.dataset.grid = "true";
 	el.style.gridTemplateColumns = `repeat(${game.columns}, 1fr)`;
-	el.style.width = "fit-content";
 	for (const [r, row] of game.tiles.entries()) {
 		for (const [c, tile] of row.entries()) {
 			const tileEl = document.createElement("div");
 			tileEl.dataset.tile = "true";
 			tileEl.dataset.row = String(r);
 			tileEl.dataset.col = String(c);
+			if (tile.visited) {
+				tileEl.dataset.visited = "true";
+			}
 			if (r === game.player.row && c === game.player.col) {
 				tileEl.dataset.player = "true";
 			}
