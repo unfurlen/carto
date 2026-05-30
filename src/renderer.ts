@@ -1,4 +1,4 @@
-import type { Biome } from "./biome";
+import { Biome } from "./biome";
 import type { Game } from "./game";
 import { appendMove } from "./navigate";
 
@@ -23,8 +23,10 @@ export function render(game: Game): HTMLDivElement {
       if (r === game.player.row && c === game.player.col) {
         tileEl.dataset.player = "true";
       }
+      tileEl.dataset.biome = tile.biome;
       tileEl.textContent = BIOME_EMOJI[tile.biome];
       tileEl.addEventListener("click", () => {
+        if (tile.biome === Biome.Water) return;
         const dr = r - game.player.row;
         const dc = c - game.player.col;
         if (dr === -1 && dc === 0) {

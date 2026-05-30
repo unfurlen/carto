@@ -4,6 +4,7 @@ import {
   DEFAULT_GRID_SIZE,
   EmptyMapError,
   Game,
+  PlayerOnUnvisitableTileError,
   PlayerOutOfBoundsError,
   UnevenRowsError,
 } from "./game";
@@ -101,6 +102,19 @@ describe("Game", () => {
   ])("throws for out-of-bounds player at ($row, $col)", ({ row, col }) => {
     expect(() => new Game([[new Tile()]], new Player(row, col))).toThrow(
       PlayerOutOfBoundsError,
+    );
+  });
+
+  it("throws when the player starts on a water tile", () => {
+    const tiles = [[new Tile(Biome.Water)]];
+    expect(() => new Game(tiles)).toThrow(PlayerOnUnvisitableTileError);
+  });
+
+  it("throws when a move lands on a water tile", () => {
+    const tiles = [[new Tile(Biome.Grass), new Tile(Biome.Water)]];
+    const game = new Game(tiles, new Player(0, 0));
+    expect(() => game.applyMove(Move.East)).toThrow(
+      PlayerOnUnvisitableTileError,
     );
   });
 

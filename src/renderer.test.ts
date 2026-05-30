@@ -108,10 +108,31 @@ describe("render", () => {
     expect((el.children[4] as HTMLElement).dataset.visited).toBeUndefined();
   });
 
-  it("renders a water tile with the water emoji", () => {
-    const tiles = [[new Tile(Biome.Water)]];
+  it.each([
+    { biome: Biome.Grass, emoji: "🌾", name: "grass" },
+    { biome: Biome.Water, emoji: "🌊", name: "water" },
+  ])("renders a $name tile with the $name emoji", ({ biome, emoji }) => {
+    const tiles = [[new Tile(Biome.Grass), new Tile(biome)]];
     const game = new Game(tiles);
     const el = render(game);
-    expect(el.children[0].textContent).toBe("🌊");
+    expect(el.children[1].textContent).toBe(emoji);
+  });
+
+  it.each([
+    { biome: Biome.Grass, expected: "grass", name: "grass" },
+    { biome: Biome.Water, expected: "water", name: "water" },
+  ])("sets data-biome on a $name tile", ({ biome, expected }) => {
+    const tiles = [[new Tile(Biome.Grass), new Tile(biome)]];
+    const game = new Game(tiles);
+    const el = render(game);
+    expect((el.children[1] as HTMLElement).dataset.biome).toBe(expected);
+  });
+
+  it("does not change the URL when clicking an adjacent water tile", () => {
+    window.location.hash = "#hello";
+    const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Water)]]);
+    const el = render(game);
+    (el.children[1] as HTMLElement).click();
+    expect(window.location.hash).toBe("#hello");
   });
 });

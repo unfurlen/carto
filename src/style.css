@@ -31,6 +31,10 @@ body {
   filter: none;
   background-color: #8fa86a;
 }
+[data-biome="water"] {
+  filter: none;
+  background-color: #4a7ab5;
+}
 #app {
   display: flex;
   justify-content: center;

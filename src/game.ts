@@ -1,3 +1,4 @@
+import { Biome } from "./biome";
 import { Move } from "./move";
 import { Player } from "./player";
 import { Tile } from "./tile";
@@ -23,6 +24,19 @@ export class PlayerOutOfBoundsError extends Error {
   constructor(row: number, col: number) {
     super(
       `Failed to construct game: player starting position (${row}, ${col}) is out of bounds`,
+    );
+    this.row = row;
+    this.col = col;
+  }
+}
+
+export class PlayerOnUnvisitableTileError extends Error {
+  readonly row: number;
+  readonly col: number;
+
+  constructor(row: number, col: number) {
+    super(
+      `Failed to construct game: player is on an unvisitable tile at (${row}, ${col})`,
     );
     this.row = row;
     this.col = col;
@@ -70,7 +84,11 @@ export class Game {
     ) {
       throw new PlayerOutOfBoundsError(this.player.row, this.player.col);
     }
-    this.tiles[this.player.row][this.player.col].visited = true;
+    const playerTile = this.tiles[this.player.row][this.player.col];
+    if (playerTile.biome === Biome.Water) {
+      throw new PlayerOnUnvisitableTileError(this.player.row, this.player.col);
+    }
+    playerTile.visited = true;
   }
 
   applyMove(move: Move): Game {
@@ -91,7 +109,6 @@ export class Game {
         nextCol--;
         break;
     }
-    this.tiles[nextRow][nextCol].visited = true;
     return new Game(this.tiles, new Player(nextRow, nextCol));
   }
 

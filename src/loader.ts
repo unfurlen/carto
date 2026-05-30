@@ -31,6 +31,7 @@ export class InvalidMoveCharacterError extends Error {
 
 const BIOME_MAP: Record<string, Biome> = {
   g: Biome.Grass,
+  w: Biome.Water,
 };
 
 const MOVE_MAP: Record<string, Move> = {

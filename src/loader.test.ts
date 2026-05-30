@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { Biome } from "./biome";
 import {
   InvalidMapCharacterError,
   InvalidMoveCharacterError,
@@ -40,6 +41,11 @@ describe("Loader", () => {
     const game = load(url);
     expect(game.rows).toBe(rows);
     expect(game.columns).toBe(cols);
+  });
+
+  it("loads a map containing a water tile", () => {
+    const game = load("#map=gw;start=0,0");
+    expect(game.tiles[0][1].biome).toBe(Biome.Water);
   });
 
   it("throws InvalidMapCharacterError for unknown characters", () => {
