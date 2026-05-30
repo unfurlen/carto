@@ -4,6 +4,7 @@ import { appendMove } from "./navigate";
 
 const BIOME_EMOJI: Record<Biome, string> = {
   grass: "🌾",
+  water: "🌊",
 };
 
 export function render(game: Game): HTMLDivElement {

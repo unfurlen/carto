@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { Biome } from "./biome";
 import { Game } from "./game";
 import { Move } from "./move";
 import { Player } from "./player";
@@ -105,5 +106,12 @@ describe("render", () => {
     const moved = game.applyMove(Move.East);
     const el = render(moved);
     expect((el.children[4] as HTMLElement).dataset.visited).toBeUndefined();
+  });
+
+  it("renders a water tile with the water emoji", () => {
+    const tiles = [[new Tile(Biome.Water)]];
+    const game = new Game(tiles);
+    const el = render(game);
+    expect(el.children[0].textContent).toBe("🌊");
   });
 });
