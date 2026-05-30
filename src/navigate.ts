@@ -7,5 +7,5 @@ export function appendMove(hash: string, direction: string): string {
 	const entries = Array.from(params.entries())
 		.map(([k, v]) => `${k}=${v}`)
 		.join(";");
-	return "#" + entries;
+	return `#${entries}`;
 }

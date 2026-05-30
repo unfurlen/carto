@@ -75,10 +75,14 @@ export class Game {
 	applyMove(move: Move): Game {
 		const { row, col } = this.player;
 		switch (move) {
-			case Move.North: return new Game(this.tiles, new Player(row - 1, col));
-			case Move.East: return new Game(this.tiles, new Player(row, col + 1));
-			case Move.South: return new Game(this.tiles, new Player(row + 1, col));
-			case Move.West: return new Game(this.tiles, new Player(row, col - 1));
+			case Move.North:
+				return new Game(this.tiles, new Player(row - 1, col));
+			case Move.East:
+				return new Game(this.tiles, new Player(row, col + 1));
+			case Move.South:
+				return new Game(this.tiles, new Player(row + 1, col));
+			case Move.West:
+				return new Game(this.tiles, new Player(row, col - 1));
 		}
 	}
 

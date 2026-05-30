@@ -76,10 +76,7 @@ export function load(hash: string): Game {
 	const player = loadPlayer(params.get("start"));
 	const moves = loadMoves(params.get("moves"));
 
-	const game = moves.reduce(
-		(g, m) => g.applyMove(m),
-		new Game(tiles, player),
-	);
+	const game = moves.reduce((g, m) => g.applyMove(m), new Game(tiles, player));
 
 	return game;
 }

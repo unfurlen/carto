@@ -55,7 +55,11 @@ describe("render", () => {
 		{ row: 1, col: 2, move: "e" },
 		{ row: 2, col: 1, move: "s" },
 		{ row: 1, col: 0, move: "w" },
-	])("clicking tile $move of player at (1,1) appends $move", ({ row, col, move }) => {
+	])("clicking tile $move of player at (1,1) appends $move", ({
+		row,
+		col,
+		move,
+	}) => {
 		window.location.hash = "#start=1,1";
 		const game = new Game(center, new Player(1, 1));
 		const el = render(game);
@@ -70,7 +74,10 @@ describe("render", () => {
 		{ row: 1, col: 1 },
 		{ row: 2, col: 0 },
 		{ row: 2, col: 2 },
-	])("clicking tile ($row,$col) of player at (1,1) does not change the URL", ({ row, col }) => {
+	])("clicking tile ($row,$col) of player at (1,1) does not change the URL", ({
+		row,
+		col,
+	}) => {
 		window.location.hash = "#start=1,1";
 		const game = new Game(center, new Player(1, 1));
 		const el = render(game);
