@@ -6,6 +6,12 @@ import { Player } from "./player";
 import { render } from "./renderer";
 import { Tile } from "./tile";
 
+function tileAt(grid: HTMLElement, row: number, col: number): HTMLElement {
+  return grid.querySelector(
+    `[data-row="${row}"][data-col="${col}"]`,
+  ) as HTMLElement;
+}
+
 describe("render", () => {
   it("renders a default 3x3 grid", () => {
     const game = new Game();
@@ -38,7 +44,7 @@ describe("render", () => {
     ];
     const game = new Game(tiles, new Player(1, 1));
     const el = render(game);
-    expect((el.children[3] as HTMLElement).dataset.player).toBe("true");
+    expect(tileAt(el, 1, 1).dataset.player).toBe("true");
     for (let i = 0; i < el.children.length; i++) {
       if (i !== 3) {
         expect((el.children[i] as HTMLElement).dataset.player).toBeUndefined();
@@ -65,8 +71,7 @@ describe("render", () => {
     window.location.hash = "#start=1,1";
     const game = new Game(center, new Player(1, 1));
     const el = render(game);
-    const index = row * 3 + col;
-    (el.children[index] as HTMLElement).click();
+    tileAt(el, row, col).click();
     expect(window.location.hash).toBe(`#start=1,1;moves=${move}`);
   });
 
@@ -83,29 +88,28 @@ describe("render", () => {
     window.location.hash = "#start=1,1";
     const game = new Game(center, new Player(1, 1));
     const el = render(game);
-    const index = row * 3 + col;
-    (el.children[index] as HTMLElement).click();
+    tileAt(el, row, col).click();
     expect(window.location.hash).toBe("#start=1,1");
   });
 
   it("gives the start tile a visited background when no moves are applied", () => {
     const game = new Game();
     const el = render(game);
-    expect((el.children[0] as HTMLElement).dataset.visited).toBe("true");
+    expect(tileAt(el, 0, 0).dataset.visited).toBe("true");
   });
 
   it("gives visited tiles a visited background after moves", () => {
     const game = new Game();
     const moved = game.applyMove(Move.East);
     const el = render(moved);
-    expect((el.children[1] as HTMLElement).dataset.visited).toBe("true");
+    expect(tileAt(el, 0, 1).dataset.visited).toBe("true");
   });
 
   it("does not give unvisited tiles a visited background", () => {
     const game = new Game();
     const moved = game.applyMove(Move.East);
     const el = render(moved);
-    expect((el.children[4] as HTMLElement).dataset.visited).toBeUndefined();
+    expect(tileAt(el, 1, 1).dataset.visited).toBeUndefined();
   });
 
   it.each([
@@ -115,7 +119,7 @@ describe("render", () => {
     const tiles = [[new Tile(Biome.Grass), new Tile(biome)]];
     const game = new Game(tiles);
     const el = render(game);
-    expect(el.children[1].textContent).toBe(emoji);
+    expect(tileAt(el, 0, 1).textContent).toBe(emoji);
   });
 
   it.each([
@@ -125,14 +129,14 @@ describe("render", () => {
     const tiles = [[new Tile(Biome.Grass), new Tile(biome)]];
     const game = new Game(tiles);
     const el = render(game);
-    expect((el.children[1] as HTMLElement).dataset.biome).toBe(expected);
+    expect(tileAt(el, 0, 1).dataset.biome).toBe(expected);
   });
 
   it("does not change the URL when clicking an adjacent water tile", () => {
     window.location.hash = "#hello";
     const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Water)]]);
     const el = render(game);
-    (el.children[1] as HTMLElement).click();
+    tileAt(el, 0, 1).click();
     expect(window.location.hash).toBe("#hello");
   });
 });
