@@ -45,6 +45,7 @@ export class PlayerOnUnvisitableTileError extends Error {
 export class Game {
   readonly tiles: Tile[][];
   readonly player: Player;
+  readonly moveCount: number;
 
   get rows(): number {
     return this.tiles.length;
@@ -64,8 +65,9 @@ export class Game {
     );
   }
 
-  constructor(tiles?: Tile[][], player?: Player) {
+  constructor(tiles?: Tile[][], player?: Player, moveCount?: number) {
     this.player = player ?? new Player(0, 0);
+    this.moveCount = moveCount ?? 0;
     if (tiles) {
       if (tiles.length === 0) {
         throw new EmptyMapError();
@@ -114,7 +116,7 @@ export class Game {
         nextCol--;
         break;
     }
-    return new Game(this.tiles, new Player(nextRow, nextCol));
+    return new Game(this.tiles, new Player(nextRow, nextCol), this.moveCount + 1);
   }
 
   private defaultGrid(): Tile[][] {

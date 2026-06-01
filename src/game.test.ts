@@ -136,6 +136,13 @@ describe("Game", () => {
     });
   });
 
+  it.each([0, 1, 2])("has move count %i after %i move(s)", (n) => {
+    const moves = [Move.East, Move.South, Move.West];
+    let game = new Game();
+    for (let i = 0; i < n; i++) game = game.applyMove(moves[i]);
+    expect(game.moveCount).toBe(n);
+  });
+
   describe("won", () => {
     it("returns false when only the start tile is visited", () => {
       const game = new Game();
