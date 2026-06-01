@@ -15,6 +15,7 @@ const BIOME_ATTR: Record<Biome["value"], string> = {
 export function render(game: Game): HTMLDivElement {
   const el = document.createElement("div");
   el.dataset.grid = "true";
+  el.toggleAttribute("data-won", game.won);
   el.style.gridTemplateColumns = `repeat(${game.columns}, 1fr)`;
   for (const [r, row] of game.tiles.entries()) {
     for (const [c, tile] of row.entries()) {
@@ -22,12 +23,11 @@ export function render(game: Game): HTMLDivElement {
       tileEl.dataset.tile = "true";
       tileEl.dataset.row = String(r);
       tileEl.dataset.col = String(c);
-      if (tile.visited) {
-        tileEl.dataset.visited = "true";
-      }
-      if (r === game.player.row && c === game.player.col) {
-        tileEl.dataset.player = "true";
-      }
+      tileEl.toggleAttribute("data-visited", tile.visited);
+      tileEl.toggleAttribute(
+        "data-player",
+        r === game.player.row && c === game.player.col,
+      );
       tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
       tileEl.textContent = BIOME_EMOJI[tile.biome.value];
       tileEl.addEventListener("click", () => {

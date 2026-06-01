@@ -31,7 +31,7 @@ describe("render", () => {
   it("marks only the top-left tile as the player tile", () => {
     const game = new Game();
     const el = render(game);
-    expect((el.children[0] as HTMLElement).dataset.player).toBe("true");
+    expect((el.children[0] as HTMLElement).hasAttribute("data-player")).toBe(true);
     for (let i = 1; i < el.children.length; i++) {
       expect((el.children[i] as HTMLElement).dataset.player).toBeUndefined();
     }
@@ -44,7 +44,7 @@ describe("render", () => {
     ];
     const game = new Game(tiles, new Player(1, 1));
     const el = render(game);
-    expect(tileAt(el, 1, 1).dataset.player).toBe("true");
+    expect(tileAt(el, 1, 1).hasAttribute("data-player")).toBe(true);
     for (let i = 0; i < el.children.length; i++) {
       if (i !== 3) {
         expect((el.children[i] as HTMLElement).dataset.player).toBeUndefined();
@@ -95,14 +95,14 @@ describe("render", () => {
   it("gives the start tile a visited background when no moves are applied", () => {
     const game = new Game();
     const el = render(game);
-    expect(tileAt(el, 0, 0).dataset.visited).toBe("true");
+    expect(tileAt(el, 0, 0).hasAttribute("data-visited")).toBe(true);
   });
 
   it("gives visited tiles a visited background after moves", () => {
     const game = new Game();
     const moved = game.applyMove(Move.East);
     const el = render(moved);
-    expect(tileAt(el, 0, 1).dataset.visited).toBe("true");
+    expect(tileAt(el, 0, 1).hasAttribute("data-visited")).toBe(true);
   });
 
   it("does not give unvisited tiles a visited background", () => {
@@ -138,5 +138,17 @@ describe("render", () => {
     const el = render(game);
     tileAt(el, 0, 1).click();
     expect(window.location.hash).toBe("#hello");
+  });
+
+  it("sets data-won on the grid when all visitable tiles are visited", () => {
+    const game = new Game([[new Tile(Biome.Grass)]]);
+    const el = render(game);
+    expect(el.hasAttribute("data-won")).toBe(true);
+  });
+
+  it("does not set data-won when not all visitable tiles are visited", () => {
+    const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Grass)]]);
+    const el = render(game);
+    expect(el.dataset.won).toBeUndefined();
   });
 });

@@ -35,6 +35,9 @@ body {
   filter: none;
   background-color: #4a7ab5;
 }
+[data-won] {
+  box-shadow: 0 0 20px #ffd700;
+}
 #app {
   display: flex;
   justify-content: center;
