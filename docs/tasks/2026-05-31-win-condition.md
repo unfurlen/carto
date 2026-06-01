@@ -18,3 +18,4 @@ AC #3: When the game is in a won state, the grid has a CSS visual effect indicat
 
 | AC | Highlights / Exceptions |
 |---|---|
+| All 3 ACs | `Game.won` getter, `data-won` attribute, CSS golden glow. Refactored 3 if-block dataset assignments to `toggleAttribute` alongside. |
