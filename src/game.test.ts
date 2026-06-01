@@ -135,4 +135,32 @@ describe("Game", () => {
       expect(game.tiles[1][0].visited).toBe(false);
     });
   });
+
+  describe("won", () => {
+    it("returns false when only the start tile is visited", () => {
+      const game = new Game();
+      expect(game.won).toBe(false);
+    });
+
+    it("returns false when some but not all tiles are visited", () => {
+      const game = new Game();
+      const moved = game.applyMove(Move.East);
+      expect(moved.won).toBe(false);
+    });
+
+    it("returns true when a single grass tile is visited", () => {
+      const game = new Game([[new Tile(Biome.Grass)]]);
+      expect(game.won).toBe(true);
+    });
+
+    it("returns true after visiting all grass tiles in a grid with water", () => {
+      const tiles = [
+        [new Tile(Biome.Grass), new Tile(Biome.Water)],
+        [new Tile(Biome.Grass), new Tile(Biome.Water)],
+      ];
+      let game = new Game(tiles);
+      game = game.applyMove(Move.South);
+      expect(game.won).toBe(true);
+    });
+  });
 });

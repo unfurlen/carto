@@ -1,4 +1,3 @@
-import { Biome } from "./biome";
 import { Move } from "./move";
 import { Player } from "./player";
 import { Tile } from "./tile";
@@ -57,6 +56,12 @@ export class Game {
 
   get totalTiles(): number {
     return this.tiles.reduce((sum, row) => sum + row.length, 0);
+  }
+
+  get won(): boolean {
+    return this.tiles.every((row) =>
+      row.every((tile) => !tile.biome.visitable || tile.visited),
+    );
   }
 
   constructor(tiles?: Tile[][], player?: Player) {

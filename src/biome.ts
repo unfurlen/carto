@@ -1,6 +1,6 @@
 export const Biome = {
-  Grass: { visitable: true },
-  Water: { visitable: false },
+  Grass: { value: "grass", visitable: true },
+  Water: { value: "water", visitable: false },
 } as const;
 
 export type Biome = (typeof Biome)[keyof typeof Biome];
