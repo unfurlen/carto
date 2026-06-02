@@ -164,4 +164,11 @@ describe("render", () => {
     const grid = container.querySelector("[data-grid]") as HTMLElement;
     expect(grid.dataset.won).toBeUndefined();
   });
+
+  it("sets edit=true in URL when edit toggle is clicked", () => {
+    const container = render(new Game());
+    const btn = container.querySelector("[data-edit-toggle]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toContain("edit=true");
+  });
 });

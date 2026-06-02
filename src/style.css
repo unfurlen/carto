@@ -7,6 +7,7 @@ body {
 }
 [data-edit-toggle] {
   margin-left: auto;
+  cursor: pointer;
 }
 [data-grid] {
   display: inline-grid;

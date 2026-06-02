@@ -1,6 +1,6 @@
 import type { Biome } from "./biome";
 import type { Game } from "./game";
-import { appendMove } from "./navigate";
+import { appendMove, toggleEdit } from "./navigate";
 
 const BIOME_EMOJI: Record<Biome["value"], string> = {
   grass: "🌾",
@@ -22,6 +22,9 @@ export function render(game: Game): HTMLDivElement {
   const editBtn = document.createElement("div");
   editBtn.textContent = "✏️";
   editBtn.dataset.editToggle = "true";
+  editBtn.addEventListener("click", () => {
+    window.location.hash = toggleEdit(window.location.hash);
+  });
   header.appendChild(editBtn);
   container.appendChild(header);
   const el = document.createElement("div");

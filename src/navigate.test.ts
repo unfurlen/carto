@@ -1,5 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { appendMove } from "./navigate";
+import { appendMove, toggleEdit } from "./navigate";
+
+describe("toggleEdit", () => {
+  it.each([
+    { hash: "", expected: "#edit=true" },
+    { hash: "#map=g,g", expected: "#map=g,g;edit=true" },
+    { hash: "#edit=false", expected: "#edit=true" },
+    { hash: "#edit=banana", expected: "#edit=true" },
+  ])("adds edit=true to $hash", ({ hash, expected }) => {
+    expect(toggleEdit(hash)).toBe(expected);
+  });
+});
 
 describe("appendMove", () => {
   it.each([
