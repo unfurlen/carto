@@ -14,10 +14,16 @@ const BIOME_ATTR: Record<Biome["value"], string> = {
 
 export function render(game: Game): HTMLDivElement {
   const container = document.createElement("div");
+  const header = document.createElement("div");
+  header.dataset.header = "true";
   const counter = document.createElement("div");
   counter.textContent = `👣 ${game.moveCount}`;
-  counter.style.marginBottom = "8px";
-  container.appendChild(counter);
+  header.appendChild(counter);
+  const editBtn = document.createElement("div");
+  editBtn.textContent = "✏️";
+  editBtn.dataset.editToggle = "true";
+  header.appendChild(editBtn);
+  container.appendChild(header);
   const el = document.createElement("div");
   el.dataset.grid = "true";
   el.toggleAttribute("data-won", game.won);

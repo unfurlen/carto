@@ -1,6 +1,13 @@
 body {
   background: #d4c5a9;
 }
+[data-header] {
+  display: flex;
+  margin-bottom: 8px;
+}
+[data-edit-toggle] {
+  margin-left: auto;
+}
 [data-grid] {
   display: inline-grid;
   gap: 2px;
