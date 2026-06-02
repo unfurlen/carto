@@ -171,4 +171,22 @@ describe("render", () => {
     btn.click();
     expect(window.location.hash).toContain("edit=true");
   });
+
+  it("adds data-edit-mode when URL contains edit=true", () => {
+    const container = render(new Game(), "#edit=true");
+    expect(container.hasAttribute("data-edit-mode")).toBe(true);
+  });
+
+  it("does not add data-edit-mode when URL has no edit param", () => {
+    const container = render(new Game(), "");
+    expect(container.hasAttribute("data-edit-mode")).toBe(false);
+  });
+
+  it.each([
+    { hash: "#edit=false" },
+    { hash: "#edit=banana" },
+  ])("does not add data-edit-mode for $hash", ({ hash }) => {
+    const container = render(new Game(), hash);
+    expect(container.hasAttribute("data-edit-mode")).toBe(false);
+  });
 });

@@ -9,7 +9,11 @@ export function appendMove(hash: string, direction: string): string {
 
 export function toggleEdit(hash: string): string {
   const params = parseParams(hash);
-  params.set("edit", "true");
+  if (params.get("edit") === "true") {
+    params.delete("edit");
+  } else {
+    params.set("edit", "true");
+  }
   return hashOf(params);
 }
 

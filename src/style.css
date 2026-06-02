@@ -9,6 +9,12 @@ body {
   margin-left: auto;
   cursor: pointer;
 }
+body:has([data-edit-mode]) {
+  background: #a8c4d4;
+}
+[data-edit-mode] [data-edit-toggle] {
+  color: #b8860b;
+}
 [data-grid] {
   display: inline-grid;
   gap: 2px;

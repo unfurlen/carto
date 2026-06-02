@@ -1,6 +1,7 @@
 import type { Biome } from "./biome";
 import type { Game } from "./game";
 import { appendMove, toggleEdit } from "./navigate";
+import { parseParams } from "./params";
 
 const BIOME_EMOJI: Record<Biome["value"], string> = {
   grass: "🌾",
@@ -12,8 +13,11 @@ const BIOME_ATTR: Record<Biome["value"], string> = {
   water: "water",
 };
 
-export function render(game: Game): HTMLDivElement {
+export function render(game: Game, hash?: string): HTMLDivElement {
+  const params = parseParams(hash ?? "");
+  const isEditMode = params.get("edit") === "true";
   const container = document.createElement("div");
+  container.toggleAttribute("data-edit-mode", isEditMode);
   const header = document.createElement("div");
   header.dataset.header = "true";
   const counter = document.createElement("div");
