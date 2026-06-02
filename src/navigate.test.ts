@@ -17,6 +17,13 @@ describe("toggleEdit", () => {
   ])("removes edit param from $hash", ({ hash, expected }) => {
     expect(toggleEdit(hash)).toBe(expected);
   });
+
+  it.each([
+    { hash: "#moves=nesw", expected: "#edit=true" },
+    { hash: "#map=g,g;moves=e", expected: "#map=g,g;edit=true" },
+  ])("clears moves when adding edit=true to $hash", ({ hash, expected }) => {
+    expect(toggleEdit(hash)).toBe(expected);
+  });
 });
 
 describe("appendMove", () => {

@@ -13,6 +13,7 @@ export function toggleEdit(hash: string): string {
     params.delete("edit");
   } else {
     params.set("edit", "true");
+    params.delete("moves");
   }
   return hashOf(params);
 }
