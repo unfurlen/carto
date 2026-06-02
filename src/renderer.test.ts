@@ -16,7 +16,7 @@ describe("render", () => {
   it("renders a default 3x3 grid", () => {
     const game = new Game();
     const container = render(game);
-    const grid = container.querySelector("[data-grid]")!;
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
     expect(grid.children.length).toBe(9);
     expect((grid.children[0] as HTMLElement).dataset.tile).toBe("true");
   });
@@ -24,7 +24,7 @@ describe("render", () => {
   it("renders each tile with grass emoji", () => {
     const game = new Game();
     const container = render(game);
-    const grid = container.querySelector("[data-grid]")!;
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
     for (const child of grid.children) {
       expect((child as HTMLElement).textContent).toBe("🌾");
     }
@@ -33,8 +33,10 @@ describe("render", () => {
   it("marks only the top-left tile as the player tile", () => {
     const game = new Game();
     const container = render(game);
-    const grid = container.querySelector("[data-grid]")!;
-    expect((grid.children[0] as HTMLElement).hasAttribute("data-player")).toBe(true);
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
+    expect((grid.children[0] as HTMLElement).hasAttribute("data-player")).toBe(
+      true,
+    );
     for (let i = 1; i < grid.children.length; i++) {
       expect((grid.children[i] as HTMLElement).dataset.player).toBeUndefined();
     }
@@ -152,14 +154,14 @@ describe("render", () => {
   it("sets data-won on the grid when all visitable tiles are visited", () => {
     const game = new Game([[new Tile(Biome.Grass)]]);
     const container = render(game);
-    const grid = container.querySelector("[data-grid]")!;
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
     expect(grid.hasAttribute("data-won")).toBe(true);
   });
 
   it("does not set data-won when not all visitable tiles are visited", () => {
     const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Grass)]]);
     const container = render(game);
-    const grid = container.querySelector("[data-grid]")!;
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
     expect(grid.dataset.won).toBeUndefined();
   });
 });

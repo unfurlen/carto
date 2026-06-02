@@ -116,7 +116,11 @@ export class Game {
         nextCol--;
         break;
     }
-    return new Game(this.tiles, new Player(nextRow, nextCol), this.moveCount + 1);
+    return new Game(
+      this.tiles,
+      new Player(nextRow, nextCol),
+      this.moveCount + 1,
+    );
   }
 
   private defaultGrid(): Tile[][] {
