@@ -189,4 +189,17 @@ describe("render", () => {
     const container = render(new Game(), hash);
     expect(container.hasAttribute("data-edit-mode")).toBe(false);
   });
+
+  it("cycles biome when clicking a tile in edit mode", () => {
+    window.location.hash = "#map=gg;edit=true";
+    const container = render(
+      new Game([[new Tile(), new Tile()]]),
+      "#map=gg;edit=true",
+    );
+    const tile = container.querySelector(
+      "[data-row='0'][data-col='1']",
+    ) as HTMLElement;
+    tile.click();
+    expect(window.location.hash).toContain("map=gw");
+  });
 });

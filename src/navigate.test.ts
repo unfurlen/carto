@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { appendMove, toggleEdit } from "./navigate";
+import { appendMove, replaceTile, toggleEdit } from "./navigate";
 
 describe("toggleEdit", () => {
   it.each([
@@ -23,6 +23,47 @@ describe("toggleEdit", () => {
     { hash: "#map=g,g;moves=e", expected: "#map=g,g;edit=true" },
   ])("clears moves when adding edit=true to $hash", ({ hash, expected }) => {
     expect(toggleEdit(hash)).toBe(expected);
+  });
+});
+
+describe("replaceTile", () => {
+  it.each([
+    {
+      hash: "#map=ggg,ggg,ggg",
+      row: 0,
+      col: 0,
+      char: "w",
+      expected: "#map=wgg,ggg,ggg",
+    },
+    {
+      hash: "#map=ggg,ggg,ggg",
+      row: 1,
+      col: 1,
+      char: "w",
+      expected: "#map=ggg,gwg,ggg",
+    },
+    {
+      hash: "#map=gg,gw;start=0,0",
+      row: 1,
+      col: 1,
+      char: "g",
+      expected: "#map=gg,gg;start=0,0",
+    },
+    {
+      hash: "#edit=true",
+      row: 0,
+      col: 0,
+      char: "w",
+      expected: "#edit=true;map=wgg,ggg,ggg",
+    },
+  ])("replaces tile at ($row,$col) with $char", ({
+    hash,
+    row,
+    col,
+    char,
+    expected,
+  }) => {
+    expect(replaceTile(hash, row, col, char)).toBe(expected);
   });
 });
 

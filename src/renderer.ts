@@ -1,6 +1,6 @@
 import type { Biome } from "./biome";
 import type { Game } from "./game";
-import { appendMove, toggleEdit } from "./navigate";
+import { appendMove, replaceTile, toggleEdit } from "./navigate";
 import { parseParams } from "./params";
 
 const BIOME_EMOJI: Record<Biome["value"], string> = {
@@ -11,6 +11,13 @@ const BIOME_EMOJI: Record<Biome["value"], string> = {
 const BIOME_ATTR: Record<Biome["value"], string> = {
   grass: "grass",
   water: "water",
+};
+
+const BIOME_CYCLE: Biome["value"][] = ["grass", "water"];
+
+const BIOME_CHAR: Record<Biome["value"], string> = {
+  grass: "g",
+  water: "w",
 };
 
 export function render(game: Game, hash?: string): HTMLDivElement {
@@ -49,6 +56,19 @@ export function render(game: Game, hash?: string): HTMLDivElement {
       tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
       tileEl.textContent = BIOME_EMOJI[tile.biome.value];
       tileEl.addEventListener("click", () => {
+        if (isEditMode) {
+          const nextValue =
+            BIOME_CYCLE[
+              (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
+            ];
+          window.location.hash = replaceTile(
+            window.location.hash,
+            r,
+            c,
+            BIOME_CHAR[nextValue],
+          );
+          return;
+        }
         if (!tile.biome.visitable) return;
         const dr = r - game.player.row;
         const dc = c - game.player.col;
