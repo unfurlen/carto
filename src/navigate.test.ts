@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { appendMove, replaceTile, toggleEdit } from "./navigate";
+import {
+  appendMove,
+  replaceStart,
+  replaceTile,
+  setPlaceStart,
+  toggleEdit,
+} from "./navigate";
 
 describe("toggleEdit", () => {
   it.each([
@@ -23,6 +29,10 @@ describe("toggleEdit", () => {
     { hash: "#map=g,g;moves=e", expected: "#map=g,g;edit=true" },
   ])("clears moves when adding edit=true to $hash", ({ hash, expected }) => {
     expect(toggleEdit(hash)).toBe(expected);
+  });
+
+  it("clears placeStart when exiting edit mode", () => {
+    expect(toggleEdit("#edit=true;placeStart=true")).toBe("#");
   });
 });
 
@@ -64,6 +74,48 @@ describe("replaceTile", () => {
     expected,
   }) => {
     expect(replaceTile(hash, row, col, char)).toBe(expected);
+  });
+});
+
+describe("setPlaceStart", () => {
+  it.each([
+    { hash: "#edit=true", expected: "#edit=true;placeStart=true" },
+    {
+      hash: "#map=gg,gg;edit=true",
+      expected: "#map=gg,gg;edit=true;placeStart=true",
+    },
+  ])("adds placeStart=true to $hash", ({ hash, expected }) => {
+    expect(setPlaceStart(hash)).toBe(expected);
+  });
+});
+
+describe("replaceStart", () => {
+  it.each([
+    {
+      hash: "#edit=true;placeStart=true",
+      row: 1,
+      col: 2,
+      expected: "#edit=true;start=1,2",
+    },
+    {
+      hash: "#edit=true;placeStart=true;map=ggg,ggg,ggg",
+      row: 0,
+      col: 1,
+      expected: "#edit=true;map=ggg,ggg,ggg;start=0,1",
+    },
+    {
+      hash: "#edit=true;placeStart=true",
+      row: 0,
+      col: 0,
+      expected: "#edit=true;start=0,0",
+    },
+  ])("sets start=($row,$col) and removes placeStart", ({
+    hash,
+    row,
+    col,
+    expected,
+  }) => {
+    expect(replaceStart(hash, row, col)).toBe(expected);
   });
 });
 

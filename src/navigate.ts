@@ -11,6 +11,7 @@ export function toggleEdit(hash: string): string {
   const params = parseParams(hash);
   if (params.get("edit") === "true") {
     params.delete("edit");
+    params.delete("placeStart");
   } else {
     params.set("edit", "true");
     params.delete("moves");
@@ -31,6 +32,19 @@ export function replaceTile(
   chars[col] = char;
   rows[row] = chars.join("");
   params.set("map", rows.join(","));
+  return hashOf(params);
+}
+
+export function setPlaceStart(hash: string): string {
+  const params = parseParams(hash);
+  params.set("placeStart", "true");
+  return hashOf(params);
+}
+
+export function replaceStart(hash: string, row: number, col: number): string {
+  const params = parseParams(hash);
+  params.set("start", `${row},${col}`);
+  params.delete("placeStart");
   return hashOf(params);
 }
 

@@ -41,6 +41,20 @@ body:has([data-edit-mode]) {
   outline: 3px solid #b8860b;
   outline-offset: -3px;
 }
+[data-place-start] {
+  position: relative;
+  z-index: 1;
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 #b8860b;
+  }
+  50% {
+    box-shadow: 0 0 0 8px #b8860b80;
+  }
+}
 [data-visited] {
   filter: none;
   background-color: #8fa86a;

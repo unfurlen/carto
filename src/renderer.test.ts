@@ -202,4 +202,57 @@ describe("render", () => {
     tile.click();
     expect(window.location.hash).toContain("map=gw");
   });
+
+  it("adds placeStart=true when clicking the player tile in edit mode", () => {
+    window.location.hash = "#edit=true";
+    const game = new Game([[new Tile(), new Tile()]]);
+    const container = render(game, "#edit=true");
+    const playerTile = container.querySelector("[data-player]") as HTMLElement;
+    playerTile.click();
+    expect(window.location.hash).toContain("placeStart=true");
+  });
+
+  it("sets start position and exits place-start mode when clicking a visitable tile", () => {
+    window.location.hash = "#edit=true;placeStart=true;map=gg,gg";
+    const game = new Game([[new Tile(), new Tile()]]);
+    const container = render(game, "#edit=true;placeStart=true;map=gg,gg");
+    tileAt(container, 0, 1).click();
+    expect(window.location.hash).toContain("start=0,1");
+    expect(window.location.hash).not.toContain("placeStart");
+  });
+
+  it("does not change the URL when clicking a water tile in place-start mode", () => {
+    window.location.hash = "#edit=true;placeStart=true";
+    const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Water)]]);
+    const container = render(game, "#edit=true;placeStart=true");
+    tileAt(container, 0, 1).click();
+    expect(window.location.hash).toBe("#edit=true;placeStart=true");
+  });
+
+  it("adds data-place-start to the player tile when place-start mode is active", () => {
+    const container = render(
+      new Game([[new Tile(), new Tile()]]),
+      "#edit=true;placeStart=true",
+    );
+    const playerTile = container.querySelector("[data-player]") as HTMLElement;
+    expect(playerTile.hasAttribute("data-place-start")).toBe(true);
+  });
+
+  it("does not add data-place-start when place-start mode is not active", () => {
+    const container = render(
+      new Game([[new Tile(), new Tile()]]),
+      "#edit=true",
+    );
+    const playerTile = container.querySelector("[data-player]") as HTMLElement;
+    expect(playerTile.hasAttribute("data-place-start")).toBe(false);
+  });
+
+  it("clears placeStart when the edit toggle is clicked in place-start mode", () => {
+    window.location.hash = "#edit=true;placeStart=true";
+    const container = render(new Game(), "#edit=true;placeStart=true");
+    const btn = container.querySelector("[data-edit-toggle]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).not.toContain("placeStart");
+    expect(window.location.hash).not.toContain("edit=true");
+  });
 });

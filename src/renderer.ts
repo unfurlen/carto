@@ -1,6 +1,12 @@
 import type { Biome } from "./biome";
 import type { Game } from "./game";
-import { appendMove, replaceTile, toggleEdit } from "./navigate";
+import {
+  appendMove,
+  replaceStart,
+  replaceTile,
+  setPlaceStart,
+  toggleEdit,
+} from "./navigate";
 import { parseParams } from "./params";
 
 const BIOME_EMOJI: Record<Biome["value"], string> = {
@@ -23,6 +29,7 @@ const BIOME_CHAR: Record<Biome["value"], string> = {
 export function render(game: Game, hash?: string): HTMLDivElement {
   const params = parseParams(hash ?? "");
   const isEditMode = params.get("edit") === "true";
+  const isPlaceStartMode = params.get("placeStart") === "true";
   const container = document.createElement("div");
   container.toggleAttribute("data-edit-mode", isEditMode);
   const header = document.createElement("div");
@@ -53,10 +60,24 @@ export function render(game: Game, hash?: string): HTMLDivElement {
         "data-player",
         r === game.player.row && c === game.player.col,
       );
+      tileEl.toggleAttribute(
+        "data-place-start",
+        isPlaceStartMode && r === game.player.row && c === game.player.col,
+      );
       tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
       tileEl.textContent = BIOME_EMOJI[tile.biome.value];
       tileEl.addEventListener("click", () => {
         if (isEditMode) {
+          if (isPlaceStartMode) {
+            if (tile.biome.visitable) {
+              window.location.hash = replaceStart(window.location.hash, r, c);
+            }
+            return;
+          }
+          if (r === game.player.row && c === game.player.col) {
+            window.location.hash = setPlaceStart(window.location.hash);
+            return;
+          }
           const nextValue =
             BIOME_CYCLE[
               (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
