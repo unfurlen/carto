@@ -173,12 +173,14 @@ describe("render", () => {
   });
 
   it("adds data-edit-mode when URL contains edit=true", () => {
-    const container = render(new Game(), "#edit=true");
+    window.location.hash = "#edit=true";
+    const container = render(new Game());
     expect(container.hasAttribute("data-edit-mode")).toBe(true);
   });
 
   it("does not add data-edit-mode when URL has no edit param", () => {
-    const container = render(new Game(), "");
+    window.location.hash = "";
+    const container = render(new Game());
     expect(container.hasAttribute("data-edit-mode")).toBe(false);
   });
 
@@ -186,7 +188,8 @@ describe("render", () => {
     { hash: "#edit=false" },
     { hash: "#edit=banana" },
   ])("does not add data-edit-mode for $hash", ({ hash }) => {
-    const container = render(new Game(), hash);
+    window.location.hash = hash;
+    const container = render(new Game());
     expect(container.hasAttribute("data-edit-mode")).toBe(false);
   });
 
@@ -230,19 +233,15 @@ describe("render", () => {
   });
 
   it("adds data-place-start to the player tile when place-start mode is active", () => {
-    const container = render(
-      new Game([[new Tile(), new Tile()]]),
-      "#edit=true;placeStart=true",
-    );
+    window.location.hash = "#edit=true;placeStart=true";
+    const container = render(new Game([[new Tile(), new Tile()]]));
     const playerTile = container.querySelector("[data-player]") as HTMLElement;
     expect(playerTile.hasAttribute("data-place-start")).toBe(true);
   });
 
   it("does not add data-place-start when place-start mode is not active", () => {
-    const container = render(
-      new Game([[new Tile(), new Tile()]]),
-      "#edit=true",
-    );
+    window.location.hash = "#edit=true";
+    const container = render(new Game([[new Tile(), new Tile()]]));
     const playerTile = container.querySelector("[data-player]") as HTMLElement;
     expect(playerTile.hasAttribute("data-place-start")).toBe(false);
   });
@@ -275,7 +274,7 @@ describe("render", () => {
 
   it("hides the reset button in edit mode", () => {
     window.location.hash = "#edit=true";
-    const container = render(new Game(), "#edit=true");
+    const container = render(new Game());
     const btn = container.querySelector("[data-reset]") as HTMLElement;
     expect(btn.style.display).toBe("none");
   });

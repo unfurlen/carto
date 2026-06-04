@@ -8,7 +8,7 @@ function renderFromHash(hash: string): void {
 
   try {
     const game = load(hash);
-    app.replaceChildren(render(game, hash));
+    app.replaceChildren(render(game));
   } catch (e) {
     app.textContent =
       e instanceof Error ? e.message : "Failed to load map from URL";

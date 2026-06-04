@@ -27,8 +27,8 @@ const BIOME_CHAR: Record<Biome["value"], string> = {
   water: "w",
 };
 
-export function render(game: Game, hash?: string): HTMLDivElement {
-  const params = parseParams(hash ?? "");
+export function render(game: Game): HTMLDivElement {
+  const params = parseParams(window.location.hash);
   const isEditMode = params.get("edit") === "true";
   const isPlaceStartMode = params.get("placeStart") === "true";
   const container = document.createElement("div");
