@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   appendMove,
+  clearMoves,
   replaceStart,
   replaceTile,
   setPlaceStart,
@@ -141,5 +142,15 @@ describe("appendMove", () => {
     },
   ])("appends $dir to existing hash $hash", ({ hash, dir, expected }) => {
     expect(appendMove(hash, dir)).toBe(expected);
+  });
+});
+
+describe("clearMoves", () => {
+  it.each([
+    { hash: "#start=0,0;moves=nesw", expected: "#start=0,0" },
+    { hash: "#moves=nesw", expected: "#" },
+    { hash: "#start=0,0", expected: "#start=0,0" },
+  ])("clears moves from $hash", ({ hash, expected }) => {
+    expect(clearMoves(hash)).toBe(expected);
   });
 });

@@ -255,4 +255,28 @@ describe("render", () => {
     expect(window.location.hash).not.toContain("placeStart");
     expect(window.location.hash).not.toContain("edit=true");
   });
+
+  it("clears moves when the reset button is clicked", () => {
+    window.location.hash = "#start=0,0;moves=nesw";
+    const container = render(new Game(), "#start=0,0;moves=nesw");
+    const btn = container.querySelector("[data-reset]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toContain("start=0,0");
+    expect(window.location.hash).not.toContain("moves");
+  });
+
+  it("renders a reset button in play mode", () => {
+    window.location.hash = "";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-reset]") as HTMLElement;
+    expect(btn).toBeTruthy();
+    expect(btn.style.display).not.toBe("none");
+  });
+
+  it("hides the reset button in edit mode", () => {
+    window.location.hash = "#edit=true";
+    const container = render(new Game(), "#edit=true");
+    const btn = container.querySelector("[data-reset]") as HTMLElement;
+    expect(btn.style.display).toBe("none");
+  });
 });

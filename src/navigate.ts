@@ -48,6 +48,12 @@ export function replaceStart(hash: string, row: number, col: number): string {
   return hashOf(params);
 }
 
+export function clearMoves(hash: string): string {
+  const params = parseParams(hash);
+  params.delete("moves");
+  return hashOf(params);
+}
+
 function hashOf(params: Map<string, string>): string {
   const entries = Array.from(params.entries())
     .map(([k, v]) => `${k}=${v}`)

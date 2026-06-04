@@ -9,6 +9,9 @@ body {
   margin-left: auto;
   cursor: pointer;
 }
+[data-reset] {
+  margin-right: 8px;
+}
 body:has([data-edit-mode]) {
   background: #a8c4d4;
 }

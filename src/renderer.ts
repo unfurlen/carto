@@ -2,6 +2,7 @@ import type { Biome } from "./biome";
 import type { Game } from "./game";
 import {
   appendMove,
+  clearMoves,
   replaceStart,
   replaceTile,
   setPlaceStart,
@@ -34,6 +35,14 @@ export function render(game: Game, hash?: string): HTMLDivElement {
   container.toggleAttribute("data-edit-mode", isEditMode);
   const header = document.createElement("div");
   header.dataset.header = "true";
+  const resetBtn = document.createElement("div");
+  resetBtn.textContent = "🔁";
+  resetBtn.dataset.reset = "true";
+  resetBtn.style.display = isEditMode ? "none" : "";
+  resetBtn.addEventListener("click", () => {
+    window.location.hash = clearMoves(window.location.hash);
+  });
+  header.appendChild(resetBtn);
   const counter = document.createElement("div");
   counter.textContent = `👣 ${game.moveCount}`;
   header.appendChild(counter);
