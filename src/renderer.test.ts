@@ -279,6 +279,21 @@ describe("render", () => {
     expect(btn.style.display).toBe("none");
   });
 
+  it("shows the back button when not in edit mode", () => {
+    window.location.hash = "";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-back]") as HTMLElement;
+    expect(btn).toBeTruthy();
+    expect(btn.style.display).not.toBe("none");
+  });
+
+  it("hides the back button in edit mode", () => {
+    window.location.hash = "#edit=true";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-back]") as HTMLElement;
+    expect(btn.style.display).toBe("none");
+  });
+
   it("decrements currStep when the back button is clicked", () => {
     window.location.hash = "#start=0,0;moves=nesw;currStep=3";
     const container = render(new Game());

@@ -120,6 +120,7 @@ export function render(game: Game): HTMLDivElement {
   const backBtn = document.createElement("div");
   backBtn.textContent = "◀";
   backBtn.dataset.back = "true";
+  backBtn.style.display = isEditMode ? "none" : "";
   backBtn.addEventListener("click", () => {
     window.location.hash = back(window.location.hash);
   });
