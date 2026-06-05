@@ -211,4 +211,8 @@ describe("forward", () => {
   it("does nothing when currStep is absent", () => {
     expect(forward("#start=0,0;moves=nesw")).toBe("#start=0,0;moves=nesw");
   });
+
+  it("does nothing when no moves param exists", () => {
+    expect(forward("#start=0,0")).toBe("#start=0,0");
+  });
 });
