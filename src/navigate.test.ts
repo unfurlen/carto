@@ -144,6 +144,10 @@ describe("appendMove", () => {
   ])("appends $dir to existing hash $hash", ({ hash, dir, expected }) => {
     expect(appendMove(hash, dir)).toBe(expected);
   });
+
+  it("removes currStep when appending a move", () => {
+    expect(appendMove("#moves=n;currStep=1", "e")).toBe("#moves=ne");
+  });
 });
 
 describe("clearMoves", () => {
@@ -153,6 +157,10 @@ describe("clearMoves", () => {
     { hash: "#start=0,0", expected: "#start=0,0" },
   ])("clears moves from $hash", ({ hash, expected }) => {
     expect(clearMoves(hash)).toBe(expected);
+  });
+
+  it("removes currStep when clearing moves", () => {
+    expect(clearMoves("#start=0,0;moves=nesw;currStep=3")).toBe("#start=0,0");
   });
 });
 

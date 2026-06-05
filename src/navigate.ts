@@ -4,6 +4,7 @@ export function appendMove(hash: string, direction: string): string {
   const params = parseParams(hash);
   const existing = params.get("moves") ?? "";
   params.set("moves", existing + direction);
+  params.delete("currStep");
   return hashOf(params);
 }
 
@@ -51,6 +52,7 @@ export function replaceStart(hash: string, row: number, col: number): string {
 export function clearMoves(hash: string): string {
   const params = parseParams(hash);
   params.delete("moves");
+  params.delete("currStep");
   return hashOf(params);
 }
 
