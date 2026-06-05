@@ -11,6 +11,7 @@ description: Review task outcomes and suggest process improvements
 - Summarise what happened during the task — key decisions, friction points, outcomes
 - Review any open experiments in `docs/experiments/` — for successful ones, convert them to decisions in `docs/decisions/`
 - Suggest process improvements outside of the code — workflow, tooling, communication, skill gaps
+- Remind the user to manually verify the task behaviour in the browser (or appropriate environment) before calling the task done — tests are necessary but not sufficient
 
 ## When to use me
 

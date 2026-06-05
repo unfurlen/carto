@@ -37,4 +37,10 @@ AC #8: The back button is hidden in edit mode (like reset).
 | #7 | `InvalidCurrStepError` + `loadCurrStep` validator (non-negative integer ≤ moves.length). |
 | #8 | Back button hidden in edit mode — one-line `display` toggle matching reset pattern. |
 
-**Retrospective:** Should commit after each AC refactor phase (as specified in the workflow) instead of batching. Both sides dropped the ball here — noted for next task.
+**Post-AC findings:**
+- `appendMove` and `clearMoves` now remove `currStep` (no stale step after moves change).
+- `appendMove` truncates undone moves beyond `currStep` before appending (e.g. `moves=nesw;currStep=2` + `"e"` → `moves=nee`).
+
+**Retrospective:**
+- Should commit after each AC refactor phase (as specified in the workflow) instead of batching. Both sides dropped the ball here — noted for next task.
+- Should manually verify behaviour in the browser before considering a task done — not just trust green tests.
