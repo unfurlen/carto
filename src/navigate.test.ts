@@ -212,7 +212,10 @@ describe("forward", () => {
     expect(forward("#start=0,0;moves=nesw")).toBe("#start=0,0;moves=nesw");
   });
 
-  it("does nothing when no moves param exists", () => {
-    expect(forward("#start=0,0")).toBe("#start=0,0");
+  it.each([
+    { hash: "#start=0,0" },
+    { hash: "#start=0,0;currStep=2" },
+  ])("does nothing if no moves ($hash)", ({ hash }) => {
+    expect(forward(hash)).toBe(hash);
   });
 });
