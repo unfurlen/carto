@@ -201,4 +201,10 @@ describe("forward", () => {
       "#start=0,0;moves=nesw;currStep=3",
     );
   });
+
+  it("does nothing when currStep === moves.length", () => {
+    expect(forward("#start=0,0;moves=nesw;currStep=4")).toBe(
+      "#start=0,0;moves=nesw;currStep=4",
+    );
+  });
 });

@@ -72,8 +72,10 @@ export function back(hash: string): string {
 
 export function forward(hash: string): string {
   const params = parseParams(hash);
-  const currStep = Number(params.get("currStep")) + 1;
-  params.set("currStep", String(currStep));
+  const moves = params.get("moves") ?? "";
+  const currStep = Number(params.get("currStep"));
+  if (currStep >= moves.length) return hash;
+  params.set("currStep", String(currStep + 1));
   return hashOf(params);
 }
 
