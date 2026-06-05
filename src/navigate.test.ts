@@ -148,6 +148,12 @@ describe("appendMove", () => {
   it("removes currStep when appending a move", () => {
     expect(appendMove("#moves=n;currStep=1", "e")).toBe("#moves=ne");
   });
+
+  it("discards undone moves beyond currStep before appending", () => {
+    expect(appendMove("#start=0,0;moves=nesw;currStep=2", "e")).toBe(
+      "#start=0,0;moves=nee",
+    );
+  });
 });
 
 describe("clearMoves", () => {

@@ -3,7 +3,10 @@ import { parseParams } from "./params";
 export function appendMove(hash: string, direction: string): string {
   const params = parseParams(hash);
   const existing = params.get("moves") ?? "";
-  params.set("moves", existing + direction);
+  const step = params.has("currStep")
+    ? Number(params.get("currStep"))
+    : existing.length;
+  params.set("moves", existing.slice(0, step) + direction);
   params.delete("currStep");
   return hashOf(params);
 }
