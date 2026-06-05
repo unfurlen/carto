@@ -3,6 +3,7 @@ import {
   appendMove,
   back,
   clearMoves,
+  forward,
   replaceStart,
   replaceTile,
   setPlaceStart,
@@ -191,5 +192,13 @@ describe("back", () => {
 
   it("does nothing when no moves param exists", () => {
     expect(back("#start=0,0")).toBe("#start=0,0");
+  });
+});
+
+describe("forward", () => {
+  it("increments currStep when currStep < moves.length", () => {
+    expect(forward("#start=0,0;moves=nesw;currStep=2")).toBe(
+      "#start=0,0;moves=nesw;currStep=3",
+    );
   });
 });
