@@ -207,4 +207,8 @@ describe("forward", () => {
       "#start=0,0;moves=nesw;currStep=4",
     );
   });
+
+  it("does nothing when currStep is absent", () => {
+    expect(forward("#start=0,0;moves=nesw")).toBe("#start=0,0;moves=nesw");
+  });
 });
