@@ -278,4 +278,12 @@ describe("render", () => {
     const btn = container.querySelector("[data-reset]") as HTMLElement;
     expect(btn.style.display).toBe("none");
   });
+
+  it("decrements currStep when the back button is clicked", () => {
+    window.location.hash = "#start=0,0;moves=nesw;currStep=3";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-back]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toContain("currStep=2");
+  });
 });

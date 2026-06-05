@@ -29,6 +29,15 @@ export class InvalidMoveCharacterError extends Error {
   }
 }
 
+export class InvalidCurrStepError extends Error {
+  readonly value: string;
+
+  constructor(value: string) {
+    super(`Failed to load moves: invalid currStep value '${value}'`);
+    this.value = value;
+  }
+}
+
 const BIOME_MAP: Record<string, Biome> = {
   g: Biome.Grass,
   w: Biome.Water,
@@ -70,6 +79,15 @@ function loadMoves(value?: string): Move[] {
   });
 }
 
+function loadCurrStep(value: string | undefined, movesLength: number): number {
+  if (value === undefined) return movesLength;
+  const n = Number(value);
+  if (!Number.isInteger(n) || n < 0 || n > movesLength) {
+    throw new InvalidCurrStepError(value);
+  }
+  return n;
+}
+
 export function load(hash: string): Game {
   const params = parseParams(hash);
 
@@ -77,7 +95,10 @@ export function load(hash: string): Game {
   const player = loadPlayer(params.get("start"));
   const moves = loadMoves(params.get("moves"));
 
-  const game = moves.reduce((g, m) => g.applyMove(m), new Game(tiles, player));
+  const step = loadCurrStep(params.get("currStep"), moves.length);
+  const game = moves
+    .slice(0, step)
+    .reduce((g, m) => g.applyMove(m), new Game(tiles, player));
 
   return game;
 }

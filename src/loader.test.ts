@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Biome } from "./biome";
 import {
+  InvalidCurrStepError,
   InvalidMapCharacterError,
   InvalidMoveCharacterError,
   InvalidStartCharacterError,
@@ -93,5 +94,31 @@ describe("Loader", () => {
 
   it("throws InvalidMoveCharacterError for invalid move characters", () => {
     expect(() => load("#moves=esx")).toThrow(InvalidMoveCharacterError);
+  });
+
+  it.each([
+    { currStep: "1", col: 2 },
+    { currStep: "0", col: 1 },
+  ])("applies only first $currStep moves", ({ currStep, col }) => {
+    const game = load(`#start=1,1;moves=ee;currStep=${currStep}`);
+    expect(game.player.col).toBe(col);
+  });
+
+  it.each([
+    { currStep: "abc" },
+    { currStep: "-1" },
+    { currStep: "1.5" },
+  ])("throws when currStep='$currStep' is not a valid count", ({
+    currStep,
+  }) => {
+    expect(() => load(`#start=1,1;moves=e;currStep=${currStep}`)).toThrow(
+      InvalidCurrStepError,
+    );
+  });
+
+  it("throws when currStep exceeds moves length", () => {
+    expect(() => load("#start=1,1;moves=ee;currStep=3")).toThrow(
+      InvalidCurrStepError,
+    );
   });
 });

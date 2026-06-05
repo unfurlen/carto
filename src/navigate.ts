@@ -54,6 +54,17 @@ export function clearMoves(hash: string): string {
   return hashOf(params);
 }
 
+export function back(hash: string): string {
+  const params = parseParams(hash);
+  const moves = params.get("moves");
+  if (moves === undefined) return hash;
+  const currStep = params.has("currStep")
+    ? Math.max(0, Number(params.get("currStep")) - 1)
+    : moves.length - 1;
+  params.set("currStep", String(currStep));
+  return hashOf(params);
+}
+
 function hashOf(params: Map<string, string>): string {
   const entries = Array.from(params.entries())
     .map(([k, v]) => `${k}=${v}`)

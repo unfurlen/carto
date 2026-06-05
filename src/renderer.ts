@@ -2,6 +2,7 @@ import type { Biome } from "./biome";
 import type { Game } from "./game";
 import {
   appendMove,
+  back,
   clearMoves,
   replaceStart,
   replaceTile,
@@ -116,5 +117,12 @@ export function render(game: Game): HTMLDivElement {
     }
   }
   container.appendChild(el);
+  const backBtn = document.createElement("div");
+  backBtn.textContent = "◀";
+  backBtn.dataset.back = "true";
+  backBtn.addEventListener("click", () => {
+    window.location.hash = back(window.location.hash);
+  });
+  container.appendChild(backBtn);
   return container;
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   appendMove,
+  back,
   clearMoves,
   replaceStart,
   replaceTile,
@@ -152,5 +153,29 @@ describe("clearMoves", () => {
     { hash: "#start=0,0", expected: "#start=0,0" },
   ])("clears moves from $hash", ({ hash, expected }) => {
     expect(clearMoves(hash)).toBe(expected);
+  });
+});
+
+describe("back", () => {
+  it("decrements currStep", () => {
+    expect(back("#start=0,0;moves=nesw;currStep=3")).toBe(
+      "#start=0,0;moves=nesw;currStep=2",
+    );
+  });
+
+  it("sets currStep to moves.length - 1 when currStep is absent", () => {
+    expect(back("#start=0,0;moves=nesw")).toBe(
+      "#start=0,0;moves=nesw;currStep=3",
+    );
+  });
+
+  it("does nothing when currStep is 0", () => {
+    expect(back("#start=0,0;moves=nesw;currStep=0")).toBe(
+      "#start=0,0;moves=nesw;currStep=0",
+    );
+  });
+
+  it("does nothing when no moves param exists", () => {
+    expect(back("#start=0,0")).toBe("#start=0,0");
   });
 });
