@@ -4,6 +4,7 @@ import {
   appendMove,
   back,
   clearMoves,
+  forward,
   replaceStart,
   replaceTile,
   setPlaceStart,
@@ -125,5 +126,13 @@ export function render(game: Game): HTMLDivElement {
     window.location.hash = back(window.location.hash);
   });
   container.appendChild(backBtn);
+  const forwardBtn = document.createElement("div");
+  forwardBtn.textContent = "▶";
+  forwardBtn.dataset.forward = "true";
+  forwardBtn.style.display = isEditMode ? "none" : "";
+  forwardBtn.addEventListener("click", () => {
+    window.location.hash = forward(window.location.hash);
+  });
+  container.appendChild(forwardBtn);
   return container;
 }

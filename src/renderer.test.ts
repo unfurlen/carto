@@ -301,4 +301,27 @@ describe("render", () => {
     btn.click();
     expect(window.location.hash).toContain("currStep=2");
   });
+
+  it("shows the forward button when not in edit mode", () => {
+    window.location.hash = "";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-forward]") as HTMLElement;
+    expect(btn).toBeTruthy();
+    expect(btn.style.display).not.toBe("none");
+  });
+
+  it("hides the forward button in edit mode", () => {
+    window.location.hash = "#edit=true";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-forward]") as HTMLElement;
+    expect(btn.style.display).toBe("none");
+  });
+
+  it("increments currStep when the forward button is clicked", () => {
+    window.location.hash = "#start=0,0;moves=nesw;currStep=2";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-forward]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toContain("currStep=3");
+  });
 });
