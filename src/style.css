@@ -8,12 +8,22 @@ body {
 [data-edit-toggle] {
   margin-left: auto;
   cursor: pointer;
+  filter: drop-shadow(2px 2px 4px #00000080);
+}
+[data-back],
+[data-forward],
+[data-reset],
+[data-add-row] {
+  cursor: pointer;
+  user-select: none;
+  filter: drop-shadow(2px 2px 4px #00000080);
 }
 [data-reset] {
   margin-right: 8px;
 }
 [data-add-row] {
-  text-align: center;
+  margin: 8px auto 0;
+  width: fit-content;
 }
 [data-nav-row] {
   display: flex;
