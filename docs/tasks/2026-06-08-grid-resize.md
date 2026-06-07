@@ -28,5 +28,6 @@ AC #6: Adding a row/column when at max size (100) is a no-op.
 | AC | Highlights / Exceptions |
 |---|---|
 | #1 | `addRow(hash)` appends a grass row. Follows `replaceTile` pattern (`params.get("map") ?? "ggg,ggg,ggg"`). Button rendered with `data-add-row`, visible only in edit mode. |
+| #2 | `addColumn(hash)` appends grass to each row. Button rendered to right of grid via absolute positioning so it doesn't shift container width. `[data-grid-row]` wrapper added for layout. |
 
 **Retrospective:** Enabled TypeScript `strict: true` — caught 6 test calls passing an unused 2nd argument to `render()`, and forced the `addRow` no-map fallback to be properly tested instead of an uncovered branch. Consider starting new sessions more frequently for agent and skill freshness.

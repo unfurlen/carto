@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  addColumn,
   addRow,
   appendMove,
   back,
@@ -230,5 +231,17 @@ describe("addRow", () => {
 
   it("defaults to 3x3 when no map param exists", () => {
     expect(addRow("#edit=true")).toBe("#edit=true;map=ggg,ggg,ggg,ggg");
+  });
+});
+
+describe("addColumn", () => {
+  it("appends a grass column to the map", () => {
+    expect(addColumn("#edit=true;map=ggg,ggg,ggg")).toBe(
+      "#edit=true;map=gggg,gggg,gggg",
+    );
+  });
+
+  it("defaults to 3x3 when no map param exists", () => {
+    expect(addColumn("#edit=true")).toBe("#edit=true;map=gggg,gggg,gggg");
   });
 });

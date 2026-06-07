@@ -347,4 +347,26 @@ describe("render", () => {
     btn.click();
     expect(window.location.hash).toBe("#edit=true;map=ggg,ggg,ggg,ggg");
   });
+
+  it("shows an add-column button in edit mode", () => {
+    window.location.hash = "#edit=true;map=ggg,ggg,ggg";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-column]") as HTMLElement;
+    expect(btn).toBeTruthy();
+    expect(btn.style.display).not.toBe("none");
+  });
+
+  it("hides the add-column button in play mode", () => {
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-column]") as HTMLElement;
+    expect(btn.style.display).toBe("none");
+  });
+
+  it("adds a grass column when the add-column button is clicked", () => {
+    window.location.hash = "#edit=true;map=ggg,ggg,ggg";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-column]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toBe("#edit=true;map=gggg,gggg,gggg");
+  });
 });

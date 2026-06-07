@@ -13,7 +13,8 @@ body {
 [data-back],
 [data-forward],
 [data-reset],
-[data-add-row] {
+[data-add-row],
+[data-add-column] {
   cursor: pointer;
   user-select: none;
   filter: drop-shadow(2px 2px 4px #00000080);
@@ -23,6 +24,16 @@ body {
 }
 [data-add-row] {
   margin: 8px auto 0;
+  width: fit-content;
+}
+[data-add-column] {
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+[data-grid-row] {
+  position: relative;
   width: fit-content;
 }
 [data-nav-row] {

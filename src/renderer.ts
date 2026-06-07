@@ -1,6 +1,7 @@
 import type { Biome } from "./biome";
 import type { Game } from "./game";
 import {
+  addColumn,
   addRow,
   appendMove,
   back,
@@ -118,7 +119,18 @@ export function render(game: Game): HTMLDivElement {
       el.appendChild(tileEl);
     }
   }
-  container.appendChild(el);
+  const gridRow = document.createElement("div");
+  gridRow.dataset.gridRow = "true";
+  gridRow.appendChild(el);
+  const addColBtn = document.createElement("div");
+  addColBtn.textContent = "➕";
+  addColBtn.dataset.addColumn = "true";
+  addColBtn.style.display = isEditMode ? "" : "none";
+  addColBtn.addEventListener("click", () => {
+    window.location.hash = addColumn(window.location.hash);
+  });
+  gridRow.appendChild(addColBtn);
+  container.appendChild(gridRow);
   const addRowBtn = document.createElement("div");
   addRowBtn.textContent = "➕";
   addRowBtn.dataset.addRow = "true";
