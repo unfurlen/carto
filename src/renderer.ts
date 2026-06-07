@@ -13,7 +13,7 @@ import {
 import { parseParams } from "./params";
 
 const BIOME_EMOJI: Record<Biome["value"], string> = {
-  grass: "🌾",
+  grass: "🌱",
   water: "🌊",
 };
 
@@ -118,6 +118,8 @@ export function render(game: Game): HTMLDivElement {
     }
   }
   container.appendChild(el);
+  const navRow = document.createElement("div");
+  navRow.style.display = "flex";
   const backBtn = document.createElement("div");
   backBtn.textContent = "◀";
   backBtn.dataset.back = "true";
@@ -125,14 +127,16 @@ export function render(game: Game): HTMLDivElement {
   backBtn.addEventListener("click", () => {
     window.location.hash = back(window.location.hash);
   });
-  container.appendChild(backBtn);
+  navRow.appendChild(backBtn);
   const forwardBtn = document.createElement("div");
   forwardBtn.textContent = "▶";
   forwardBtn.dataset.forward = "true";
   forwardBtn.style.display = isEditMode ? "none" : "";
+  forwardBtn.style.marginLeft = "auto";
   forwardBtn.addEventListener("click", () => {
     window.location.hash = forward(window.location.hash);
   });
-  container.appendChild(forwardBtn);
+  navRow.appendChild(forwardBtn);
+  container.appendChild(navRow);
   return container;
 }

@@ -26,7 +26,7 @@ describe("render", () => {
     const container = render(game);
     const grid = container.querySelector("[data-grid]") as HTMLElement;
     for (const child of grid.children) {
-      expect((child as HTMLElement).textContent).toBe("🌾");
+      expect((child as HTMLElement).textContent).toBe("🌱");
     }
   });
 
@@ -118,7 +118,7 @@ describe("render", () => {
   });
 
   it.each([
-    { biome: Biome.Grass, emoji: "🌾", name: "grass" },
+    { biome: Biome.Grass, emoji: "🌱", name: "grass" },
     { biome: Biome.Water, emoji: "🌊", name: "water" },
   ])("renders a $name tile with the $name emoji", ({ biome, emoji }) => {
     const tiles = [[new Tile(Biome.Grass), new Tile(biome)]];
