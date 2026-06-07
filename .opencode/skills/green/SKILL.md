@@ -12,7 +12,8 @@ description: Implement to pass the red-phase tests (TDD green phase)
 - Read the failing tests from the red phase
 - Write the minimum implementation to make them pass — no more, no less
 - Review the written code for any branches not covered by tests, and any code not required by tests (YAGNI). Remove both before proceeding.
-- Run `npm run coverage` and verify 100% on all columns (statements, branches, functions, lines). If any uncovered lines exist, remove the untested code — do not add tests to cover it.
+- Run `npm run typecheck` and confirm zero errors, then run `npm run coverage` and verify 100% on all columns (statements, branches, functions, lines). If any uncovered lines exist, remove the untested code — do not add tests to cover it.
+- Suggest the user verify the AC works in the browser before moving to the refactor phase
 
 ## When to use me
 

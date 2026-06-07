@@ -12,6 +12,15 @@ body {
 [data-reset] {
   margin-right: 8px;
 }
+[data-add-row] {
+  text-align: center;
+}
+[data-nav-row] {
+  display: flex;
+}
+[data-forward] {
+  margin-left: auto;
+}
 body:has([data-edit-mode]) {
   background: #a8c4d4;
 }

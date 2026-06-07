@@ -1,6 +1,7 @@
 import type { Biome } from "./biome";
 import type { Game } from "./game";
 import {
+  addRow,
   appendMove,
   back,
   clearMoves,
@@ -118,8 +119,16 @@ export function render(game: Game): HTMLDivElement {
     }
   }
   container.appendChild(el);
+  const addRowBtn = document.createElement("div");
+  addRowBtn.textContent = "➕";
+  addRowBtn.dataset.addRow = "true";
+  addRowBtn.style.display = isEditMode ? "" : "none";
+  addRowBtn.addEventListener("click", () => {
+    window.location.hash = addRow(window.location.hash);
+  });
+  container.appendChild(addRowBtn);
   const navRow = document.createElement("div");
-  navRow.style.display = "flex";
+  navRow.dataset.navRow = "true";
   const backBtn = document.createElement("div");
   backBtn.textContent = "◀";
   backBtn.dataset.back = "true";
@@ -132,7 +141,6 @@ export function render(game: Game): HTMLDivElement {
   forwardBtn.textContent = "▶";
   forwardBtn.dataset.forward = "true";
   forwardBtn.style.display = isEditMode ? "none" : "";
-  forwardBtn.style.marginLeft = "auto";
   forwardBtn.addEventListener("click", () => {
     window.location.hash = forward(window.location.hash);
   });

@@ -13,6 +13,7 @@ description: TDD refactor phase — improve design without changing behavior
 - Identify design improvements — naming, duplication, structure, separation of concerns
 - Check for growing complexity in functions or modules touched by the AC's changes — not just the new lines in isolation, but how they affect the surrounding code
 - Propose each change to the user for discussion
+- After all proposals are resolved, suggest the user verify the AC works in the browser before moving on
 
 ## When to use me
 

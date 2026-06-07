@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  addRow,
   appendMove,
   back,
   clearMoves,
@@ -217,5 +218,17 @@ describe("forward", () => {
     { hash: "#start=0,0;currStep=2" },
   ])("does nothing if no moves ($hash)", ({ hash }) => {
     expect(forward(hash)).toBe(hash);
+  });
+});
+
+describe("addRow", () => {
+  it("appends a grass row to the map", () => {
+    expect(addRow("#edit=true;map=ggg,ggg,ggg")).toBe(
+      "#edit=true;map=ggg,ggg,ggg,ggg",
+    );
+  });
+
+  it("defaults to 3x3 when no map param exists", () => {
+    expect(addRow("#edit=true")).toBe("#edit=true;map=ggg,ggg,ggg,ggg");
   });
 });

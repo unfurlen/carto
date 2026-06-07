@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { Biome } from "./biome";
 import { Game } from "./game";
 import { Move } from "./move";
@@ -13,6 +13,10 @@ function tileAt(grid: HTMLElement, row: number, col: number): HTMLElement {
 }
 
 describe("render", () => {
+  beforeEach(() => {
+    window.location.hash = "";
+  });
+
   it("renders a default 3x3 grid", () => {
     const game = new Game();
     const container = render(game);
@@ -195,10 +199,7 @@ describe("render", () => {
 
   it("cycles biome when clicking a tile in edit mode", () => {
     window.location.hash = "#map=gg;edit=true";
-    const container = render(
-      new Game([[new Tile(), new Tile()]]),
-      "#map=gg;edit=true",
-    );
+    const container = render(new Game([[new Tile(), new Tile()]]));
     const tile = container.querySelector(
       "[data-row='0'][data-col='1']",
     ) as HTMLElement;
@@ -209,7 +210,7 @@ describe("render", () => {
   it("adds placeStart=true when clicking the player tile in edit mode", () => {
     window.location.hash = "#edit=true";
     const game = new Game([[new Tile(), new Tile()]]);
-    const container = render(game, "#edit=true");
+    const container = render(game);
     const playerTile = container.querySelector("[data-player]") as HTMLElement;
     playerTile.click();
     expect(window.location.hash).toContain("placeStart=true");
@@ -218,7 +219,7 @@ describe("render", () => {
   it("sets start position and exits place-start mode when clicking a visitable tile", () => {
     window.location.hash = "#edit=true;placeStart=true;map=gg,gg";
     const game = new Game([[new Tile(), new Tile()]]);
-    const container = render(game, "#edit=true;placeStart=true;map=gg,gg");
+    const container = render(game);
     tileAt(container, 0, 1).click();
     expect(window.location.hash).toContain("start=0,1");
     expect(window.location.hash).not.toContain("placeStart");
@@ -227,7 +228,7 @@ describe("render", () => {
   it("does not change the URL when clicking a water tile in place-start mode", () => {
     window.location.hash = "#edit=true;placeStart=true";
     const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Water)]]);
-    const container = render(game, "#edit=true;placeStart=true");
+    const container = render(game);
     tileAt(container, 0, 1).click();
     expect(window.location.hash).toBe("#edit=true;placeStart=true");
   });
@@ -248,7 +249,7 @@ describe("render", () => {
 
   it("clears placeStart when the edit toggle is clicked in place-start mode", () => {
     window.location.hash = "#edit=true;placeStart=true";
-    const container = render(new Game(), "#edit=true;placeStart=true");
+    const container = render(new Game());
     const btn = container.querySelector("[data-edit-toggle]") as HTMLElement;
     btn.click();
     expect(window.location.hash).not.toContain("placeStart");
@@ -257,7 +258,7 @@ describe("render", () => {
 
   it("clears moves when the reset button is clicked", () => {
     window.location.hash = "#start=0,0;moves=nesw";
-    const container = render(new Game(), "#start=0,0;moves=nesw");
+    const container = render(new Game());
     const btn = container.querySelector("[data-reset]") as HTMLElement;
     btn.click();
     expect(window.location.hash).toContain("start=0,0");
@@ -323,5 +324,27 @@ describe("render", () => {
     const btn = container.querySelector("[data-forward]") as HTMLElement;
     btn.click();
     expect(window.location.hash).toContain("currStep=3");
+  });
+
+  it("shows an add-row button in edit mode", () => {
+    window.location.hash = "#edit=true;map=ggg,ggg,ggg";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-row]") as HTMLElement;
+    expect(btn).toBeTruthy();
+    expect(btn.style.display).not.toBe("none");
+  });
+
+  it("hides the add-row button in play mode", () => {
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-row]") as HTMLElement;
+    expect(btn.style.display).toBe("none");
+  });
+
+  it("adds a grass row when the add-row button is clicked", () => {
+    window.location.hash = "#edit=true;map=ggg,ggg,ggg";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-row]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toBe("#edit=true;map=ggg,ggg,ggg,ggg");
   });
 });

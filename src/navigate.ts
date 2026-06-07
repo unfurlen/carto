@@ -81,6 +81,15 @@ export function forward(hash: string): string {
   return hashOf(params);
 }
 
+export function addRow(hash: string): string {
+  const params = parseParams(hash);
+  const map = params.get("map") ?? "ggg,ggg,ggg";
+  const rows = map.split(",");
+  const cols = rows[0].length;
+  params.set("map", `${map},${"g".repeat(cols)}`);
+  return hashOf(params);
+}
+
 function hashOf(params: Map<string, string>): string {
   const entries = Array.from(params.entries())
     .map(([k, v]) => `${k}=${v}`)
