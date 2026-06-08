@@ -15,7 +15,8 @@ body {
 [data-reset],
 [data-add-row],
 [data-add-column],
-[data-remove-row] {
+[data-remove-row],
+[data-remove-column] {
   cursor: pointer;
   user-select: none;
   filter: drop-shadow(2px 2px 4px #00000080);
@@ -38,6 +39,15 @@ body {
   right: calc(100% + 8px);
   top: calc(100% - 30px);
   transform: translateY(-50%);
+}
+[data-remove-column] {
+  margin-left: calc(100% - 30px);
+  transform: translateX(-50%);
+}
+[data-remove-col-row] {
+  display: flex;
+  align-items: flex-start;
+  height: 30px;
 }
 [data-grid-row] {
   position: relative;

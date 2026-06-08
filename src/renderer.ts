@@ -7,6 +7,7 @@ import {
   back,
   clearMoves,
   forward,
+  removeColumn,
   removeRow,
   replaceStart,
   replaceTile,
@@ -40,6 +41,7 @@ export function render(game: Game): HTMLDivElement {
   const container = document.createElement("div");
   container.toggleAttribute("data-edit-mode", isEditMode);
   container.appendChild(renderHeader(game, isEditMode));
+  container.appendChild(renderRemoveColRow(isEditMode));
   container.appendChild(renderGridArea(game, isEditMode, isPlaceStartMode));
   container.appendChild(renderAddRowButton(isEditMode));
   container.appendChild(renderNavRow(isEditMode));
@@ -68,6 +70,20 @@ function renderHeader(game: Game, isEditMode: boolean): HTMLElement {
   });
   header.appendChild(editBtn);
   return header;
+}
+
+function renderRemoveColRow(isEditMode: boolean): HTMLElement {
+  const row = document.createElement("div");
+  row.dataset.removeColRow = "true";
+  row.style.display = isEditMode ? "" : "none";
+  const btn = document.createElement("div");
+  btn.textContent = "➖";
+  btn.dataset.removeColumn = "true";
+  btn.addEventListener("click", () => {
+    window.location.hash = removeColumn(window.location.hash);
+  });
+  row.appendChild(btn);
+  return row;
 }
 
 function renderGridArea(

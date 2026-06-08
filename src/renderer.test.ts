@@ -391,4 +391,26 @@ describe("render", () => {
     btn.click();
     expect(window.location.hash).toBe("#edit=true;map=ggg,ggg");
   });
+
+  it("shows a remove-column row in edit mode", () => {
+    window.location.hash = "#edit=true;map=ggg,ggg,ggg";
+    const container = render(new Game());
+    const row = container.querySelector("[data-remove-col-row]") as HTMLElement;
+    expect(row).toBeTruthy();
+    expect(row.style.display).not.toBe("none");
+  });
+
+  it("hides the remove-column row in play mode", () => {
+    const container = render(new Game());
+    const row = container.querySelector("[data-remove-col-row]") as HTMLElement;
+    expect(row.style.display).toBe("none");
+  });
+
+  it("removes the last column when the remove-column button is clicked", () => {
+    window.location.hash = "#edit=true;map=ggg,ggg,ggg";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-remove-column]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toBe("#edit=true;map=gg,gg,gg");
+  });
 });

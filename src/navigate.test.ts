@@ -6,6 +6,7 @@ import {
   back,
   clearMoves,
   forward,
+  removeColumn,
   removeRow,
   replaceStart,
   replaceTile,
@@ -256,5 +257,17 @@ describe("removeRow", () => {
 
   it("defaults to 3x3 when no map param exists", () => {
     expect(removeRow("#edit=true")).toBe("#edit=true;map=ggg,ggg");
+  });
+});
+
+describe("removeColumn", () => {
+  it("removes the last column from the map", () => {
+    expect(removeColumn("#edit=true;map=ggg,ggg,ggg")).toBe(
+      "#edit=true;map=gg,gg,gg",
+    );
+  });
+
+  it("defaults to 3x3 when no map param exists", () => {
+    expect(removeColumn("#edit=true")).toBe("#edit=true;map=gg,gg,gg");
   });
 });
