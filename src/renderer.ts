@@ -123,43 +123,54 @@ function renderTile(
   tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
   tileEl.textContent = BIOME_EMOJI[tile.biome.value];
   tileEl.addEventListener("click", () => {
-    if (isEditMode) {
-      if (isPlaceStartMode) {
-        if (tile.biome.visitable) {
-          window.location.hash = replaceStart(window.location.hash, r, c);
-        }
-        return;
-      }
-      if (r === game.player.row && c === game.player.col) {
-        window.location.hash = setPlaceStart(window.location.hash);
-        return;
-      }
-      const nextValue =
-        BIOME_CYCLE[
-          (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
-        ];
-      window.location.hash = replaceTile(
-        window.location.hash,
-        r,
-        c,
-        BIOME_CHAR[nextValue],
-      );
-      return;
-    }
-    if (!tile.biome.visitable) return;
-    const dr = r - game.player.row;
-    const dc = c - game.player.col;
-    if (dr === -1 && dc === 0) {
-      window.location.hash = appendMove(window.location.hash, "n");
-    } else if (dr === 1 && dc === 0) {
-      window.location.hash = appendMove(window.location.hash, "s");
-    } else if (dr === 0 && dc === 1) {
-      window.location.hash = appendMove(window.location.hash, "e");
-    } else if (dr === 0 && dc === -1) {
-      window.location.hash = appendMove(window.location.hash, "w");
-    }
+    handleTileClick(tile, r, c, game, isEditMode, isPlaceStartMode);
   });
   return tileEl;
+}
+
+function handleTileClick(
+  tile: Tile,
+  r: number,
+  c: number,
+  game: Game,
+  isEditMode: boolean,
+  isPlaceStartMode: boolean,
+): void {
+  if (isEditMode) {
+    if (isPlaceStartMode) {
+      if (tile.biome.visitable) {
+        window.location.hash = replaceStart(window.location.hash, r, c);
+      }
+      return;
+    }
+    if (r === game.player.row && c === game.player.col) {
+      window.location.hash = setPlaceStart(window.location.hash);
+      return;
+    }
+    const nextValue =
+      BIOME_CYCLE[
+        (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
+      ];
+    window.location.hash = replaceTile(
+      window.location.hash,
+      r,
+      c,
+      BIOME_CHAR[nextValue],
+    );
+    return;
+  }
+  if (!tile.biome.visitable) return;
+  const dr = r - game.player.row;
+  const dc = c - game.player.col;
+  if (dr === -1 && dc === 0) {
+    window.location.hash = appendMove(window.location.hash, "n");
+  } else if (dr === 1 && dc === 0) {
+    window.location.hash = appendMove(window.location.hash, "s");
+  } else if (dr === 0 && dc === 1) {
+    window.location.hash = appendMove(window.location.hash, "e");
+  } else if (dr === 0 && dc === -1) {
+    window.location.hash = appendMove(window.location.hash, "w");
+  }
 }
 
 function renderAddRowButton(isEditMode: boolean): HTMLElement {
