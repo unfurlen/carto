@@ -137,28 +137,47 @@ function handleTileClick(
   isPlaceStartMode: boolean,
 ): void {
   if (isEditMode) {
-    if (isPlaceStartMode) {
-      if (tile.biome.visitable) {
-        window.location.hash = replaceStart(window.location.hash, r, c);
-      }
-      return;
+    handleEditTileClick(tile, r, c, game, isPlaceStartMode);
+  } else {
+    handlePlayTileClick(tile, r, c, game);
+  }
+}
+
+function handleEditTileClick(
+  tile: Tile,
+  r: number,
+  c: number,
+  game: Game,
+  isPlaceStartMode: boolean,
+): void {
+  if (isPlaceStartMode) {
+    if (tile.biome.visitable) {
+      window.location.hash = replaceStart(window.location.hash, r, c);
     }
-    if (r === game.player.row && c === game.player.col) {
-      window.location.hash = setPlaceStart(window.location.hash);
-      return;
-    }
-    const nextValue =
-      BIOME_CYCLE[
-        (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
-      ];
-    window.location.hash = replaceTile(
-      window.location.hash,
-      r,
-      c,
-      BIOME_CHAR[nextValue],
-    );
     return;
   }
+  if (r === game.player.row && c === game.player.col) {
+    window.location.hash = setPlaceStart(window.location.hash);
+    return;
+  }
+  const nextValue =
+    BIOME_CYCLE[
+      (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
+    ];
+  window.location.hash = replaceTile(
+    window.location.hash,
+    r,
+    c,
+    BIOME_CHAR[nextValue],
+  );
+}
+
+function handlePlayTileClick(
+  tile: Tile,
+  r: number,
+  c: number,
+  game: Game,
+): void {
   if (!tile.biome.visitable) return;
   const dr = r - game.player.row;
   const dc = c - game.player.col;
