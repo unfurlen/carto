@@ -13,6 +13,7 @@ import {
   toggleEdit,
 } from "./navigate";
 import { parseParams } from "./params";
+import type { Tile } from "./tile";
 
 const BIOME_EMOJI: Record<Biome["value"], string> = {
   grass: "🌱",
@@ -37,6 +38,14 @@ export function render(game: Game): HTMLDivElement {
   const isPlaceStartMode = params.get("placeStart") === "true";
   const container = document.createElement("div");
   container.toggleAttribute("data-edit-mode", isEditMode);
+  container.appendChild(renderHeader(game, isEditMode));
+  container.appendChild(renderGridArea(game, isEditMode, isPlaceStartMode));
+  container.appendChild(renderAddRowButton(isEditMode));
+  container.appendChild(renderNavRow(isEditMode));
+  return container;
+}
+
+function renderHeader(game: Game, isEditMode: boolean): HTMLElement {
   const header = document.createElement("div");
   header.dataset.header = "true";
   const resetBtn = document.createElement("div");
@@ -57,66 +66,23 @@ export function render(game: Game): HTMLDivElement {
     window.location.hash = toggleEdit(window.location.hash);
   });
   header.appendChild(editBtn);
-  container.appendChild(header);
+  return header;
+}
+
+function renderGridArea(
+  game: Game,
+  isEditMode: boolean,
+  isPlaceStartMode: boolean,
+): HTMLElement {
   const el = document.createElement("div");
   el.dataset.grid = "true";
   el.toggleAttribute("data-won", game.won);
   el.style.gridTemplateColumns = `repeat(${game.columns}, 1fr)`;
   for (const [r, row] of game.tiles.entries()) {
     for (const [c, tile] of row.entries()) {
-      const tileEl = document.createElement("div");
-      tileEl.dataset.tile = "true";
-      tileEl.dataset.row = String(r);
-      tileEl.dataset.col = String(c);
-      tileEl.toggleAttribute("data-visited", tile.visited);
-      tileEl.toggleAttribute(
-        "data-player",
-        r === game.player.row && c === game.player.col,
+      el.appendChild(
+        renderTile(tile, r, c, game, isEditMode, isPlaceStartMode),
       );
-      tileEl.toggleAttribute(
-        "data-place-start",
-        isPlaceStartMode && r === game.player.row && c === game.player.col,
-      );
-      tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
-      tileEl.textContent = BIOME_EMOJI[tile.biome.value];
-      tileEl.addEventListener("click", () => {
-        if (isEditMode) {
-          if (isPlaceStartMode) {
-            if (tile.biome.visitable) {
-              window.location.hash = replaceStart(window.location.hash, r, c);
-            }
-            return;
-          }
-          if (r === game.player.row && c === game.player.col) {
-            window.location.hash = setPlaceStart(window.location.hash);
-            return;
-          }
-          const nextValue =
-            BIOME_CYCLE[
-              (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
-            ];
-          window.location.hash = replaceTile(
-            window.location.hash,
-            r,
-            c,
-            BIOME_CHAR[nextValue],
-          );
-          return;
-        }
-        if (!tile.biome.visitable) return;
-        const dr = r - game.player.row;
-        const dc = c - game.player.col;
-        if (dr === -1 && dc === 0) {
-          window.location.hash = appendMove(window.location.hash, "n");
-        } else if (dr === 1 && dc === 0) {
-          window.location.hash = appendMove(window.location.hash, "s");
-        } else if (dr === 0 && dc === 1) {
-          window.location.hash = appendMove(window.location.hash, "e");
-        } else if (dr === 0 && dc === -1) {
-          window.location.hash = appendMove(window.location.hash, "w");
-        }
-      });
-      el.appendChild(tileEl);
     }
   }
   const gridRow = document.createElement("div");
@@ -130,15 +96,84 @@ export function render(game: Game): HTMLDivElement {
     window.location.hash = addColumn(window.location.hash);
   });
   gridRow.appendChild(addColBtn);
-  container.appendChild(gridRow);
-  const addRowBtn = document.createElement("div");
-  addRowBtn.textContent = "➕";
-  addRowBtn.dataset.addRow = "true";
-  addRowBtn.style.display = isEditMode ? "" : "none";
-  addRowBtn.addEventListener("click", () => {
+  return gridRow;
+}
+
+function renderTile(
+  tile: Tile,
+  r: number,
+  c: number,
+  game: Game,
+  isEditMode: boolean,
+  isPlaceStartMode: boolean,
+): HTMLElement {
+  const tileEl = document.createElement("div");
+  tileEl.dataset.tile = "true";
+  tileEl.dataset.row = String(r);
+  tileEl.dataset.col = String(c);
+  tileEl.toggleAttribute("data-visited", tile.visited);
+  tileEl.toggleAttribute(
+    "data-player",
+    r === game.player.row && c === game.player.col,
+  );
+  tileEl.toggleAttribute(
+    "data-place-start",
+    isPlaceStartMode && r === game.player.row && c === game.player.col,
+  );
+  tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
+  tileEl.textContent = BIOME_EMOJI[tile.biome.value];
+  tileEl.addEventListener("click", () => {
+    if (isEditMode) {
+      if (isPlaceStartMode) {
+        if (tile.biome.visitable) {
+          window.location.hash = replaceStart(window.location.hash, r, c);
+        }
+        return;
+      }
+      if (r === game.player.row && c === game.player.col) {
+        window.location.hash = setPlaceStart(window.location.hash);
+        return;
+      }
+      const nextValue =
+        BIOME_CYCLE[
+          (BIOME_CYCLE.indexOf(tile.biome.value) + 1) % BIOME_CYCLE.length
+        ];
+      window.location.hash = replaceTile(
+        window.location.hash,
+        r,
+        c,
+        BIOME_CHAR[nextValue],
+      );
+      return;
+    }
+    if (!tile.biome.visitable) return;
+    const dr = r - game.player.row;
+    const dc = c - game.player.col;
+    if (dr === -1 && dc === 0) {
+      window.location.hash = appendMove(window.location.hash, "n");
+    } else if (dr === 1 && dc === 0) {
+      window.location.hash = appendMove(window.location.hash, "s");
+    } else if (dr === 0 && dc === 1) {
+      window.location.hash = appendMove(window.location.hash, "e");
+    } else if (dr === 0 && dc === -1) {
+      window.location.hash = appendMove(window.location.hash, "w");
+    }
+  });
+  return tileEl;
+}
+
+function renderAddRowButton(isEditMode: boolean): HTMLElement {
+  const btn = document.createElement("div");
+  btn.textContent = "➕";
+  btn.dataset.addRow = "true";
+  btn.style.display = isEditMode ? "" : "none";
+  btn.addEventListener("click", () => {
     window.location.hash = addRow(window.location.hash);
   });
-  container.appendChild(addRowBtn);
+  return btn;
+}
+
+function renderNavRow(isEditMode: boolean): HTMLElement {
   const navRow = document.createElement("div");
   navRow.dataset.navRow = "true";
   const backBtn = document.createElement("div");
@@ -157,6 +192,5 @@ export function render(game: Game): HTMLDivElement {
     window.location.hash = forward(window.location.hash);
   });
   navRow.appendChild(forwardBtn);
-  container.appendChild(navRow);
-  return container;
+  return navRow;
 }
