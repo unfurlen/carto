@@ -14,7 +14,8 @@ body {
 [data-forward],
 [data-reset],
 [data-add-row],
-[data-add-column] {
+[data-add-column],
+[data-remove-row] {
   cursor: pointer;
   user-select: none;
   filter: drop-shadow(2px 2px 4px #00000080);
@@ -30,6 +31,12 @@ body {
   position: absolute;
   left: calc(100% + 8px);
   top: 50%;
+  transform: translateY(-50%);
+}
+[data-remove-row] {
+  position: absolute;
+  right: calc(100% + 8px);
+  top: calc(100% - 30px);
   transform: translateY(-50%);
 }
 [data-grid-row] {

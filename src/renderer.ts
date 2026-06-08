@@ -7,6 +7,7 @@ import {
   back,
   clearMoves,
   forward,
+  removeRow,
   replaceStart,
   replaceTile,
   setPlaceStart,
@@ -87,6 +88,14 @@ function renderGridArea(
   }
   const gridRow = document.createElement("div");
   gridRow.dataset.gridRow = "true";
+  const removeRowBtn = document.createElement("div");
+  removeRowBtn.textContent = "➖";
+  removeRowBtn.dataset.removeRow = "true";
+  removeRowBtn.style.display = isEditMode ? "" : "none";
+  removeRowBtn.addEventListener("click", () => {
+    window.location.hash = removeRow(window.location.hash);
+  });
+  gridRow.appendChild(removeRowBtn);
   gridRow.appendChild(el);
   const addColBtn = document.createElement("div");
   addColBtn.textContent = "➕";

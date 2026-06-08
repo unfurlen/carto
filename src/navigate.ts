@@ -98,6 +98,15 @@ export function addColumn(hash: string): string {
   return hashOf(params);
 }
 
+export function removeRow(hash: string): string {
+  const params = parseParams(hash);
+  const map = params.get("map") ?? "ggg,ggg,ggg";
+  const rows = map.split(",");
+  rows.pop();
+  params.set("map", rows.join(","));
+  return hashOf(params);
+}
+
 function hashOf(params: Map<string, string>): string {
   const entries = Array.from(params.entries())
     .map(([k, v]) => `${k}=${v}`)
