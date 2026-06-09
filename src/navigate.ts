@@ -85,6 +85,7 @@ export function addRow(hash: string): string {
   const params = parseParams(hash);
   const map = params.get("map") ?? "ggg,ggg,ggg";
   const rows = map.split(",");
+  if (rows.length >= 100) return hash;
   const cols = rows[0].length;
   params.set("map", `${map},${"g".repeat(cols)}`);
   return hashOf(params);
@@ -93,8 +94,9 @@ export function addRow(hash: string): string {
 export function addColumn(hash: string): string {
   const params = parseParams(hash);
   const map = params.get("map") ?? "ggg,ggg,ggg";
-  const rows = map.split(",").map((r) => `${r}g`);
-  params.set("map", rows.join(","));
+  const rows = map.split(",");
+  if (rows[0].length >= 100) return hash;
+  params.set("map", rows.map((r) => `${r}g`).join(","));
   return hashOf(params);
 }
 
@@ -102,6 +104,7 @@ export function removeRow(hash: string): string {
   const params = parseParams(hash);
   const map = params.get("map") ?? "ggg,ggg,ggg";
   const rows = map.split(",");
+  if (rows.length <= 1) return hash;
   rows.pop();
   params.set("map", rows.join(","));
   return hashOf(params);
@@ -110,8 +113,9 @@ export function removeRow(hash: string): string {
 export function removeColumn(hash: string): string {
   const params = parseParams(hash);
   const map = params.get("map") ?? "ggg,ggg,ggg";
-  const rows = map.split(",").map((r) => r.slice(0, -1));
-  params.set("map", rows.join(","));
+  const rows = map.split(",");
+  if (rows[0].length <= 1) return hash;
+  params.set("map", rows.map((r) => r.slice(0, -1)).join(","));
   return hashOf(params);
 }
 

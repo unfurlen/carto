@@ -234,6 +234,12 @@ describe("addRow", () => {
   it("defaults to 3x3 when no map param exists", () => {
     expect(addRow("#edit=true")).toBe("#edit=true;map=ggg,ggg,ggg,ggg");
   });
+
+  it("is a no-op when the map already has 100 rows", () => {
+    const rows = Array(100).fill("g".repeat(100));
+    const hash = `#edit=true;map=${rows.join(",")}`;
+    expect(addRow(hash)).toBe(hash);
+  });
 });
 
 describe("addColumn", () => {
@@ -245,6 +251,12 @@ describe("addColumn", () => {
 
   it("defaults to 3x3 when no map param exists", () => {
     expect(addColumn("#edit=true")).toBe("#edit=true;map=gggg,gggg,gggg");
+  });
+
+  it("is a no-op when the map already has 100 columns", () => {
+    const rows = Array(3).fill("g".repeat(100));
+    const hash = `#edit=true;map=${rows.join(",")}`;
+    expect(addColumn(hash)).toBe(hash);
   });
 });
 
@@ -258,6 +270,10 @@ describe("removeRow", () => {
   it("defaults to 3x3 when no map param exists", () => {
     expect(removeRow("#edit=true")).toBe("#edit=true;map=ggg,ggg");
   });
+
+  it("is a no-op when the map has only 1 row", () => {
+    expect(removeRow("#edit=true;map=g")).toBe("#edit=true;map=g");
+  });
 });
 
 describe("removeColumn", () => {
@@ -269,5 +285,9 @@ describe("removeColumn", () => {
 
   it("defaults to 3x3 when no map param exists", () => {
     expect(removeColumn("#edit=true")).toBe("#edit=true;map=gg,gg,gg");
+  });
+
+  it("is a no-op when the map has only 1 column", () => {
+    expect(removeColumn("#edit=true;map=g,g,g")).toBe("#edit=true;map=g,g,g");
   });
 });
