@@ -149,6 +149,14 @@ describe("Game", () => {
       const game = new Game();
       expect(game.weather).toEqual([Weather.Fine]);
     });
+
+    it("accepts a weather array from the constructor", () => {
+      const game = new Game([[new Tile()]], new Player(0, 0), 0, [
+        Weather.Fine,
+        Weather.Snow,
+      ]);
+      expect(game.weather).toEqual([Weather.Fine, Weather.Snow]);
+    });
   });
 
   describe("won", () => {

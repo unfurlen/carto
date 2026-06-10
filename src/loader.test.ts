@@ -5,8 +5,10 @@ import {
   InvalidMapCharacterError,
   InvalidMoveCharacterError,
   InvalidStartCharacterError,
+  InvalidWeatherCharacterError,
   load,
 } from "./loader";
+import { Weather } from "./weather";
 
 describe("Loader", () => {
   it("loads default game when hash is empty", () => {
@@ -31,6 +33,15 @@ describe("Loader", () => {
     const game = load("#map=g,g;unknown=something");
     expect(game.rows).toBe(2);
     expect(game.columns).toBe(1);
+  });
+
+  it("loads a weather string from the URL", () => {
+    const game = load("#weather=ffs");
+    expect(game.weather).toEqual([Weather.Fine, Weather.Fine, Weather.Snow]);
+  });
+
+  it("throws InvalidWeatherCharacterError for unknown weather characters", () => {
+    expect(() => load("#weather=fxs")).toThrow(InvalidWeatherCharacterError);
   });
 
   it.each([

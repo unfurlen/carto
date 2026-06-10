@@ -4,6 +4,7 @@ import { Move } from "./move";
 import { parseParams } from "./params";
 import { Player } from "./player";
 import { Tile } from "./tile";
+import { Weather } from "./weather";
 
 export class InvalidMapCharacterError extends Error {
   readonly char: string;
@@ -38,9 +39,23 @@ export class InvalidCurrStepError extends Error {
   }
 }
 
+export class InvalidWeatherCharacterError extends Error {
+  readonly char: string;
+
+  constructor(char: string) {
+    super(`Failed to load weather: unknown weather code '${char}'`);
+    this.char = char;
+  }
+}
+
 const BIOME_MAP: Record<string, Biome> = {
   g: Biome.Grass,
   w: Biome.Water,
+};
+
+const WEATHER_MAP: Record<string, Weather> = {
+  f: Weather.Fine,
+  s: Weather.Snow,
 };
 
 const MOVE_MAP: Record<string, Move> = {
@@ -70,6 +85,15 @@ function loadPlayer(value?: string): Player | undefined {
   return new Player(Number(parts[0]), Number(parts[1]));
 }
 
+function loadWeather(value?: string): Weather[] | undefined {
+  if (value === undefined) return undefined;
+  return Array.from(value).map((char) => {
+    const weather = WEATHER_MAP[char];
+    if (!weather) throw new InvalidWeatherCharacterError(char);
+    return weather;
+  });
+}
+
 function loadMoves(value?: string): Move[] {
   if (value === undefined) return [];
   return Array.from(value).map((char) => {
@@ -94,11 +118,15 @@ export function load(hash: string): Game {
   const tiles = loadMap(params.get("map"));
   const player = loadPlayer(params.get("start"));
   const moves = loadMoves(params.get("moves"));
+  const weather = loadWeather(params.get("weather"));
 
   const step = loadCurrStep(params.get("currStep"), moves.length);
   const game = moves
     .slice(0, step)
-    .reduce((g, m) => g.applyMove(m), new Game(tiles, player));
+    .reduce(
+      (g, m) => g.applyMove(m),
+      new Game(tiles, player, undefined, weather),
+    );
 
   return game;
 }

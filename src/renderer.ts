@@ -32,6 +32,7 @@ const BIOME_CYCLE: Biome["value"][] = ["grass", "water"];
 
 const WEATHER_EMOJI: Record<Weather["value"], string> = {
   fine: "☀️",
+  snow: "❄️",
 };
 
 const BIOME_CHAR: Record<Biome["value"], string> = {

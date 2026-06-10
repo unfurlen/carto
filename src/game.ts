@@ -47,7 +47,7 @@ export class Game {
   readonly tiles: Tile[][];
   readonly player: Player;
   readonly moveCount: number;
-  readonly weather: Weather[] = [Weather.Fine];
+  readonly weather: Weather[];
 
   get rows(): number {
     return this.tiles.length;
@@ -67,9 +67,15 @@ export class Game {
     );
   }
 
-  constructor(tiles?: Tile[][], player?: Player, moveCount?: number) {
+  constructor(
+    tiles?: Tile[][],
+    player?: Player,
+    moveCount?: number,
+    weather?: Weather[],
+  ) {
     this.player = player ?? new Player(0, 0);
     this.moveCount = moveCount ?? 0;
+    this.weather = weather ?? [Weather.Fine];
     if (tiles) {
       if (tiles.length === 0) {
         throw new EmptyMapError();

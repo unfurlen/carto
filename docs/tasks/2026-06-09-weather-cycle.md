@@ -18,7 +18,9 @@
 ## Worklog
 
 | AC | Highlights / Exceptions |
-|---|---|
+|---|---|---|
 | #1 | Created `Weather` domain object (`src/weather.ts`) following `Biome`/`Move` pattern. Game stores `weather: Weather[]` defaulting to `[Weather.Fine]`. Renderer maps `Weather.Fine` → ☀️ via `WEATHER_EMOJI`. Weather icons styled as small centered tiles with dark background and shadow. |
+| #2 | Added `Weather.Snow`. Game constructor accepts 4th param `weather?: Weather[]`. Loader parses `weather` URL param via `WEATHER_MAP` and `loadWeather()`. Renderer maps `snow` → ❄️. |
+| #3 | Added `InvalidWeatherCharacterError` following `InvalidMapCharacterError` pattern. `loadWeather` throws on unknown chars. |
 
 **Retrospective:** Created `docs/architecture.md` (referenced from `AGENTS.md`) because a new agent session struggled to quickly grasp the full project architecture — module responsibilities, data flow, URL params, and conventions.

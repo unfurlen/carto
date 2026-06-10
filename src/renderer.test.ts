@@ -5,6 +5,7 @@ import { Move } from "./move";
 import { Player } from "./player";
 import { render } from "./renderer";
 import { Tile } from "./tile";
+import { Weather } from "./weather";
 
 function tileAt(grid: HTMLElement, row: number, col: number): HTMLElement {
   return grid.querySelector(
@@ -420,5 +421,22 @@ describe("render", () => {
     const icons = container.querySelectorAll("[data-weather-icon]");
     expect(icons.length).toBe(1);
     expect(icons[0].textContent).toBe("☀️");
+  });
+
+  it("renders ☀️ and ❄️ icons in sequence for a multi-character weather pattern", () => {
+    window.location.hash = "";
+    const game = new Game([[new Tile()]], new Player(0, 0), 0, [
+      Weather.Fine,
+      Weather.Snow,
+      Weather.Fine,
+      Weather.Snow,
+    ]);
+    const container = render(game);
+    const icons = container.querySelectorAll("[data-weather-icon]");
+    expect(icons.length).toBe(4);
+    expect(icons[0].textContent).toBe("☀️");
+    expect(icons[1].textContent).toBe("❄️");
+    expect(icons[2].textContent).toBe("☀️");
+    expect(icons[3].textContent).toBe("❄️");
   });
 });
