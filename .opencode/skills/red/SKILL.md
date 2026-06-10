@@ -25,7 +25,9 @@ Use this to write tests for one AC. The AI produces test code only — running, 
 
 ## Constraints
 
-- Do not write implementation code — only tests
-- Do not modify existing tests unless explicitly asked
-- If the ACs are already satisfied by existing behavior, flag it to the user
-- Follow existing project conventions (vitest, describe/it blocks, etc.)
+- **Do not write any implementation code** — tests only, nothing else.
+- **Do not think about or plan implementation.** Don't consider how the code will work — only focus on writing good tests that describe the desired behavior.
+- **When in doubt, ask the user.** Don't assume — if you're unsure about structure, conventions, or how to test something, flag it and get direction before writing code.
+- Do not modify existing tests unless explicitly asked.
+- If the ACs are already satisfied by existing behavior, flag it to the user.
+- Follow existing project conventions (vitest, describe/it blocks, etc.).

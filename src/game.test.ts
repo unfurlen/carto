@@ -11,6 +11,7 @@ import {
 import { Move } from "./move";
 import { Player } from "./player";
 import { Tile } from "./tile";
+import { Weather } from "./weather";
 
 describe("Game", () => {
   it("defaults to a 3x3 grid", () => {
@@ -141,6 +142,13 @@ describe("Game", () => {
     let game = new Game();
     for (let i = 0; i < n; i++) game = game.applyMove(moves[i]);
     expect(game.moveCount).toBe(n);
+  });
+
+  describe("weather", () => {
+    it("defaults weather to a single Fine", () => {
+      const game = new Game();
+      expect(game.weather).toEqual([Weather.Fine]);
+    });
   });
 
   describe("won", () => {

@@ -413,4 +413,12 @@ describe("render", () => {
     btn.click();
     expect(window.location.hash).toBe("#edit=true;map=gg,gg,gg");
   });
+
+  it("renders a ☀️ weather icon at the top when weather defaults to 'f'", () => {
+    window.location.hash = "";
+    const container = render(new Game());
+    const icons = container.querySelectorAll("[data-weather-icon]");
+    expect(icons.length).toBe(1);
+    expect(icons[0].textContent).toBe("☀️");
+  });
 });

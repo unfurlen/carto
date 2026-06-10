@@ -1,6 +1,7 @@
 import { Move } from "./move";
 import { Player } from "./player";
 import { Tile } from "./tile";
+import { Weather } from "./weather";
 
 export const DEFAULT_GRID_SIZE = 3;
 
@@ -46,6 +47,7 @@ export class Game {
   readonly tiles: Tile[][];
   readonly player: Player;
   readonly moveCount: number;
+  readonly weather: Weather[] = [Weather.Fine];
 
   get rows(): number {
     return this.tiles.length;

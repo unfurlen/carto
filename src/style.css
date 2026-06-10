@@ -1,6 +1,23 @@
 body {
   background: #d4c5a9;
 }
+[data-weather] {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+[data-weather-icon] {
+  width: 32px;
+  height: 32px;
+  background: #6b5b45;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 4px #0000004d;
+}
 [data-header] {
   display: flex;
   margin-bottom: 8px;

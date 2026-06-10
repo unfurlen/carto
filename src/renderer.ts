@@ -16,6 +16,7 @@ import {
 } from "./navigate";
 import { parseParams } from "./params";
 import type { Tile } from "./tile";
+import type { Weather } from "./weather";
 
 const BIOME_EMOJI: Record<Biome["value"], string> = {
   grass: "🌱",
@@ -29,6 +30,10 @@ const BIOME_ATTR: Record<Biome["value"], string> = {
 
 const BIOME_CYCLE: Biome["value"][] = ["grass", "water"];
 
+const WEATHER_EMOJI: Record<Weather["value"], string> = {
+  fine: "☀️",
+};
+
 const BIOME_CHAR: Record<Biome["value"], string> = {
   grass: "g",
   water: "w",
@@ -40,12 +45,25 @@ export function render(game: Game): HTMLDivElement {
   const isPlaceStartMode = params.get("placeStart") === "true";
   const container = document.createElement("div");
   container.toggleAttribute("data-edit-mode", isEditMode);
+  container.appendChild(renderWeather(game));
   container.appendChild(renderHeader(game, isEditMode));
   container.appendChild(renderRemoveColRow(isEditMode));
   container.appendChild(renderGridArea(game, isEditMode, isPlaceStartMode));
   container.appendChild(renderAddRowButton(isEditMode));
   container.appendChild(renderNavRow(isEditMode));
   return container;
+}
+
+function renderWeather(game: Game): HTMLElement {
+  const row = document.createElement("div");
+  row.dataset.weather = "true";
+  for (const w of game.weather) {
+    const icon = document.createElement("span");
+    icon.dataset.weatherIcon = "true";
+    icon.textContent = WEATHER_EMOJI[w.value];
+    row.appendChild(icon);
+  }
+  return row;
 }
 
 function renderHeader(game: Game, isEditMode: boolean): HTMLElement {

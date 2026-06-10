@@ -39,3 +39,8 @@ For each AC in the task file, in order:
 ## Notes
 
 - New or renamed skills in `.opencode/skills/` require a session restart before the `skill` tool can load them. If a skill doesn't load, ask the user to restart the session.
+
+## Reference
+
+- **Architecture overview** — see `docs/architecture.md` for module descriptions,
+  data flow, URL parameter reference, and test structure.
