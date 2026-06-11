@@ -58,12 +58,16 @@ export function render(game: Game): HTMLDivElement {
 function renderWeather(game: Game): HTMLElement {
   const row = document.createElement("div");
   row.dataset.weather = "true";
-  for (const w of game.weather) {
+  game.weather.forEach((w, i) => {
     const icon = document.createElement("span");
     icon.dataset.weatherIcon = "true";
     icon.textContent = WEATHER_EMOJI[w.value];
+    icon.toggleAttribute(
+      "data-weather-current",
+      i === game.currentWeatherIndex,
+    );
     row.appendChild(icon);
-  }
+  });
   return row;
 }
 

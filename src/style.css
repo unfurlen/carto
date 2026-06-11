@@ -18,6 +18,10 @@ body {
   font-size: 18px;
   box-shadow: 0 2px 4px #0000004d;
 }
+[data-weather-current] {
+  outline: 2px solid #b8860b;
+  background: #8b7355;
+}
 [data-header] {
   display: flex;
   margin-bottom: 8px;

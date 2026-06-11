@@ -61,6 +61,10 @@ export class Game {
     return this.tiles.reduce((sum, row) => sum + row.length, 0);
   }
 
+  get currentWeatherIndex(): number {
+    return this.moveCount % this.weather.length;
+  }
+
   get won(): boolean {
     return this.tiles.every((row) =>
       row.every((tile) => !tile.biome.visitable || tile.visited),
@@ -128,6 +132,7 @@ export class Game {
       this.tiles,
       new Player(nextRow, nextCol),
       this.moveCount + 1,
+      this.weather,
     );
   }
 

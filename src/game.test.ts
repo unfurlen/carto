@@ -157,6 +157,31 @@ describe("Game", () => {
       ]);
       expect(game.weather).toEqual([Weather.Fine, Weather.Snow]);
     });
+
+    it("preserves weather after a move", () => {
+      const game = new Game([[new Tile(), new Tile()]], new Player(0, 0), 0, [
+        Weather.Fine,
+        Weather.Snow,
+      ]);
+      const moved = game.applyMove(Move.East);
+      expect(moved.weather).toEqual([Weather.Fine, Weather.Snow]);
+    });
+
+    it.each([
+      { moveCount: 0, expected: 0 },
+      { moveCount: 1, expected: 1 },
+      { moveCount: 2, expected: 0 },
+      { moveCount: 3, expected: 1 },
+    ])("returns current weather index $expected when moveCount=$moveCount", ({
+      moveCount,
+      expected,
+    }) => {
+      const game = new Game([[new Tile()]], new Player(0, 0), moveCount, [
+        Weather.Fine,
+        Weather.Snow,
+      ]);
+      expect(game.currentWeatherIndex).toBe(expected);
+    });
   });
 
   describe("won", () => {

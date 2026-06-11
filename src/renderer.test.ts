@@ -439,4 +439,15 @@ describe("render", () => {
     expect(icons[2].textContent).toBe("☀️");
     expect(icons[3].textContent).toBe("❄️");
   });
+
+  it("sets data-weather-current on the icon at currentWeatherIndex", () => {
+    const game = new Game([[new Tile()]], new Player(0, 0), 1, [
+      Weather.Fine,
+      Weather.Snow,
+    ]);
+    const container = render(game);
+    const icons = container.querySelectorAll("[data-weather-icon]");
+    expect(icons[1].hasAttribute("data-weather-current")).toBe(true);
+    expect(icons[0].hasAttribute("data-weather-current")).toBe(false);
+  });
 });
