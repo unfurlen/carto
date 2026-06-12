@@ -137,6 +137,12 @@ body:has([data-edit-mode]) {
 [data-won] {
   box-shadow: 0 0 20px #ffd700;
 }
+[data-lost] {
+  box-shadow: 0 0 20px #cc0000;
+}
+[data-lost] [data-player] {
+  outline-color: rgba(204, 0, 0, 0.6);
+}
 #app {
   display: flex;
   justify-content: center;

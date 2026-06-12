@@ -117,6 +117,7 @@ function renderGridArea(
   const el = document.createElement("div");
   el.dataset.grid = "true";
   el.toggleAttribute("data-won", game.won);
+  el.toggleAttribute("data-lost", game.lost);
   el.style.gridTemplateColumns = `repeat(${game.columns}, 1fr)`;
   for (const [r, row] of game.tiles.entries()) {
     for (const [c, tile] of row.entries()) {
@@ -186,8 +187,8 @@ function handleTileClick(
 ): void {
   if (isEditMode) {
     handleEditTileClick(tile, r, c, game, isPlaceStartMode);
-  } else {
-    handlePlayTileClick(tile, r, c, game);
+  } else if (!game.lost) {
+    handlePlayTileClick(r, c, game);
   }
 }
 
@@ -220,13 +221,7 @@ function handleEditTileClick(
   );
 }
 
-function handlePlayTileClick(
-  tile: Tile,
-  r: number,
-  c: number,
-  game: Game,
-): void {
-  if (!tile.biome.visitable) return;
+function handlePlayTileClick(r: number, c: number, game: Game): void {
   const dr = r - game.player.row;
   const dc = c - game.player.col;
   if (dr === -1 && dc === 0) {

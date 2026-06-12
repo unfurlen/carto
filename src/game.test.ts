@@ -4,7 +4,7 @@ import {
   DEFAULT_GRID_SIZE,
   EmptyMapError,
   Game,
-  PlayerOnUnvisitableTileError,
+  MovingWhenLostError,
   PlayerOutOfBoundsError,
   UnevenRowsError,
 } from "./game";
@@ -106,17 +106,12 @@ describe("Game", () => {
     );
   });
 
-  it("throws when the player starts on a water tile", () => {
-    const tiles = [[new Tile(Biome.Water)]];
-    expect(() => new Game(tiles)).toThrow(PlayerOnUnvisitableTileError);
-  });
-
-  it("throws when a move lands on a water tile", () => {
+  it("applies a move onto a water tile", () => {
     const tiles = [[new Tile(Biome.Grass), new Tile(Biome.Water)]];
     const game = new Game(tiles, new Player(0, 0));
-    expect(() => game.applyMove(Move.East)).toThrow(
-      PlayerOnUnvisitableTileError,
-    );
+    const moved = game.applyMove(Move.East);
+    expect(moved.player.row).toBe(0);
+    expect(moved.player.col).toBe(1);
   });
 
   describe("visited", () => {
@@ -209,6 +204,25 @@ describe("Game", () => {
       let game = new Game(tiles);
       game = game.applyMove(Move.South);
       expect(game.won).toBe(true);
+    });
+  });
+
+  describe("lost", () => {
+    it("returns false when player is on grass", () => {
+      const game = new Game();
+      expect(game.lost).toBe(false);
+    });
+
+    it("returns true when player moves to water", () => {
+      const tiles = [[new Tile(Biome.Grass), new Tile(Biome.Water)]];
+      const game = new Game(tiles, new Player(0, 0));
+      const moved = game.applyMove(Move.East);
+      expect(moved.lost).toBe(true);
+    });
+
+    it("throws when applying a move while lost", () => {
+      const game = new Game([[new Tile(Biome.Water), new Tile(Biome.Grass)]]);
+      expect(() => game.applyMove(Move.East)).toThrow(MovingWhenLostError);
     });
   });
 });

@@ -148,12 +148,12 @@ describe("render", () => {
     expect(el.textContent).toContain("👣 1");
   });
 
-  it("does not change the URL when clicking an adjacent water tile", () => {
-    window.location.hash = "#hello";
+  it("appends a move when clicking an adjacent water tile", () => {
+    window.location.hash = "#start=0,0";
     const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Water)]]);
     const el = render(game);
     tileAt(el, 0, 1).click();
-    expect(window.location.hash).toBe("#hello");
+    expect(window.location.hash).toBe("#start=0,0;moves=e");
   });
 
   it("sets data-won on the grid when all visitable tiles are visited", () => {
@@ -168,6 +168,28 @@ describe("render", () => {
     const container = render(game);
     const grid = container.querySelector("[data-grid]") as HTMLElement;
     expect(grid.dataset.won).toBeUndefined();
+  });
+
+  it("sets data-lost on the grid when player is on water", () => {
+    const game = new Game([[new Tile(Biome.Water)]]);
+    const container = render(game);
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
+    expect(grid.hasAttribute("data-lost")).toBe(true);
+  });
+
+  it("does not set data-lost when player is on grass", () => {
+    const game = new Game([[new Tile(Biome.Grass)]]);
+    const container = render(game);
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
+    expect(grid.dataset.lost).toBeUndefined();
+  });
+
+  it("does not change the URL when clicking a tile while lost", () => {
+    window.location.hash = "#start=0,0";
+    const game = new Game([[new Tile(Biome.Water), new Tile(Biome.Grass)]]);
+    const container = render(game);
+    tileAt(container, 0, 1).click();
+    expect(window.location.hash).toBe("#start=0,0");
   });
 
   it("sets edit=true in URL when edit toggle is clicked", () => {

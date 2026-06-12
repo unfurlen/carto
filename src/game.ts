@@ -17,6 +17,12 @@ export class UnevenRowsError extends Error {
   }
 }
 
+export class MovingWhenLostError extends Error {
+  constructor() {
+    super("Failed to apply move: game is lost");
+  }
+}
+
 export class PlayerOutOfBoundsError extends Error {
   readonly row: number;
   readonly col: number;
@@ -24,19 +30,6 @@ export class PlayerOutOfBoundsError extends Error {
   constructor(row: number, col: number) {
     super(
       `Failed to construct game: player starting position (${row}, ${col}) is out of bounds`,
-    );
-    this.row = row;
-    this.col = col;
-  }
-}
-
-export class PlayerOnUnvisitableTileError extends Error {
-  readonly row: number;
-  readonly col: number;
-
-  constructor(row: number, col: number) {
-    super(
-      `Failed to construct game: player is on an unvisitable tile at (${row}, ${col})`,
     );
     this.row = row;
     this.col = col;
@@ -69,6 +62,10 @@ export class Game {
     return this.tiles.every((row) =>
       row.every((tile) => !tile.biome.visitable || tile.visited),
     );
+  }
+
+  get lost(): boolean {
+    return !this.tiles[this.player.row][this.player.col].biome.visitable;
   }
 
   constructor(
@@ -104,13 +101,11 @@ export class Game {
       throw new PlayerOutOfBoundsError(this.player.row, this.player.col);
     }
     const playerTile = this.tiles[this.player.row][this.player.col];
-    if (!playerTile.biome.visitable) {
-      throw new PlayerOnUnvisitableTileError(this.player.row, this.player.col);
-    }
     playerTile.visited = true;
   }
 
   applyMove(move: Move): Game {
+    if (this.lost) throw new MovingWhenLostError();
     const { row, col } = this.player;
     let nextRow = row;
     let nextCol = col;
