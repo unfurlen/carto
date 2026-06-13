@@ -200,6 +200,14 @@ describe("render", () => {
     expect(tileAt(container, 0, 0).hasAttribute("data-frozen")).toBe(false);
   });
 
+  it("renders a water tile with 🧊 during snow weather", () => {
+    const game = new Game([[new Tile(Biome.Water)]], new Player(0, 0), 0, [
+      Weather.Snow,
+    ]);
+    const container = render(game);
+    expect(tileAt(container, 0, 0).textContent).toBe("🧊");
+  });
+
   it("does not change the URL when clicking a tile while lost", () => {
     window.location.hash = "#start=0,0";
     const game = new Game([[new Tile(Biome.Water), new Tile(Biome.Grass)]]);

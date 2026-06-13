@@ -21,9 +21,12 @@ import { parseParams } from "./params";
 import type { Tile } from "./tile";
 import type { Weather } from "./weather";
 
-const BIOME_EMOJI: Record<Biome["value"], string> = {
+const BIOME_EMOJI: Record<
+  Biome["value"],
+  string | Record<Weather["value"], string>
+> = {
   grass: "🌱",
-  water: "🌊",
+  water: { fine: "🌊", snow: "🧊" },
 };
 
 const BIOME_ATTR: Record<Biome["value"], string> = {
@@ -216,7 +219,11 @@ function renderTile(
     const currentWeather = game.weather[game.currentWeatherIndex].value;
     tileEl.toggleAttribute("data-frozen", currentWeather === "snow");
   }
-  tileEl.textContent = BIOME_EMOJI[tile.biome.value];
+  const emoji = BIOME_EMOJI[tile.biome.value];
+  tileEl.textContent =
+    typeof emoji === "string"
+      ? emoji
+      : emoji[game.weather[game.currentWeatherIndex].value];
   tileEl.addEventListener("click", () => {
     handleTileClick(tile, r, c, game, isEditMode, isPlaceStartMode);
   });
