@@ -4,7 +4,7 @@ body {
 [data-weather] {
   display: flex;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
   margin-bottom: 8px;
 }
 [data-weather-icon] {
@@ -36,8 +36,10 @@ body {
 [data-reset],
 [data-add-row],
 [data-add-column],
+[data-add-weather],
 [data-remove-row],
-[data-remove-column] {
+[data-remove-column],
+[data-remove-weather] {
   cursor: pointer;
   user-select: none;
   filter: drop-shadow(2px 2px 4px #00000080);

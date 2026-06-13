@@ -2,12 +2,14 @@ import { describe, expect, it } from "vitest";
 import {
   addColumn,
   addRow,
+  addWeather,
   appendMove,
   back,
   clearMoves,
   forward,
   removeColumn,
   removeRow,
+  removeWeather,
   replaceStart,
   replaceTile,
   setPlaceStart,
@@ -289,5 +291,37 @@ describe("removeColumn", () => {
 
   it("is a no-op when the map has only 1 column", () => {
     expect(removeColumn("#edit=true;map=g,g,g")).toBe("#edit=true;map=g,g,g");
+  });
+});
+
+describe("addWeather", () => {
+  it("appends f to an empty weather param", () => {
+    expect(addWeather("#edit=true")).toBe("#edit=true;weather=f");
+  });
+
+  it("appends f to an existing weather param", () => {
+    expect(addWeather("#edit=true;weather=fs")).toBe("#edit=true;weather=fsf");
+  });
+
+  it("preserves other params when appending weather", () => {
+    expect(addWeather("#edit=true;map=ggg,ggg,ggg;weather=ff")).toBe(
+      "#edit=true;map=ggg,ggg,ggg;weather=fff",
+    );
+  });
+});
+
+describe("removeWeather", () => {
+  it("removes the last character from the weather param", () => {
+    expect(removeWeather("#edit=true;weather=fsf")).toBe(
+      "#edit=true;weather=fs",
+    );
+  });
+
+  it("is a no-op when weather has exactly one character", () => {
+    expect(removeWeather("#edit=true;weather=f")).toBe("#edit=true;weather=f");
+  });
+
+  it("is a no-op when no weather param exists", () => {
+    expect(removeWeather("#edit=true")).toBe("#edit=true");
   });
 });

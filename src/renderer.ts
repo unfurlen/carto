@@ -3,12 +3,14 @@ import type { Game } from "./game";
 import {
   addColumn,
   addRow,
+  addWeather,
   appendMove,
   back,
   clearMoves,
   forward,
   removeColumn,
   removeRow,
+  removeWeather,
   replaceStart,
   replaceTile,
   setPlaceStart,
@@ -46,7 +48,7 @@ export function render(game: Game): HTMLDivElement {
   const isPlaceStartMode = params.get("placeStart") === "true";
   const container = document.createElement("div");
   container.toggleAttribute("data-edit-mode", isEditMode);
-  container.appendChild(renderWeather(game));
+  container.appendChild(renderWeather(game, isEditMode));
   container.appendChild(renderHeader(game, isEditMode));
   container.appendChild(renderRemoveColRow(isEditMode));
   container.appendChild(renderGridArea(game, isEditMode, isPlaceStartMode));
@@ -55,9 +57,17 @@ export function render(game: Game): HTMLDivElement {
   return container;
 }
 
-function renderWeather(game: Game): HTMLElement {
+function renderWeather(game: Game, isEditMode: boolean): HTMLElement {
   const row = document.createElement("div");
   row.dataset.weather = "true";
+  const removeBtn = document.createElement("div");
+  removeBtn.textContent = "➖";
+  removeBtn.dataset.removeWeather = "true";
+  removeBtn.style.display = isEditMode ? "" : "none";
+  removeBtn.addEventListener("click", () => {
+    window.location.hash = removeWeather(window.location.hash);
+  });
+  row.appendChild(removeBtn);
   game.weather.forEach((w, i) => {
     const icon = document.createElement("span");
     icon.dataset.weatherIcon = "true";
@@ -68,6 +78,14 @@ function renderWeather(game: Game): HTMLElement {
     );
     row.appendChild(icon);
   });
+  const addBtn = document.createElement("div");
+  addBtn.textContent = "➕";
+  addBtn.dataset.addWeather = "true";
+  addBtn.style.display = isEditMode ? "" : "none";
+  addBtn.addEventListener("click", () => {
+    window.location.hash = addWeather(window.location.hash);
+  });
+  row.appendChild(addBtn);
   return row;
 }
 

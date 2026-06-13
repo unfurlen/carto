@@ -488,4 +488,48 @@ describe("render", () => {
     expect(icons[1].hasAttribute("data-weather-current")).toBe(true);
     expect(icons[0].hasAttribute("data-weather-current")).toBe(false);
   });
+
+  it("shows an add-weather button in edit mode", () => {
+    window.location.hash = "#edit=true";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-weather]") as HTMLElement;
+    expect(btn).toBeTruthy();
+    expect(btn.style.display).not.toBe("none");
+  });
+
+  it("hides the add-weather button in play mode", () => {
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-weather]") as HTMLElement;
+    expect(btn.style.display).toBe("none");
+  });
+
+  it("appends f to weather when the add-weather button is clicked in edit mode", () => {
+    window.location.hash = "#edit=true;weather=fs";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-add-weather]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toBe("#edit=true;weather=fsf");
+  });
+
+  it("shows a remove-weather button in edit mode", () => {
+    window.location.hash = "#edit=true";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-remove-weather]") as HTMLElement;
+    expect(btn).toBeTruthy();
+    expect(btn.style.display).not.toBe("none");
+  });
+
+  it("hides the remove-weather button in play mode", () => {
+    const container = render(new Game());
+    const btn = container.querySelector("[data-remove-weather]") as HTMLElement;
+    expect(btn.style.display).toBe("none");
+  });
+
+  it("removes the last weather icon when the remove-weather button is clicked", () => {
+    window.location.hash = "#edit=true;weather=fsf";
+    const container = render(new Game());
+    const btn = container.querySelector("[data-remove-weather]") as HTMLElement;
+    btn.click();
+    expect(window.location.hash).toBe("#edit=true;weather=fs");
+  });
 });

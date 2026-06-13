@@ -119,6 +119,22 @@ export function removeColumn(hash: string): string {
   return hashOf(params);
 }
 
+export function addWeather(hash: string): string {
+  const params = parseParams(hash);
+  const existing = params.get("weather") ?? "";
+  params.set("weather", `${existing}f`);
+  return hashOf(params);
+}
+
+export function removeWeather(hash: string): string {
+  const params = parseParams(hash);
+  const existing = params.get("weather");
+  if (existing === undefined) return hash;
+  if (existing.length <= 1) return hash;
+  params.set("weather", existing.slice(0, -1));
+  return hashOf(params);
+}
+
 function hashOf(params: Map<string, string>): string {
   const entries = Array.from(params.entries())
     .map(([k, v]) => `${k}=${v}`)
