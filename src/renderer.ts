@@ -170,6 +170,10 @@ function renderTile(
     isPlaceStartMode && r === game.player.row && c === game.player.col,
   );
   tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
+  if (tile.biome.value === "water") {
+    const currentWeather = game.weather[game.currentWeatherIndex].value;
+    tileEl.toggleAttribute("data-frozen", currentWeather === "snow");
+  }
   tileEl.textContent = BIOME_EMOJI[tile.biome.value];
   tileEl.addEventListener("click", () => {
     handleTileClick(tile, r, c, game, isEditMode, isPlaceStartMode);
@@ -200,7 +204,7 @@ function handleEditTileClick(
   isPlaceStartMode: boolean,
 ): void {
   if (isPlaceStartMode) {
-    if (tile.biome.visitable) {
+    if (tile.biome.mappable) {
       window.location.hash = replaceStart(window.location.hash, r, c);
     }
     return;

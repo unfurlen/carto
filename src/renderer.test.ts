@@ -156,14 +156,14 @@ describe("render", () => {
     expect(window.location.hash).toBe("#start=0,0;moves=e");
   });
 
-  it("sets data-won on the grid when all visitable tiles are visited", () => {
+  it("sets data-won on the grid when all mappable tiles are visited", () => {
     const game = new Game([[new Tile(Biome.Grass)]]);
     const container = render(game);
     const grid = container.querySelector("[data-grid]") as HTMLElement;
     expect(grid.hasAttribute("data-won")).toBe(true);
   });
 
-  it("does not set data-won when not all visitable tiles are visited", () => {
+  it("does not set data-won when not all mappable tiles are visited", () => {
     const game = new Game([[new Tile(Biome.Grass), new Tile(Biome.Grass)]]);
     const container = render(game);
     const grid = container.querySelector("[data-grid]") as HTMLElement;
@@ -182,6 +182,22 @@ describe("render", () => {
     const container = render(game);
     const grid = container.querySelector("[data-grid]") as HTMLElement;
     expect(grid.dataset.lost).toBeUndefined();
+  });
+
+  it("sets data-frozen on a water tile during snow weather", () => {
+    const game = new Game([[new Tile(Biome.Water)]], new Player(0, 0), 0, [
+      Weather.Snow,
+    ]);
+    const container = render(game);
+    expect(tileAt(container, 0, 0).hasAttribute("data-frozen")).toBe(true);
+  });
+
+  it("does not set data-frozen on a water tile during fine weather", () => {
+    const game = new Game([[new Tile(Biome.Water)]], new Player(0, 0), 0, [
+      Weather.Fine,
+    ]);
+    const container = render(game);
+    expect(tileAt(container, 0, 0).hasAttribute("data-frozen")).toBe(false);
   });
 
   it("does not change the URL when clicking a tile while lost", () => {
@@ -239,7 +255,7 @@ describe("render", () => {
     expect(window.location.hash).toContain("placeStart=true");
   });
 
-  it("sets start position and exits place-start mode when clicking a visitable tile", () => {
+  it("sets start position and exits place-start mode when clicking a mappable tile", () => {
     window.location.hash = "#edit=true;placeStart=true;map=gg,gg";
     const game = new Game([[new Tile(), new Tile()]]);
     const container = render(game);

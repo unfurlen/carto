@@ -39,6 +39,8 @@ For each AC in the task file, in order:
 ## Notes
 
 - New or renamed skills in `.opencode/skills/` require a session restart before the `skill` tool can load them. If a skill doesn't load, ask the user to restart the session.
+- Prefer the linter's auto-fix (`lint:write`) over manual formatting edits. When Biome reports a formatting issue, run the fix command rather than editing by hand.
+- Prefer `npm run <script>` over `npx` for project commands (test, lint, coverage, typecheck, etc.) — avoids unnecessary downloads and reduces security surface.
 
 ## Reference
 

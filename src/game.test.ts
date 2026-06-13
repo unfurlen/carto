@@ -220,6 +220,13 @@ describe("Game", () => {
       expect(moved.lost).toBe(true);
     });
 
+    it("returns false when player is on water during snow weather", () => {
+      const game = new Game([[new Tile(Biome.Water)]], new Player(0, 0), 0, [
+        Weather.Snow,
+      ]);
+      expect(game.lost).toBe(false);
+    });
+
     it("throws when applying a move while lost", () => {
       const game = new Game([[new Tile(Biome.Water), new Tile(Biome.Grass)]]);
       expect(() => game.applyMove(Move.East)).toThrow(MovingWhenLostError);

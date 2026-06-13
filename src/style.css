@@ -134,6 +134,9 @@ body:has([data-edit-mode]) {
   filter: none;
   background-color: #4a7ab5;
 }
+[data-biome="water"][data-frozen] {
+  background-color: #8fcae8;
+}
 [data-won] {
   box-shadow: 0 0 20px #ffd700;
 }

@@ -60,12 +60,14 @@ export class Game {
 
   get won(): boolean {
     return this.tiles.every((row) =>
-      row.every((tile) => !tile.biome.visitable || tile.visited),
+      row.every((tile) => !tile.biome.mappable || tile.visited),
     );
   }
 
   get lost(): boolean {
-    return !this.tiles[this.player.row][this.player.col].biome.visitable;
+    const biome = this.tiles[this.player.row][this.player.col].biome;
+    const weatherKey = this.weather[this.currentWeatherIndex].value;
+    return !biome[weatherKey].safe;
   }
 
   constructor(
