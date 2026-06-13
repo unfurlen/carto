@@ -13,6 +13,7 @@ import {
   removeWeather,
   replaceStart,
   replaceTile,
+  replaceWeather,
   setPlaceStart,
   toggleEdit,
 } from "./navigate";
@@ -32,14 +33,21 @@ const BIOME_ATTR: Record<Biome["value"], string> = {
 
 const BIOME_CYCLE: Biome["value"][] = ["grass", "water"];
 
+const BIOME_CHAR: Record<Biome["value"], string> = {
+  grass: "g",
+  water: "w",
+};
+
 const WEATHER_EMOJI: Record<Weather["value"], string> = {
   fine: "☀️",
   snow: "❄️",
 };
 
-const BIOME_CHAR: Record<Biome["value"], string> = {
-  grass: "g",
-  water: "w",
+const WEATHER_CYCLE: Weather["value"][] = ["fine", "snow"];
+
+const WEATHER_CHAR: Record<Weather["value"], string> = {
+  fine: "f",
+  snow: "s",
 };
 
 export function render(game: Game): HTMLDivElement {
@@ -79,6 +87,19 @@ function renderWeather(game: Game, isEditMode: boolean): HTMLElement {
       "data-weather-current",
       i === game.currentWeatherIndex,
     );
+    if (isEditMode) {
+      icon.addEventListener("click", () => {
+        const nextValue =
+          WEATHER_CYCLE[
+            (WEATHER_CYCLE.indexOf(w.value) + 1) % WEATHER_CYCLE.length
+          ];
+        window.location.hash = replaceWeather(
+          window.location.hash,
+          i,
+          WEATHER_CHAR[nextValue],
+        );
+      });
+    }
     row.appendChild(icon);
   });
   const addBtn = document.createElement("div");

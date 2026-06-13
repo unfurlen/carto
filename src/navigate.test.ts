@@ -12,6 +12,7 @@ import {
   removeWeather,
   replaceStart,
   replaceTile,
+  replaceWeather,
   setPlaceStart,
   toggleEdit,
 } from "./navigate";
@@ -323,5 +324,31 @@ describe("removeWeather", () => {
 
   it("is a no-op when no weather param exists", () => {
     expect(removeWeather("#edit=true")).toBe("#edit=true");
+  });
+});
+
+describe("replaceWeather", () => {
+  it.each([
+    { index: 0, char: "s", input: "fs", expected: "ss" },
+    { index: 1, char: "f", input: "fsf", expected: "fff" },
+  ])("replaces weather at index $index with $char", ({
+    index,
+    char,
+    input,
+    expected,
+  }) => {
+    expect(replaceWeather(`#weather=${input}`, index, char)).toBe(
+      `#weather=${expected}`,
+    );
+  });
+
+  it("preserves other params when replacing weather", () => {
+    expect(
+      replaceWeather("#edit=true;weather=fs;map=ggg,ggg,ggg", 1, "f"),
+    ).toBe("#edit=true;weather=ff;map=ggg,ggg,ggg");
+  });
+
+  it("defaults weather to f when no weather param exists", () => {
+    expect(replaceWeather("#edit=true", 0, "s")).toBe("#edit=true;weather=s");
   });
 });

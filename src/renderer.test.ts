@@ -532,4 +532,16 @@ describe("render", () => {
     btn.click();
     expect(window.location.hash).toBe("#edit=true;weather=fs");
   });
+
+  it("cycles the weather icon when clicked in edit mode", () => {
+    window.location.hash = "#edit=true;weather=fs";
+    const game = new Game([[new Tile()]], new Player(0, 0), 0, [
+      Weather.Fine,
+      Weather.Snow,
+    ]);
+    const container = render(game);
+    const icons = container.querySelectorAll("[data-weather-icon]");
+    (icons[0] as HTMLElement).click();
+    expect(window.location.hash).toContain("weather=ss");
+  });
 });
