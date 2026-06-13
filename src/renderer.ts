@@ -46,15 +46,18 @@ export function render(game: Game): HTMLDivElement {
   const params = parseParams(window.location.hash);
   const isEditMode = params.get("edit") === "true";
   const isPlaceStartMode = params.get("placeStart") === "true";
+  const outer = document.createElement("div");
+  outer.dataset.game = "true";
+  outer.toggleAttribute("data-edit-mode", isEditMode);
+  outer.appendChild(renderWeather(game, isEditMode));
   const container = document.createElement("div");
-  container.toggleAttribute("data-edit-mode", isEditMode);
-  container.appendChild(renderWeather(game, isEditMode));
   container.appendChild(renderHeader(game, isEditMode));
   container.appendChild(renderRemoveColRow(isEditMode));
   container.appendChild(renderGridArea(game, isEditMode, isPlaceStartMode));
   container.appendChild(renderAddRowButton(isEditMode));
   container.appendChild(renderNavRow(isEditMode));
-  return container;
+  outer.appendChild(container);
+  return outer;
 }
 
 function renderWeather(game: Game, isEditMode: boolean): HTMLElement {

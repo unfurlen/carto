@@ -1,6 +1,11 @@
 body {
   background: #d4c5a9;
 }
+[data-game] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 [data-weather] {
   display: flex;
   justify-content: center;
