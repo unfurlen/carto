@@ -208,6 +208,12 @@ describe("render", () => {
     expect(tileAt(container, 0, 0).textContent).toBe("🧊");
   });
 
+  it("sets data-biome=marsh on a marsh tile", () => {
+    const game = new Game([[new Tile(Biome.Marsh)]]);
+    const container = render(game);
+    expect(tileAt(container, 0, 0).dataset.biome).toBe("marsh");
+  });
+
   it("does not change the URL when clicking a tile while lost", () => {
     window.location.hash = "#start=0,0";
     const game = new Game([[new Tile(Biome.Water), new Tile(Biome.Grass)]]);

@@ -146,6 +146,13 @@ describe("Game", () => {
     expect(moved.moveCount).toBe(2);
   });
 
+  it("increases moveCount by 1 when moving onto a marsh tile during snow weather", () => {
+    const tiles = [[new Tile(Biome.Grass), new Tile(Biome.Marsh)]];
+    const game = new Game(tiles, new Player(0, 0), 0, [Weather.Snow]);
+    const moved = game.applyMove(Move.East);
+    expect(moved.moveCount).toBe(1);
+  });
+
   describe("weather", () => {
     it("defaults weather to a single Fine", () => {
       const game = new Game();
