@@ -27,7 +27,7 @@ const BIOME_EMOJI: Record<
 > = {
   grass: "🌱",
   water: { fine: "🌊", snow: "🧊" },
-  marsh: { fine: "🟦", snow: "🧊" },
+  marsh: { fine: "🌿", snow: "🧊" },
 };
 
 const BIOME_ATTR: Record<Biome["value"], string> = {
@@ -218,7 +218,7 @@ function renderTile(
     isPlaceStartMode && r === game.player.row && c === game.player.col,
   );
   tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
-  if (tile.biome.value === "water") {
+  if (tile.biome.value === "water" || tile.biome.value === "marsh") {
     const currentWeather = game.weather[game.currentWeatherIndex].value;
     tileEl.toggleAttribute("data-frozen", currentWeather === "snow");
   }
