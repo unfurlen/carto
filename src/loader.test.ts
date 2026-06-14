@@ -60,6 +60,11 @@ describe("Loader", () => {
     expect(game.tiles[0][1].biome).toBe(Biome.Water);
   });
 
+  it("loads a map containing a marsh tile", () => {
+    const game = load("#map=gm;start=0,0");
+    expect(game.tiles[0][1].biome).toBe(Biome.Marsh);
+  });
+
   it("throws InvalidMapCharacterError for unknown characters", () => {
     expect(() => load("#map=gx")).toThrow(InvalidMapCharacterError);
   });

@@ -27,11 +27,13 @@ const BIOME_EMOJI: Record<
 > = {
   grass: "🌱",
   water: { fine: "🌊", snow: "🧊" },
+  marsh: { fine: "🟦", snow: "🧊" },
 };
 
 const BIOME_ATTR: Record<Biome["value"], string> = {
   grass: "grass",
   water: "water",
+  marsh: "marsh",
 };
 
 const BIOME_CYCLE: Biome["value"][] = ["grass", "water"];
@@ -39,6 +41,7 @@ const BIOME_CYCLE: Biome["value"][] = ["grass", "water"];
 const BIOME_CHAR: Record<Biome["value"], string> = {
   grass: "g",
   water: "w",
+  marsh: "m",
 };
 
 const WEATHER_EMOJI: Record<Weather["value"], string> = {

@@ -125,10 +125,14 @@ export class Game {
         nextCol--;
         break;
     }
+    const cost =
+      this.tiles[nextRow][nextCol].biome[
+        this.weather[this.currentWeatherIndex].value
+      ].cost;
     return new Game(
       this.tiles,
       new Player(nextRow, nextCol),
-      this.moveCount + 1,
+      this.moveCount + cost,
       this.weather,
     );
   }

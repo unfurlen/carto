@@ -51,6 +51,7 @@ export class InvalidWeatherCharacterError extends Error {
 const BIOME_MAP: Record<string, Biome> = {
   g: Biome.Grass,
   w: Biome.Water,
+  m: Biome.Marsh,
 };
 
 const WEATHER_MAP: Record<string, Weather> = {
