@@ -210,6 +210,11 @@ describe("Game", () => {
       expect(game.won).toBe(true);
     });
 
+    it("returns true when a single marsh tile is visited", () => {
+      const game = new Game([[new Tile(Biome.Marsh)]]);
+      expect(game.won).toBe(true);
+    });
+
     it("returns true after visiting all grass tiles in a grid with water", () => {
       const tiles = [
         [new Tile(Biome.Grass), new Tile(Biome.Water)],
@@ -224,6 +229,11 @@ describe("Game", () => {
   describe("lost", () => {
     it("returns false when player is on grass", () => {
       const game = new Game();
+      expect(game.lost).toBe(false);
+    });
+
+    it("returns false when player is on marsh", () => {
+      const game = new Game([[new Tile(Biome.Marsh)]], new Player(0, 0));
       expect(game.lost).toBe(false);
     });
 
