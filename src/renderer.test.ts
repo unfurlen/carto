@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { Biome } from "./biome";
 import { Game } from "./game";
+import { load } from "./loader";
 import { Move } from "./move";
 import { Player } from "./player";
 import { render } from "./renderer";
@@ -264,14 +265,20 @@ describe("render", () => {
     expect(container.hasAttribute("data-edit-mode")).toBe(false);
   });
 
-  it("cycles biome when clicking a tile in edit mode", () => {
-    window.location.hash = "#map=gg;edit=true";
-    const container = render(new Game([[new Tile(), new Tile()]]));
-    const tile = container.querySelector(
-      "[data-row='0'][data-col='1']",
-    ) as HTMLElement;
+  it.each([
+    { map: "gg", expected: "gw" },
+    { map: "gw", expected: "gm" },
+    { map: "gm", expected: "gg" },
+  ])("cycles biome from $map to $expected in edit mode", ({
+    map,
+    expected,
+  }) => {
+    window.location.hash = `#map=${map};edit=true`;
+    const container = render(load(`#map=${map};start=0,0`));
+    const grid = container.querySelector("[data-grid]") as HTMLElement;
+    const tile = tileAt(grid, 0, 1);
     tile.click();
-    expect(window.location.hash).toContain("map=gw");
+    expect(window.location.hash).toContain(`map=${expected}`);
   });
 
   it("adds placeStart=true when clicking the player tile in edit mode", () => {

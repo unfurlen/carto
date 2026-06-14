@@ -36,7 +36,7 @@ const BIOME_ATTR: Record<Biome["value"], string> = {
   marsh: "marsh",
 };
 
-const BIOME_CYCLE: Biome["value"][] = ["grass", "water"];
+const BIOME_CYCLE: Biome["value"][] = ["grass", "water", "marsh"];
 
 const BIOME_CHAR: Record<Biome["value"], string> = {
   grass: "g",
