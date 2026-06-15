@@ -10,7 +10,7 @@ description: Write tests before implementation (TDD red phase)
 
 - Read one AC from the task file
 - Write test code that satisfies that AC
-- Confirm the new test(s) fail as expected
+- Confirm the new test(s) fail as expected by running `npm run check` (coverage + lint + typecheck)
 - Follow best unit test patterns:
   - One assertion concern per test
   - Tests are independent of each other

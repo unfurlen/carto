@@ -26,8 +26,8 @@ const BIOME_EMOJI: Record<
   string | Record<Weather["value"], string>
 > = {
   grass: "🌱",
-  water: { fine: "🌊", snow: "🧊" },
-  marsh: { fine: "🌿", snow: "🧊" },
+  water: { fine: "🌊", snow: "🧊", rain: "🌊" },
+  marsh: { fine: "🌿", snow: "🧊", rain: "🌿" },
 };
 
 const BIOME_ATTR: Record<Biome["value"], string> = {
@@ -47,13 +47,15 @@ const BIOME_CHAR: Record<Biome["value"], string> = {
 const WEATHER_EMOJI: Record<Weather["value"], string> = {
   fine: "☀️",
   snow: "❄️",
+  rain: "🌧️",
 };
 
-const WEATHER_CYCLE: Weather["value"][] = ["fine", "snow"];
+const WEATHER_CYCLE: Weather["value"][] = ["fine", "snow", "rain"];
 
 const WEATHER_CHAR: Record<Weather["value"], string> = {
   fine: "f",
   snow: "s",
+  rain: "r",
 };
 
 export function render(game: Game): HTMLDivElement {

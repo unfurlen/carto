@@ -496,21 +496,19 @@ describe("render", () => {
     expect(icons[0].textContent).toBe("☀️");
   });
 
-  it("renders ☀️ and ❄️ icons in sequence for a multi-character weather pattern", () => {
+  it("renders ☀️, ❄️, and 🌧️ icons in sequence for a multi-character weather pattern", () => {
     window.location.hash = "";
     const game = new Game([[new Tile()]], new Player(0, 0), 0, [
       Weather.Fine,
       Weather.Snow,
-      Weather.Fine,
-      Weather.Snow,
+      Weather.Rain,
     ]);
     const container = render(game);
     const icons = container.querySelectorAll("[data-weather-icon]");
-    expect(icons.length).toBe(4);
+    expect(icons.length).toBe(3);
     expect(icons[0].textContent).toBe("☀️");
     expect(icons[1].textContent).toBe("❄️");
-    expect(icons[2].textContent).toBe("☀️");
-    expect(icons[3].textContent).toBe("❄️");
+    expect(icons[2].textContent).toBe("🌧️");
   });
 
   it("sets data-weather-current on the icon at currentWeatherIndex", () => {
@@ -568,15 +566,20 @@ describe("render", () => {
     expect(window.location.hash).toBe("#edit=true;weather=fs");
   });
 
-  it("cycles the weather icon when clicked in edit mode", () => {
-    window.location.hash = "#edit=true;weather=fs";
-    const game = new Game([[new Tile()]], new Player(0, 0), 0, [
-      Weather.Fine,
-      Weather.Snow,
-    ]);
+  it.each([
+    { weather: "fs", clickIndex: 0, expected: "ss" },
+    { weather: "fs", clickIndex: 1, expected: "fr" },
+    { weather: "fr", clickIndex: 1, expected: "ff" },
+  ])("cycles $expected from $weather weather icon at index $clickIndex", ({
+    weather,
+    clickIndex,
+    expected,
+  }) => {
+    window.location.hash = `#edit=true;weather=${weather}`;
+    const game = load(window.location.hash);
     const container = render(game);
     const icons = container.querySelectorAll("[data-weather-icon]");
-    (icons[0] as HTMLElement).click();
-    expect(window.location.hash).toContain("weather=ss");
+    (icons[clickIndex] as HTMLElement).click();
+    expect(window.location.hash).toContain(`weather=${expected}`);
   });
 });

@@ -36,8 +36,8 @@ describe("Loader", () => {
   });
 
   it("loads a weather string from the URL", () => {
-    const game = load("#weather=ffs");
-    expect(game.weather).toEqual([Weather.Fine, Weather.Fine, Weather.Snow]);
+    const game = load("#weather=fsr");
+    expect(game.weather).toEqual([Weather.Fine, Weather.Snow, Weather.Rain]);
   });
 
   it("throws InvalidWeatherCharacterError for unknown weather characters", () => {

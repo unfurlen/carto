@@ -57,6 +57,7 @@ const BIOME_MAP: Record<string, Biome> = {
 const WEATHER_MAP: Record<string, Weather> = {
   f: Weather.Fine,
   s: Weather.Snow,
+  r: Weather.Rain,
 };
 
 const MOVE_MAP: Record<string, Move> = {
