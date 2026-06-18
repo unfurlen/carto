@@ -229,6 +229,33 @@ describe("render", () => {
     expect(tileAt(container, 0, 0).hasAttribute("data-frozen")).toBe(true);
   });
 
+  it("renders a flooded marsh tile with 🌊", () => {
+    const tiles = [
+      [new Tile(Biome.Grass), new Tile(Biome.Marsh), new Tile(Biome.Water)],
+    ];
+    const game = new Game(tiles, new Player(0, 0), 0, [Weather.Rain]);
+    const container = render(game);
+    expect(tileAt(container, 0, 1).textContent).toBe("🌊");
+  });
+
+  it("sets data-flooded on a flooded marsh tile", () => {
+    const tiles = [
+      [new Tile(Biome.Grass), new Tile(Biome.Marsh), new Tile(Biome.Water)],
+    ];
+    const game = new Game(tiles, new Player(0, 0), 0, [Weather.Rain]);
+    const container = render(game);
+    expect(tileAt(container, 0, 1).hasAttribute("data-flooded")).toBe(true);
+  });
+
+  it("does not set data-flooded on a non-flooded marsh tile", () => {
+    const tiles = [
+      [new Tile(Biome.Grass), new Tile(Biome.Marsh), new Tile(Biome.Grass)],
+    ];
+    const game = new Game(tiles, new Player(0, 0), 0, [Weather.Rain]);
+    const container = render(game);
+    expect(tileAt(container, 0, 1).hasAttribute("data-flooded")).toBe(false);
+  });
+
   it("does not change the URL when clicking a tile while lost", () => {
     window.location.hash = "#start=0,0";
     const game = new Game([[new Tile(Biome.Water), new Tile(Biome.Grass)]]);

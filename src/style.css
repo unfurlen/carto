@@ -144,6 +144,10 @@ body:has([data-edit-mode]) {
 [data-biome="water"][data-frozen] {
   background-color: #8fcae8;
 }
+[data-flooded] {
+  filter: none;
+  background-color: #8b5e3c;
+}
 [data-biome="marsh"][data-visited],
 [data-biome="marsh"][data-frozen][data-visited] {
   background-color: #8b5e3c;

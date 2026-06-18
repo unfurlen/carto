@@ -1,4 +1,4 @@
-import type { Biome } from "./biome";
+import { Biome } from "./biome";
 import type { Game } from "./game";
 import {
   addColumn,
@@ -220,11 +220,12 @@ function renderTile(
     isPlaceStartMode && r === game.player.row && c === game.player.col,
   );
   tileEl.dataset.biome = BIOME_ATTR[tile.biome.value];
-  if (tile.biome.value === "water" || tile.biome.value === "marsh") {
+  tileEl.toggleAttribute("data-flooded", tile.flooded);
+  if (tile.biome === Biome.Water || tile.biome === Biome.Marsh) {
     const currentWeather = game.weather[game.currentWeatherIndex].value;
     tileEl.toggleAttribute("data-frozen", currentWeather === "snow");
   }
-  const emoji = BIOME_EMOJI[tile.biome.value];
+  const emoji = tile.flooded ? "🌊" : BIOME_EMOJI[tile.biome.value];
   tileEl.textContent =
     typeof emoji === "string"
       ? emoji
