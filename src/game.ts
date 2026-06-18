@@ -80,20 +80,16 @@ export class Game {
     this.player = player ?? new Player(0, 0);
     this.moveCount = moveCount ?? 0;
     this.weather = weather ?? [Weather.Fine];
-    if (tiles) {
-      if (tiles.length === 0) {
-        throw new EmptyMapError();
-      }
-      const firstLen = tiles[0].length;
-      if (firstLen === 0) {
-        throw new EmptyMapError();
-      }
-      if (tiles.some((row) => row.length !== firstLen)) {
-        throw new UnevenRowsError();
-      }
-      this.tiles = tiles;
-    } else {
-      this.tiles = this.defaultGrid();
+    this.tiles = tiles ?? this.defaultGrid();
+    if (this.tiles.length === 0) {
+      throw new EmptyMapError();
+    }
+    const firstLen = this.tiles[0].length;
+    if (firstLen === 0) {
+      throw new EmptyMapError();
+    }
+    if (this.tiles.some((row) => row.length !== firstLen)) {
+      throw new UnevenRowsError();
     }
     if (
       this.player.row < 0 ||
@@ -103,9 +99,9 @@ export class Game {
     ) {
       throw new PlayerOutOfBoundsError(this.player.row, this.player.col);
     }
-    const playerTile = this.tiles[this.player.row][this.player.col];
-    playerTile.visited = true;
-    this.computeFlooding();
+
+    this.visitPlayerTile();
+    this.applyFlooding();
   }
 
   applyMove(move: Move): Game {
@@ -145,20 +141,25 @@ export class Game {
     );
   }
 
-  private computeFlooding(): void {
+  private visitPlayerTile(): void {
+    const tile = this.tiles[this.player.row][this.player.col];
+    this.tiles[this.player.row][this.player.col] = new Tile(
+      tile.biome,
+      true,
+      tile.flooded,
+    );
+  }
+
+  private applyFlooding(): void {
     if (this.weather[this.currentWeatherIndex] !== Weather.Rain) return;
-    const toFlood: [number, number][] = [];
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.columns; c++) {
         const tile = this.tiles[r][c];
         if (tile.biome !== Biome.Marsh) continue;
         if (this.hasWaterNeighbor(r, c)) {
-          toFlood.push([r, c]);
+          this.tiles[r][c] = new Tile(tile.biome, tile.visited, true);
         }
       }
-    }
-    for (const [r, c] of toFlood) {
-      this.tiles[r][c].flooded = true;
     }
   }
 
