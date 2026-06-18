@@ -226,6 +226,45 @@ describe("Game", () => {
     });
   });
 
+  describe("flooded marsh", () => {
+    it("floods a marsh tile adjacent to water during rain weather", () => {
+      const tiles = [
+        [new Tile(Biome.Grass), new Tile(Biome.Marsh), new Tile(Biome.Water)],
+      ];
+      const game = new Game(tiles, new Player(0, 0), 0, [Weather.Rain]);
+      expect(game.tiles[0][1].flooded).toBe(true);
+    });
+
+    it("does not flood a marsh tile without water neighbors during rain weather", () => {
+      const tiles = [
+        [new Tile(Biome.Grass), new Tile(Biome.Marsh), new Tile(Biome.Grass)],
+      ];
+      const game = new Game(tiles, new Player(0, 0), 0, [Weather.Rain]);
+      expect(game.tiles[0][1].flooded).toBe(false);
+    });
+
+    it("does not flood a marsh tile adjacent to water during fine weather", () => {
+      const tiles = [
+        [new Tile(Biome.Grass), new Tile(Biome.Marsh), new Tile(Biome.Water)],
+      ];
+      const game = new Game(tiles, new Player(0, 0), 0, [Weather.Fine]);
+      expect(game.tiles[0][1].flooded).toBe(false);
+    });
+
+    it("does not cascade flooding more than one tile from water in a single pass", () => {
+      const tiles = [
+        [
+          new Tile(Biome.Grass),
+          new Tile(Biome.Marsh),
+          new Tile(Biome.Marsh),
+          new Tile(Biome.Water),
+        ],
+      ];
+      const game = new Game(tiles, new Player(0, 0), 0, [Weather.Rain]);
+      expect(game.tiles[0][1].flooded).toBe(false);
+    });
+  });
+
   describe("lost", () => {
     it("returns false when player is on grass", () => {
       const game = new Game();

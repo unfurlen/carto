@@ -1,3 +1,4 @@
+import { Biome } from "./biome";
 import { Move } from "./move";
 import { Player } from "./player";
 import { Tile } from "./tile";
@@ -104,6 +105,7 @@ export class Game {
     }
     const playerTile = this.tiles[this.player.row][this.player.col];
     playerTile.visited = true;
+    this.computeFlooding();
   }
 
   applyMove(move: Move): Game {
@@ -141,5 +143,37 @@ export class Game {
     return Array.from({ length: DEFAULT_GRID_SIZE }, () =>
       Array.from({ length: DEFAULT_GRID_SIZE }, () => new Tile()),
     );
+  }
+
+  private computeFlooding(): void {
+    if (this.weather[this.currentWeatherIndex] !== Weather.Rain) return;
+    const toFlood: [number, number][] = [];
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.columns; c++) {
+        const tile = this.tiles[r][c];
+        if (tile.biome !== Biome.Marsh) continue;
+        if (this.hasWaterNeighbor(r, c)) {
+          toFlood.push([r, c]);
+        }
+      }
+    }
+    for (const [r, c] of toFlood) {
+      this.tiles[r][c].flooded = true;
+    }
+  }
+
+  private hasWaterNeighbor(r: number, c: number): boolean {
+    const neighbors = [
+      [r - 1, c],
+      [r + 1, c],
+      [r, c - 1],
+      [r, c + 1],
+    ];
+    for (const [nr, nc] of neighbors) {
+      if (nr >= 0 && nr < this.rows && nc >= 0 && nc < this.columns) {
+        if (this.tiles[nr][nc].biome === Biome.Water) return true;
+      }
+    }
+    return false;
   }
 }

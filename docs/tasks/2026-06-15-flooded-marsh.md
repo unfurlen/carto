@@ -20,6 +20,8 @@ During rain weather, marsh tiles adjacent to water (or already flooded marsh) be
 
 - [ ] **AC #8:** Given edit mode, a marsh tile adjacent to water is not flooded.
 
+- [ ] **AC #9:** Given a game where rain is the current weather and a marsh tile is two tiles from water (separated by another marsh tile), the marsh tile two tiles from water is not flooded — water spreads only one tile per pass.
+
 ## Design notes
 
 - Flooding is a `flooded` boolean flag on marsh `Tile` instances, not a new biome.
