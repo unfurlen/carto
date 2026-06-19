@@ -4,15 +4,15 @@ During rain weather, marsh tiles adjacent to water (or already flooded marsh) be
 
 ## Acceptance criteria
 
-- [ ] **AC #1:** Given a game where rain is the current weather and a marsh tile is horizontally or vertically adjacent to a water tile, the marsh tile is flooded.
+- [x] **AC #1:** Given a game where rain is the current weather and a marsh tile is horizontally or vertically adjacent to a water tile, the marsh tile is flooded.
 
-- [ ] **AC #2:** Given a game where rain is the current weather and a marsh tile has no water or flooded marsh neighbor, the marsh tile is not flooded.
+- [x] **AC #2:** Given a game where rain is the current weather and a marsh tile has no water or flooded marsh neighbor, the marsh tile is not flooded.
 
-- [ ] **AC #3:** Given a game where rain is the current weather and a marsh tile is flooded (adjacent to water), when a move is applied that results in rain remaining the current weather, a marsh tile adjacent to the now-flooded marsh (but not to water) also becomes flooded.
+- [x] **AC #3:** Given a game where rain is the current weather and a marsh tile is flooded (adjacent to water), when a move is applied that results in rain remaining the current weather, a marsh tile adjacent to the now-flooded marsh (but not to water) also becomes flooded.
 
-- [ ] **AC #4:** Given a game where rain is not the current weather, a marsh tile adjacent to water is not flooded.
+- [x] **AC #4:** Given a game where rain is not the current weather, a marsh tile adjacent to water is not flooded.
 
-- [ ] **AC #5:** Given a flooded marsh tile rendered, the tile displays 🌊.
+- [x] **AC #5:** Given a flooded marsh tile rendered, the tile displays 🌊.
 
 - [ ] **AC #6:** Given a player on a flooded marsh tile during fine weather, the game is lost.
 
@@ -20,7 +20,22 @@ During rain weather, marsh tiles adjacent to water (or already flooded marsh) be
 
 - [ ] **AC #8:** Given edit mode, a marsh tile adjacent to water is not flooded.
 
-- [ ] **AC #9:** Given a game where rain is the current weather and a marsh tile is two tiles from water (separated by another marsh tile), the marsh tile two tiles from water is not flooded — water spreads only one tile per pass.
+- [x] **AC #9:** Given a game where rain is the current weather and a marsh tile is two tiles from water (separated by another marsh tile), the marsh tile two tiles from water is not flooded — water spreads only one tile per pass.
+
+## Progress
+
+### Done
+- AC #1, #2, #4, #9 — game logic (flood detection, no cascade in single pass)
+- AC #3 — cascade flooding across subsequent rain moves (collect-then-apply pattern)
+- AC #5 — renderer: 🌊 emoji, `data-flooded` attribute, CSS brown background
+- `flooded` boolean on `Tile` (readonly), constructor accepts optional `flooded`
+- `Game` constructor: `visitPlayerTile()` and `applyFlooding()` extracted as private methods
+- Renderer uses `Biome` reference comparisons instead of string literals
+
+### Remaining
+- AC #6 — player on flooded marsh during fine = lost
+- AC #7 — flooded marsh is mappable (already `mappable: true`, verify counts toward win)
+- AC #8 — edit mode ignores flooding
 
 ## Design notes
 

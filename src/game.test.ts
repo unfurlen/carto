@@ -251,17 +251,40 @@ describe("Game", () => {
       expect(game.tiles[0][1].flooded).toBe(false);
     });
 
-    it("does not cascade flooding more than one tile from water in a single pass", () => {
+    it("does not cascade left-to-right in a single pass", () => {
       const tiles = [
-        [
-          new Tile(Biome.Grass),
-          new Tile(Biome.Marsh),
-          new Tile(Biome.Marsh),
-          new Tile(Biome.Water),
-        ],
+        [new Tile(Biome.Water), new Tile(Biome.Marsh), new Tile(Biome.Marsh)],
+        [new Tile(Biome.Grass), new Tile(Biome.Grass), new Tile(Biome.Grass)],
       ];
-      const game = new Game(tiles, new Player(0, 0), 0, [Weather.Rain]);
-      expect(game.tiles[0][1].flooded).toBe(false);
+      const game = new Game(tiles, new Player(1, 0), 0, [Weather.Rain]);
+      expect(game.tiles[0][2].flooded).toBe(false);
+    });
+
+    it("does not cascade right-to-left in a single pass", () => {
+      const tiles = [
+        [new Tile(Biome.Marsh), new Tile(Biome.Marsh), new Tile(Biome.Water)],
+        [new Tile(Biome.Grass), new Tile(Biome.Grass), new Tile(Biome.Grass)],
+      ];
+      const game = new Game(tiles, new Player(1, 0), 0, [Weather.Rain]);
+      expect(game.tiles[0][0].flooded).toBe(false);
+    });
+
+    it("cascades flooding to marsh adjacent to flooded marsh after a move during rain", () => {
+      const game = new Game(
+        [
+          [
+            new Tile(Biome.Water),
+            new Tile(Biome.Marsh),
+            new Tile(Biome.Marsh),
+            new Tile(Biome.Grass),
+          ],
+        ],
+        new Player(0, 3),
+        0,
+        [Weather.Rain],
+      );
+      const moved = game.applyMove(Move.West);
+      expect(moved.tiles[0][2].flooded).toBe(true);
     });
   });
 

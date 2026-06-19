@@ -152,18 +152,23 @@ export class Game {
 
   private applyFlooding(): void {
     if (this.weather[this.currentWeatherIndex] !== Weather.Rain) return;
+    const targets: [number, number][] = [];
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.columns; c++) {
         const tile = this.tiles[r][c];
         if (tile.biome !== Biome.Marsh) continue;
-        if (this.hasWaterNeighbor(r, c)) {
-          this.tiles[r][c] = new Tile(tile.biome, tile.visited, true);
+        if (this.hasFloodSourceNeighbor(r, c)) {
+          targets.push([r, c]);
         }
       }
     }
+    for (const [r, c] of targets) {
+      const tile = this.tiles[r][c];
+      this.tiles[r][c] = new Tile(tile.biome, tile.visited, true);
+    }
   }
 
-  private hasWaterNeighbor(r: number, c: number): boolean {
+  private hasFloodSourceNeighbor(r: number, c: number): boolean {
     const neighbors = [
       [r - 1, c],
       [r + 1, c],
@@ -172,7 +177,11 @@ export class Game {
     ];
     for (const [nr, nc] of neighbors) {
       if (nr >= 0 && nr < this.rows && nc >= 0 && nc < this.columns) {
-        if (this.tiles[nr][nc].biome === Biome.Water) return true;
+        if (
+          this.tiles[nr][nc].biome === Biome.Water ||
+          this.tiles[nr][nc].flooded
+        )
+          return true;
       }
     }
     return false;
